@@ -11,6 +11,12 @@ Solo la carpeta `public/` sale a internet: no pongas ahí nada que no deba ser p
   y revisa la vista en móvil y escritorio.
 - Contenido siempre bilingüe: cada texto nuevo en `config.js` lleva `{ es: '', eu: '' }`. Si no tienes la traducción revisada, avísalo.
 
+## Marca (obligatorio)
+- Tipografía: **Geist** (Google Fonts), autoalojada en `public/assets/fonts/` (no cargar desde fonts.googleapis.com: RGPD y CSP).
+- Color cobre de resaltado: **#d86b33** (`--cobre`), tal cual, en textos destacados, líneas, cifras y botones. No uses variantes más claras para resaltar; `--cobre3` solo para el estado hover de los botones.
+- Paleta: negro industrial #0b0b0b, blanco cálido #f5f2eb, plata/metal cepillado, cobre #d86b33.
+- Logo: `public/assets/img/logo-50fvem.png` (versión opaca). Si llega un SVG oficial, sustitúyelo.
+
 ## Seguridad y privacidad (obligatorio)
 - No subas nunca datos personales, respuestas de formularios, contraseñas, claves ni el Excel interno de asociadas.
 - En `public/assets/js/empresas.js` solo van columnas públicas: num_asociada, nombre, zona, direccion, cp, municipio, plantilla, web, fecha_alta, anio_alta, anio_baja, sector, logo, foto, foto_historica, descripcion_*, producto_*, frase_*.

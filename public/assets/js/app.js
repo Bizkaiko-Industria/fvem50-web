@@ -156,18 +156,18 @@ function artEvent(seed, W=640, H=360){
   s += `<path d="${ring(cx,cy,R,R*.7,a0,a0+250)}" fill="url(#${id})" opacity=".92"/>`;
   s += `<path d="${ring(cx,cy,R*.55,R*.38,a0+180,a0+270)}" fill="#d86b33"/>`;
   s += `<circle cx="${cx}" cy="${cy}" r="${R*1.18}" fill="none" stroke="#d86b33" stroke-width="1.2" stroke-dasharray="2 9" opacity=".7"/>`;
-  s += `<line x1="0" y1="${(cy+R*.85).toFixed(0)}" x2="${cx.toFixed(0)}" y2="${(cy+R*.85).toFixed(0)}" stroke="#e6895d" stroke-width="2"/>`;
+  s += `<line x1="0" y1="${(cy+R*.85).toFixed(0)}" x2="${cx.toFixed(0)}" y2="${(cy+R*.85).toFixed(0)}" stroke="#d86b33" stroke-width="2"/>`;
   return s + '</svg>';
 }
 function artPerson(seed, old){
   const r = rng(hash(seed)), id = 'p' + hash(seed).toString(36), W=300, H=400, hx = 150 + (r()-.5)*30;
   let s = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>${METAL(id)}<radialGradient id="${id}b" cx="${.3+r()*.5}" cy=".25" r=".9"><stop offset="0" stop-color="#5a3420"/><stop offset=".55" stop-color="#171310"/><stop offset="1" stop-color="#0b0b0b"/></radialGradient></defs>`;
   s += `<rect width="${W}" height="${H}" fill="url(#${id}b)"/>`;
-  for (let i=0;i<14;i++) s += `<circle cx="${r()*W}" cy="${r()*H*.7}" r="${.8+r()*1.8}" fill="#e6895d" opacity="${.3+r()*.6}"/>`;
+  for (let i=0;i<14;i++) s += `<circle cx="${r()*W}" cy="${r()*H*.7}" r="${.8+r()*1.8}" fill="#d86b33" opacity="${.3+r()*.6}"/>`;
   s += `<path d="M${hx-120} ${H} C${hx-115} ${H-120} ${hx-70} ${H-150} ${hx} ${H-155} C${hx+70} ${H-150} ${hx+115} ${H-120} ${hx+120} ${H}Z" fill="url(#${id})" opacity=".85"/>`;
   s += `<ellipse cx="${hx}" cy="${H-225}" rx="52" ry="62" fill="url(#${id})" opacity=".9"/>`;
   if (r() > .4) s += `<path d="M${hx-62} ${H-245} Q${hx} ${H-330} ${hx+62} ${H-245} L${hx+70} ${H-232} L${hx-70} ${H-232}Z" fill="#e8e3da" opacity=".9"/>`;
-  s += `<path d="M${hx+52} ${H-250} a62 62 0 0 1 0 50" fill="none" stroke="#e6895d" stroke-width="3" opacity=".8"/>`;
+  s += `<path d="M${hx+52} ${H-250} a62 62 0 0 1 0 50" fill="none" stroke="#d86b33" stroke-width="3" opacity=".8"/>`;
   return s + '</svg>';
 }
 function factory(seed, old){
@@ -178,7 +178,7 @@ function factory(seed, old){
   while(x<W){ const w=80+r()*100, h=50+r()*70, n=2+Math.floor(r()*3), tw=w/n; let p=`M${x},${base} L${x},${base-h}`;
     for(let i=0;i<n;i++) p+=` L${x+i*tw+tw*.75},${base-h-22} L${x+i*tw+tw*.75},${base-h} L${x+(i+1)*tw},${base-h}`;
     b+=`<path d="${p} L${x+w},${base} Z" fill="${old?'#3b3d3d':'#050505'}"/>`;
-    for(let i=0;i<Math.floor(w/24);i++) b+=`<rect x="${x+8+i*24}" y="${base-h+18}" width="11" height="14" rx="2" fill="${old?'#9b9a90':'#e6895d'}" opacity="${old?.5:.55}"/>`;
+    for(let i=0;i<Math.floor(w/24);i++) b+=`<rect x="${x+8+i*24}" y="${base-h+18}" width="11" height="14" rx="2" fill="${old?'#9b9a90':'#d86b33'}" opacity="${old?.5:.55}"/>`;
     if(r()>.45){const cx=x+w*.3+r()*w*.4,ch=70+r()*70; b+=`<rect x="${cx}" y="${base-h-ch}" width="12" height="${ch}" fill="${old?'#2c2e2e':'#050505'}"/>`;
       if(old) for(let k=0;k<5;k++) b+=`<circle cx="${cx+6+k*13}" cy="${base-h-ch-12-k*20}" r="${12+k*7}" fill="#555" opacity="${.45-k*.07}"/>`;}
     x+=w+r()*8; }
@@ -290,8 +290,8 @@ function heroArt(photo){
   <path class="spin-in" d="${ring(cx,cy,380,270,45,315)}" fill="url(#hm)" style="opacity:${photo?.55:1}"/>
   <g clip-path="url(#hc)"><rect class="sweep" x="${cx-500}" y="0" width="260" height="${H}" fill="url(#hs)" transform="skewX(-20)"/></g>
   <path class="spin-in" style="animation-delay:1.3s" d="${ring(cx,cy,225,165,180,270)}" fill="#d86b33"/>
-  <path class="draw" pathLength="1" d="M-20 ${cy+325} H${cx}" stroke="#e6895d" stroke-width="3" fill="none"/>
-  <circle class="fade-in" cx="${cx}" cy="${cy+325}" r="7" fill="#e6895d"/>
+  <path class="draw" pathLength="1" d="M-20 ${cy+325} H${cx}" stroke="#d86b33" stroke-width="3" fill="none"/>
+  <circle class="fade-in" cx="${cx}" cy="${cy+325}" r="7" fill="#d86b33"/>
   </svg><canvas id="sparks"></canvas>`;
 }
 let sparkRAF = 0;
@@ -301,7 +301,7 @@ function sparks(){
   const ctx = cv.getContext('2d'); let W, H, P = [];
   const size = () => { const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio||1); W = r.width; H = r.height; cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); };
   size(); addEventListener('resize', size);
-  const spawn = () => ({x: W*(.55+Math.random()*.3), y: H*(.78+Math.random()*.15), vx: -(.5+Math.random()*2.2), vy: -(1+Math.random()*3), l: 1, d: .006+Math.random()*.012, c: Math.random()>.3?'230,137,93':'255,200,140'});
+  const spawn = () => ({x: W*(.55+Math.random()*.3), y: H*(.78+Math.random()*.15), vx: -(.5+Math.random()*2.2), vy: -(1+Math.random()*3), l: 1, d: .006+Math.random()*.012, c: Math.random()>.3?'216,107,51':'255,200,140'});
   const loop = () => { if (!document.hidden && cv.isConnected && $('#v-home').classList.contains('on') && scrollY < H) {
       ctx.clearRect(0,0,W,H); ctx.globalCompositeOperation = 'lighter';
       if (P.length < 70) P.push(spawn());
@@ -318,7 +318,7 @@ function cdStrip(){
       <div class="ac"><button class="btn sm" data-ics="${GALA.slug}">${I('cal')} ${t('add_cal')}</button><a class="btn sm ghost" href="#/programa">${t('see_prog')}</a></div></div>
       ${nx?`<div class="wrap nx"><a href="#/agenda/${nx.slug}">${t('next_cita')}: <b>${esc(tx(nx.titulo))}</b> · ${fLong(nx.d0)} →</a></div>`:''}</section>`;
   if (ph === 'live') { const s = sessionNow();
-    return `<section class="cds" id="cds">${deco('bg',120)}<div class="wrap"><div><div class="lb"><span class="chip c live" style="background:#fff;color:var(--cobre3)">${t('live_now')}</span></div>
+    return `<section class="cds" id="cds">${deco('bg',120)}<div class="wrap"><div><div class="lb"><span class="chip c live" style="background:#fff;color:var(--cobre)">${t('live_now')}</span></div>
       <div class="tt">${s?esc(tx(s.s.t)):esc(tx(GALA.titulo))}<small>${s?`${s.s.ini}–${s.s.fin} · ${esc(tx(s.s.sala))}`:''}${s&&s.next?` · ${t('next_s')}: ${esc(tx(s.next.t))} (${s.next.ini})`:''}</small></div></div>
       <div></div><div class="ac">${GALA.directo?`<button class="btn sm" data-live>${I('play')} ${t('cta_live')}</button>`:''}<a class="btn sm ghost" href="#/programa">${t('see_prog')}</a></div></div></section>`; }
   return `<section class="cds" id="cds">${deco('bg',120)}<div class="wrap"><div><div class="lb">1977 – 2027</div><div class="tt">${t('thanks')}<small>${t('thanks_s')}</small></div></div><div></div>
@@ -670,15 +670,15 @@ function renderFicha(num){
 async function cardPNG(e){
   const W = 1080, H = 1350, cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
   try { await document.fonts.ready; } catch (_) {}
-  const F = (w, s) => `${w} ${s}px "Inter Tight", Inter, system-ui, sans-serif`;
+  const F = (w, s) => `${w} ${s}px "Geist", system-ui, sans-serif`;
   const g = x.createRadialGradient(W*.8, H*.25, 50, W*.6, H*.4, W); g.addColorStop(0,'#3b2214'); g.addColorStop(.5,'#121010'); g.addColorStop(1,'#070707'); x.fillStyle = g; x.fillRect(0,0,W,H);
   const mg = x.createLinearGradient(500,0,1080,600); [['#ececec',0],['#7c7c7c',.35],['#dedede',.55],['#6c6c6c',.8],['#b8b8b8',1]].forEach(([c,o])=>mg.addColorStop(o,c));
   x.beginPath(); x.arc(860, 330, 300, Math.PI*.25, Math.PI*1.75); x.arc(860, 330, 210, Math.PI*1.75, Math.PI*.25, true); x.closePath(); x.fillStyle = mg; x.fill();
   x.beginPath(); x.arc(860, 330, 170, Math.PI, Math.PI*1.5); x.arc(860, 330, 120, Math.PI*1.5, Math.PI, true); x.closePath(); x.fillStyle = '#d86b33'; x.fill();
-  x.strokeStyle = '#e6895d'; x.lineWidth = 4; x.beginPath(); x.moveTo(0, 585); x.lineTo(860, 585); x.stroke();
+  x.strokeStyle = '#d86b33'; x.lineWidth = 4; x.beginPath(); x.moveTo(0, 585); x.lineTo(860, 585); x.stroke();
   await new Promise(r => { const im = new Image(); im.onload = () => { const h = 110, w = im.width*h/im.height; x.drawImage(im, 80, 80, w, h); r(); }; im.onerror = r; im.src = LOGO; });
   x.fillStyle = '#b2aca2'; x.font = F(500, 30); x.fillText((L==='eu'?'FVEMEKO BAZKIDEA':'SOCIA DE FVEM DESDE').split('').join(String.fromCharCode(8202)), 80, 720);
-  x.fillStyle = '#e6895d'; x.font = F(300, 230); x.fillText(String(e.anio_alta), 66, 920);
+  x.fillStyle = '#d86b33'; x.font = F(300, 230); x.fillText(String(e.anio_alta), 66, 920);
   x.fillStyle = '#f5f2eb'; x.font = F(600, 58); const words = shortName(e.nombre).split(' '); let line = '', y = 1030;
   for (const w of words) { const test = line ? line + ' ' + w : w; if (x.measureText(test).width > 920 && line) { x.fillText(line, 80, y); y += 68; line = w; } else line = test; } x.fillText(line, 80, y);
   const days = Math.floor((Date.now() - new Date(e.fecha_alta || `${e.anio_alta}-01-01`)) / 864e5);

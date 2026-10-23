@@ -1,16 +1,16 @@
-@font-face{font-family:"Inter Tight";font-style:normal;font-weight:300;font-display:swap;src:url(../fonts/inter-tight-latin-300-normal.woff2) format("woff2")}
-@font-face{font-family:"Inter Tight";font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/inter-tight-latin-400-normal.woff2) format("woff2")}
-@font-face{font-family:"Inter Tight";font-style:normal;font-weight:500;font-display:swap;src:url(../fonts/inter-tight-latin-500-normal.woff2) format("woff2")}
-@font-face{font-family:"Inter Tight";font-style:normal;font-weight:600;font-display:swap;src:url(../fonts/inter-tight-latin-600-normal.woff2) format("woff2")}
-@font-face{font-family:"Inter Tight";font-style:normal;font-weight:700;font-display:swap;src:url(../fonts/inter-tight-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Geist";font-style:normal;font-weight:300;font-display:swap;src:url(../fonts/geist-latin-300-normal.woff2) format("woff2")}
+@font-face{font-family:"Geist";font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/geist-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Geist";font-style:normal;font-weight:500;font-display:swap;src:url(../fonts/geist-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Geist";font-style:normal;font-weight:600;font-display:swap;src:url(../fonts/geist-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Geist";font-style:normal;font-weight:700;font-display:swap;src:url(../fonts/geist-latin-700-normal.woff2) format("woff2")}
 :root{
-  --negro:#0b0b0b;--negro2:#141414;--negro3:#1d1d1d;--blanco:#f5f2eb;--blanco2:#ebe6dc;--cobre:#d86b33;--cobre2:#e6895d;--cobre3:#a8501f;
+  --negro:#0b0b0b;--negro2:#141414;--negro3:#1d1d1d;--blanco:#f5f2eb;--blanco2:#ebe6dc;--cobre:#d86b33;--cobre2:#d86b33;--cobre3:#a8501f;
   --metal:linear-gradient(135deg,#e4e4e4 0%,#8a8a8a 32%,#dcdcdc 52%,#767676 78%,#bdbdbd 100%);
   --r:4px;--hd:68px;
-  font-family:"Inter Tight",Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-family:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 .dk{--bg:var(--negro);--fg:var(--blanco);--card:var(--negro2);--card2:var(--negro3);--line:#2b2b2b;--mut:#b2aca2;--acc:var(--cobre2)}
-.lt{--bg:var(--blanco);--fg:#141414;--card:#fff;--card2:var(--blanco2);--line:#dcd5c9;--mut:#5f5a53;--acc:var(--cobre3)}
+.lt{--bg:var(--blanco);--fg:#141414;--card:#fff;--card2:var(--blanco2);--line:#dcd5c9;--mut:#5f5a53;--acc:var(--cobre)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--negro);color:var(--blanco);font-size:17px;line-height:1.55;overflow-x:hidden}
@@ -126,7 +126,7 @@ p{margin:0 0 12px}
 .cnums b{font-size:clamp(40px,5.2vw,68px);font-weight:300;letter-spacing:-.04em;line-height:.95}
 .cnums span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.85;margin-top:6px}
 .cds .ac{display:flex;flex-direction:column;gap:8px}
-.cds .btn{background:#fff;color:var(--cobre3)}
+.cds .btn{background:#fff;color:var(--cobre)}
 .cds .btn:hover{background:var(--negro);color:#fff}
 .cds .btn.ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7)}
 .cds .nx{border-top:1px solid rgba(255,255,255,.3);padding:10px 0 12px;font-size:14px}
@@ -386,7 +386,7 @@ p{margin:0 0 12px}
 .map{position:relative;aspect-ratio:16/10;border-radius:3px;overflow:hidden;container-type:inline-size;background:radial-gradient(circle,rgba(255,255,255,.1) 1px,transparent 1.5px) 0 0/14px 14px,#101010}
 .map .sea{position:absolute;top:10px;left:14px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#777}
 .mb{position:absolute;transform:translate(-50%,-50%);border-radius:50%;background:var(--cobre);color:#fff;display:grid;place-items:center;container-type:inline-size;transition:transform .3s,background .2s;box-shadow:0 0 0 2px #101010;animation:fin .6s both}
-.mb:hover,.mb.on{transform:translate(-50%,-50%) scale(1.12);background:#fff;color:var(--cobre3);z-index:3}
+.mb:hover,.mb.on{transform:translate(-50%,-50%) scale(1.12);background:#fff;color:var(--cobre);z-index:3}
 .mb b{font-size:42cqi;line-height:1;font-weight:600}
 .mb .ml{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:4px;white-space:nowrap;font-size:12px;font-weight:600;color:#eee;text-shadow:0 1px 3px #000}
 .mb.nolbl .ml{opacity:0}.mb.nolbl:hover .ml,.mb.nolbl.on .ml{opacity:1;background:#000;padding:1px 6px;border-radius:4px;z-index:4}
