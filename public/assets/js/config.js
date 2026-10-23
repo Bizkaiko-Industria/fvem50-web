@@ -25,7 +25,12 @@ window.FVEM50 = {
   video: {
     mp4: '',            // p. ej. 'video/portada-1920.mp4'
     mp4Movil: '',       // versión vertical 1080x1920
-    poster: '',         // imagen fija
+    poster: '',         // imagen fija mientras carga el vídeo
+    // Foto de fondo de la portada cuando no hay vídeo (se muestra en blanco y negro, con la animación de marca encima)
+    imagen: 'assets/img/portada-2400.jpg',
+    imagenMovil: 'assets/img/portada-1200.jpg',
+    imagenAlt: { es: 'Fotografía histórica de un muelle de la ría de Bilbao, con un barco de vapor atracado', eu: 'Bilboko itsasadarreko kai baten argazki historikoa, lurrun-ontzi bat atrakatuta duela' },
+    credito: { es: '', eu: '' },   // p. ej. 'Foto: Archivo …' (autoría y fuente de la imagen)
     completo: '',       // URL de inserción YouTube/Vimeo con sonido, p. ej. 'https://www.youtube.com/embed/XXXX'
     // Vídeos programados: el primero cuya ventana incluya "hoy" sustituye al de arriba
     programados: [
