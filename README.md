@@ -1,16 +1,17 @@
 # Web FVEM 50 · 1977–2027
 
-Web estática del 50 aniversario de FVEM. Se publica automáticamente en Cloudflare Pages
-al actualizar la rama `main`. Cada propuesta en otra rama genera una vista previa.
+Web estática del 50 aniversario de FVEM. Se publica automáticamente en Cloudflare (Worker `fvem50-web`)
+al actualizar la rama `main`. Solo se publica la carpeta `public/` (ver `wrangler.jsonc`).
+Cada propuesta en otra rama genera una vista previa.
 
 | Qué cambiar | Archivo |
 |---|---|
-| Agenda, programa, vídeo, personas, prensa, formularios, enlaces legales | `assets/js/config.js` |
-| Empresas asociadas (solo columnas públicas) | `assets/js/empresas.js` |
-| Diseño | `assets/css/web.css` |
-| Funcionamiento | `assets/js/app.js` |
-| Logos y fotos de empresas | `assets/img/empresas/` |
-| Vídeo de portada | `assets/video/` |
-| Cabeceras de seguridad | `_headers` |
+| Agenda, programa, vídeo, personas, prensa, formularios, enlaces legales | `public/assets/js/config.js` |
+| Empresas asociadas (solo columnas públicas) | `public/assets/js/empresas.js` |
+| Diseño | `public/assets/css/web.css` |
+| Funcionamiento | `public/assets/js/app.js` |
+| Logos y fotos de empresas | `public/assets/img/empresas/` |
+| Vídeo de portada | `public/assets/video/` |
+| Cabeceras de seguridad | `public/_headers` |
 
 Guía completa: `GUIA_PUBLICACION.md`.

@@ -5,3 +5,5 @@
 respuestas/
 .env
 .DS_Store
+.wrangler/
+node_modules/
