@@ -552,7 +552,7 @@ input[type=range]{width:100%;accent-color:var(--cobre)}
 .vposter img,.vposter svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s}
 .vposter:hover img,.vposter:hover svg{transform:scale(1.03)}
 .vposter::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.75),rgba(0,0,0,0) 55%)}
-.vposter .vp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:clamp(64px,9vw,104px);aspect-ratio:1;border-radius:50%;background:var(--cobre);z-index:2;display:grid;place-items:center;box-shadow:0 0 0 0 rgba(216,107,51,.5);animation:ring 2.4s infinite;transition:transform .3s}
+.vposter .vp{position:absolute;left:var(--px,50%);top:var(--py,50%);transform:translate(-50%,-50%);width:clamp(64px,9vw,104px);aspect-ratio:1;border-radius:50%;background:var(--cobre);z-index:2;display:grid;place-items:center;box-shadow:0 0 0 0 rgba(216,107,51,.5);animation:ring 2.4s infinite;transition:transform .3s}
 .vposter .vp::after{content:"";border-left:clamp(18px,2.4vw,28px) solid #fff;border-top:clamp(11px,1.5vw,17px) solid transparent;border-bottom:clamp(11px,1.5vw,17px) solid transparent;margin-left:12%}
 .vposter:hover .vp{transform:translate(-50%,-50%) scale(1.08)}
 @keyframes ring{70%{box-shadow:0 0 0 22px rgba(216,107,51,0)}100%{box-shadow:0 0 0 0 rgba(216,107,51,0)}}
@@ -575,3 +575,5 @@ body.nomenu .hd .cta{display:inline-flex}
 .cta-card.nlwide{min-height:0;display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(20px,4vw,60px);align-items:end}
 .cta-card.nlwide .nl{margin-top:0}
 @media(max-width:860px){.cta-card.nlwide{grid-template-columns:1fr}}
+
+.vposter.img::after{background:linear-gradient(0deg,rgba(0,0,0,.35),rgba(0,0,0,0) 40%)}

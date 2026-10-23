@@ -40,6 +40,7 @@ window.FVEM50 = {
 
   // ---- Qué se ve (false = oculto; no se borra nada, se puede volver a activar) ----
   secciones: {
+    lema: false,             // «Pasado que impulsa · Futuro que construimos» (portada y pie)
     botonesPortada: false,   // botones «Ver el vídeo» y «Agenda 2027» sobre el titular
     agenda: false,           // «Próximas citas» en portada
     cifras: true,            // cifras de empresas
@@ -60,7 +61,9 @@ window.FVEM50 = {
   videoPrincipal: {
     youtube: 'RAlS-zQD1FY',
     titulo: { es: 'El secreto mejor guardado de FVEM', eu: 'FVEMen sekreturik ondoen gordea' },
-    poster: ''   // imagen propia para la portada del vídeo (si se deja vacío, se usa un gráfico de marca)
+    poster: 'assets/img/video-portada.jpg',   // imagen de portada del vídeo (vacío = gráfico de marca)
+    posterPlay: ['50%', '74%'],               // posición del botón play (horizontal, vertical) para no tapar el sobre
+    tituloSobrePortada: false                 // true = muestra el título sobre la imagen
   },
 
   // Cuenta atrás de la portada. Si se borra este bloque, vuelve la cuenta atrás a la gala.

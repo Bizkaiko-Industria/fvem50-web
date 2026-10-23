@@ -336,14 +336,14 @@ function cmpHTML(seed){ return `<div class="cmp reveal" style="--p:50%"><div cla
 function bindCmp(root){ $$('.cmp', root).forEach(c => { const i = $('input', c); i.oninput = () => c.style.setProperty('--p', i.value + '%'); }); }
 
 /* ---------- secciones visibles (config.secciones) ---------- */
-const SEC = Object.assign({ botonesPortada: true, agenda: true, cifras: true, buscador: true, historia: true, personas: true, participa: true, newsletter: true, patrocinadores: true }, C.secciones || {});
+const SEC = Object.assign({ lema: true, botonesPortada: true, agenda: true, cifras: true, buscador: true, historia: true, personas: true, participa: true, newsletter: true, patrocinadores: true }, C.secciones || {});
 const CA = C.cuentaAtras || null;
 const ytId = s => { const m = String(s || '').match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/); return m ? m[1] : (/^[\w-]{11}$/.test(s || '') ? s : ''); };
 function videoBlock(){
   const yv = C.videoPrincipal || {}, id = ytId(yv.youtube); if (!id) return '';
   return `<div class="vbox" id="vbox"><div class="vfr" id="vfr" data-yt="${id}">
-      <button class="vposter" id="vplay" aria-label="${t('play_v')}: ${esc(tx(yv.titulo))}">${yv.poster ? `<img alt="" src="${esc(yv.poster)}">` : artEvent('video-' + id, 1600, 900)}
-        <span class="vp" aria-hidden="true"></span><span class="vt"><small>${t('video_k')}</small>${esc(tx(yv.titulo))}</span></button></div>
+      <button class="vposter${yv.poster ? ' img' : ''}" id="vplay" aria-label="${t('play_v')}: ${esc(tx(yv.titulo))}"${yv.posterPlay ? ` style="--px:${esc(yv.posterPlay[0])};--py:${esc(yv.posterPlay[1])}"` : ''}>${yv.poster ? `<img alt="" src="${esc(yv.poster)}">` : artEvent('video-' + id, 1600, 900)}
+        <span class="vp" aria-hidden="true"></span>${yv.tituloSobrePortada === false ? '' : `<span class="vt"><small>${t('video_k')}</small>${esc(tx(yv.titulo))}</span>`}</button></div>
     <p class="vnote">${t('yt_note')}</p></div>`;
 }
 function playVideo(){
@@ -373,7 +373,7 @@ function renderHome(){
     <div class="wrap in">
       <div class="eyebrow rise" style="color:#d6cfc3;animation-delay:.3s">1977 – 2027 · Bizkaiko industria</div><div class="rule rise" style="animation-delay:.4s"></div>
       <h1 class="rise" style="animation-delay:.5s">${t('h1a')}<em>${t('h1b')}</em></h1>
-      <div class="tag rise" style="animation-delay:.8s">${t('lema')}</div>
+      ${SEC.lema ? `<div class="tag rise" style="animation-delay:.8s">${t('lema')}</div>` : ''}
       ${SEC.botonesPortada ? `<div class="acts rise" style="animation-delay:1s"><button class="btn" id="playfull">${I('play')} ${t('watch')}</button><a class="btn ghost" href="#/agenda">${t('agenda27')} ${I('arrow')}</a></div>` : ''}
     </div>
     ${vb}
@@ -819,7 +819,7 @@ function chrome(view){
   document.documentElement.lang = L;
   const emLinks = [['empresas', t('em_h')], ['historia', t('hi_h')], ['participa', t('pa_h')]].filter(([h]) => h === 'empresas' || menu.some(x => x[0] === h));
   $('#ft').innerHTML = `<div class="wrap"><div class="g">
-    <div><img class="logo" src="${LOGO}" alt="50 FVEM"><p style="max-width:34ch">${t('ft_lema')}</p></div>
+    <div><img class="logo" src="${LOGO}" alt="50 FVEM">${SEC.lema ? `<p style="max-width:34ch">${t('ft_lema')}</p>` : ''}</div>
     ${menu.length ? `<div><h4>${t('ft_an')}</h4>${menu.map(([h,k])=>`<a href="#/${h}">${t(k)}</a>`).join('')}</div>` : '<div></div>'}
     <div><h4>${t('ft_em')}</h4>${emLinks.map(([h,l])=>`<a href="#/${h}">${l}</a>`).join('')}</div>
     <div><h4>${t('ft_fv')}</h4><a href="${C.sitio}" target="_blank" rel="noopener">${t('ft_web')} ↗</a>${SEC.newsletter?`<a href="${esc(FORMS.newsletter || '#/newsletter')}">Newsletter</a>`:''}</div></div>
