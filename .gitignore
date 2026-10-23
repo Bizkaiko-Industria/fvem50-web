@@ -1,0 +1,7 @@
+# Nunca subir datos internos ni personales
+*.xlsx
+!herramientas/FVEM50_plantilla_datos_empresas.xlsx
+*.csv
+respuestas/
+.env
+.DS_Store
