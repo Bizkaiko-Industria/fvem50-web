@@ -81,7 +81,7 @@ p{margin:0 0 12px}
 .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero .anim{position:absolute;inset:0}
 .hero .anim svg{position:absolute;inset:0;width:100%;height:100%}
-.hero img.hph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 55%;filter:grayscale(1) contrast(1.08) brightness(.72);animation:kb 24s ease-out both}
+.hero img.hph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 55%;filter:grayscale(1) contrast(1.08) brightness(.72)}
 @keyframes kb{from{transform:scale(1.08)}to{transform:scale(1)}}
 @media(max-width:700px){.hero img.hph{object-position:58% 50%}}
 .hero .anim.over{mix-blend-mode:normal}
