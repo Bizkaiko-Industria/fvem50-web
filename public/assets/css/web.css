@@ -534,3 +534,44 @@ input[type=range]{width:100%;accent-color:var(--cobre)}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.draw{stroke-dashoffset:0}html{scroll-behavior:auto}}
 @media print{.hd,.demo,.ft,.fbar,.tabs,.btn{display:none!important}body{background:#fff;color:#000}.lt,.dk{--bg:#fff;--fg:#000;--card:#fff;--card2:#f3f3f3;--line:#ccc;--mut:#555}.view{display:none!important}.view.on{display:block!important}}
+
+/* ---------- portada: secuencia titular → vídeo al hacer scroll ---------- */
+.hero-seq{position:relative;height:240svh;background:#070707}
+.hero-seq[data-novideo]{height:auto}
+.hero-seq .hero{position:sticky;top:0}
+.hero .in{transform:translateY(calc(var(--p,0) * -60svh));opacity:calc(1 - var(--p,0) * 3.4);will-change:transform,opacity}
+.hero .shade2{position:absolute;inset:0;background:rgba(5,5,5,.55);opacity:calc(var(--p,0) * 1.6);pointer-events:none}
+.hero .scroll{opacity:calc(1 - var(--p,0) * 5);cursor:pointer;color:#bbb;font:inherit;font-size:11px;letter-spacing:.3em;text-transform:uppercase}
+.vbox{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:calc(var(--hd) + 16px) 16px 56px;
+  opacity:clamp(0, calc((var(--p,0) - .3) * 3.2), 1);transform:translateY(calc((1 - clamp(0, calc(var(--p,0) * 1.6), 1)) * 22svh)) scale(calc(.92 + clamp(0, calc(var(--p,0) * 1.6), 1) * .08));pointer-events:none}
+.hero.vis .vbox{pointer-events:auto}
+.vfr{position:relative;width:min(1120px, 100%, calc((100svh - var(--hd) - 130px) * 16 / 9));aspect-ratio:16/9;background:#000;border-radius:6px;overflow:hidden;
+  box-shadow:0 40px 120px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.12);border-bottom:3px solid var(--cobre)}
+.vfr iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vposter{position:absolute;inset:0;width:100%;height:100%;display:block;color:#fff;text-align:left}
+.vposter img,.vposter svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s}
+.vposter:hover img,.vposter:hover svg{transform:scale(1.03)}
+.vposter::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.75),rgba(0,0,0,0) 55%)}
+.vposter .vp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:clamp(64px,9vw,104px);aspect-ratio:1;border-radius:50%;background:var(--cobre);z-index:2;display:grid;place-items:center;box-shadow:0 0 0 0 rgba(216,107,51,.5);animation:ring 2.4s infinite;transition:transform .3s}
+.vposter .vp::after{content:"";border-left:clamp(18px,2.4vw,28px) solid #fff;border-top:clamp(11px,1.5vw,17px) solid transparent;border-bottom:clamp(11px,1.5vw,17px) solid transparent;margin-left:12%}
+.vposter:hover .vp{transform:translate(-50%,-50%) scale(1.08)}
+@keyframes ring{70%{box-shadow:0 0 0 22px rgba(216,107,51,0)}100%{box-shadow:0 0 0 0 rgba(216,107,51,0)}}
+.vposter .vt{position:absolute;left:clamp(16px,3vw,32px);bottom:clamp(14px,2.6vw,28px);z-index:2;font-size:clamp(18px,2.4vw,32px);font-weight:600;letter-spacing:-.02em;line-height:1.1;max-width:80%}
+.vposter .vt small{display:block;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--cobre);font-weight:600;margin-bottom:6px}
+.vnote{font-size:12px;color:rgba(255,255,255,.6);margin:0;text-align:center}
+@media(max-width:700px){.hero-seq{height:210svh}.vbox{padding-bottom:70px}}
+@media (prefers-reduced-motion:reduce){
+  .hero-seq{height:auto}.hero-seq .hero{position:relative}
+  .hero .in{transform:none;opacity:1}.hero .shade2{opacity:0}
+  .vbox{position:relative;inset:auto;opacity:1;transform:none;pointer-events:auto;padding:40px 16px 60px;background:#070707}
+}
+
+/* cabecera sin menú: logo a la izquierda; idioma + suscripción a la derecha */
+body.nomenu .hd .lang{margin-left:auto}
+body.nomenu .hd .cta{display:inline-flex}
+@media(max-width:480px){body.nomenu .hd .wrap{gap:10px}body.nomenu .hd .cta{padding:8px 13px;font-size:13px}.hd .logo{height:30px}}
+
+/* caja de newsletter a todo el ancho */
+.cta-card.nlwide{min-height:0;display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(20px,4vw,60px);align-items:end}
+.cta-card.nlwide .nl{margin-top:0}
+@media(max-width:860px){.cta-card.nlwide{grid-template-columns:1fr}}

@@ -60,7 +60,8 @@ const T = {
   f_note:'Vista previa: el formulario todavía no envía datos.',sent:'Vista previa: el envío se conectará con el gestor de FVEM.',
   ps_p:'Notas de prensa, recursos de marca y material gráfico del 50 aniversario.',ps_notes:'Notas de prensa',ps_kit:'Kit de marca',ps_logo:'Logotipo 50 FVEM (PNG)',ps_logo_s:'Versión en blanco para fondos oscuros',
   ps_soon:'Próximamente',ps_svg:'Logotipos vectoriales (SVG, PDF)',ps_man:'Manual de uso de la marca',ps_photo:'Fotografías en alta resolución',ps_contact:'Contacto de comunicación',ps_contact_p:'Datos de contacto por confirmar.',example:'Ejemplo',
-  copied:'Enlace copiado',more_info:'Más información'
+  copied:'Enlace copiado',more_info:'Más información',
+  nl_cta:'Suscríbete',play_v:'Reproducir vídeo',video_k:'Vídeo',yt_note:'El vídeo se carga desde YouTube al pulsar reproducir.',cd_open:'Ver el vídeo',em_all:'Ver todas las empresas'
  },
  eu: {
   demo:'Aurrebista · agenda, egitaraua eta pertsonak adibide-edukiarekin',
@@ -109,7 +110,8 @@ const T = {
   f_note:'Aurrebista: formularioak oraindik ez du daturik bidaltzen.',sent:'Aurrebista: bidalketa FVEMen kudeatzailearekin konektatuko da.',
   ps_p:'50. urteurreneko prentsa-oharrak, marka-baliabideak eta material grafikoa.',ps_notes:'Prentsa-oharrak',ps_kit:'Marka-kita',ps_logo:'50 FVEM logotipoa (PNG)',ps_logo_s:'Bertsio zuria hondo ilunetarako',
   ps_soon:'Laster',ps_svg:'Logotipo bektorialak (SVG, PDF)',ps_man:'Markaren erabilera-eskuliburua',ps_photo:'Bereizmen handiko argazkiak',ps_contact:'Komunikazio-harremana',ps_contact_p:'Harremanetarako datuak zehazteke.',example:'Adibidea',
-  copied:'Esteka kopiatuta',more_info:'Informazio gehiago'
+  copied:'Esteka kopiatuta',more_info:'Informazio gehiago',
+  nl_cta:'Harpidetu',play_v:'Erreproduzitu bideoa',video_k:'Bideoa',yt_note:'Bideoa YouTubetik kargatzen da erreproduzitu sakatzean.',cd_open:'Ikusi bideoa',em_all:'Ikusi enpresa guztiak'
  }
 };
 let L = 'es';
@@ -333,68 +335,105 @@ function cmpHTML(seed){ return `<div class="cmp reveal" style="--p:50%"><div cla
   <input type="range" min="0" max="100" value="50" aria-label="${t('yesterday')} / ${t('today')}"></div>`; }
 function bindCmp(root){ $$('.cmp', root).forEach(c => { const i = $('input', c); i.oninput = () => c.style.setProperty('--p', i.value + '%'); }); }
 
+/* ---------- secciones visibles (config.secciones) ---------- */
+const SEC = Object.assign({ botonesPortada: true, agenda: true, cifras: true, buscador: true, historia: true, personas: true, participa: true, newsletter: true, patrocinadores: true }, C.secciones || {});
+const CA = C.cuentaAtras || null;
+const ytId = s => { const m = String(s || '').match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/); return m ? m[1] : (/^[\w-]{11}$/.test(s || '') ? s : ''); };
+function videoBlock(){
+  const yv = C.videoPrincipal || {}, id = ytId(yv.youtube); if (!id) return '';
+  return `<div class="vbox" id="vbox"><div class="vfr" id="vfr" data-yt="${id}">
+      <button class="vposter" id="vplay" aria-label="${t('play_v')}: ${esc(tx(yv.titulo))}">${yv.poster ? `<img alt="" src="${esc(yv.poster)}">` : artEvent('video-' + id, 1600, 900)}
+        <span class="vp" aria-hidden="true"></span><span class="vt"><small>${t('video_k')}</small>${esc(tx(yv.titulo))}</span></button></div>
+    <p class="vnote">${t('yt_note')}</p></div>`;
+}
+function playVideo(){
+  const f = $('#vfr'); if (!f) return; const id = f.dataset.yt, yv = C.videoPrincipal || {};
+  f.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1&iv_load_policy=3&color=white" title="${esc(tx(yv.titulo))}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+}
+function caStrip(){
+  const d = new Date(CA.fecha), before = NOW() < d;
+  if (before) return `<section class="cds" id="cds">${deco('bg',120)}<div class="wrap">
+      <div><div class="lb">${esc(tx(CA.etiqueta))}</div><div class="tt">${esc(tx(CA.titulo))}<small>${fLong(d)} · ${esc(tx(CA.texto))}</small></div></div>
+      ${cdHTML(CA.fecha)}
+      <div class="ac"><button class="btn sm" id="caics">${I('cal')} ${t('add_cal')}</button></div></div></section>`;
+  return `<section class="cds" id="cds">${deco('bg',120)}<div class="wrap"><div><div class="lb">${esc(tx(CA.etiqueta))}</div><div class="tt">${esc(tx(CA.despues))}</div></div><div></div>
+    <div class="ac"><button class="btn sm" id="cago">${I('play')} ${t('cd_open')}</button></div></div></section>`;
+}
 function renderHome(){
   const v = currentVideo(), mob = matchMedia('(max-width:700px)').matches, src = (mob && v.mp4Movil) || v.mp4;
   const up = upcoming().slice(0, 3);
   const lineYears = [1977, 1987, 1997, 2007, 2017, 2027];
   const marq = ALL.slice().sort(()=>Math.random()-.5).slice(0, 40);
+  const vb = videoBlock();
   $('#v-home').innerHTML = `
-  <section class="hero dk" id="hero">
+  <section class="hero-seq dk" id="hseq"${vb ? '' : ' data-novideo'}>
+  <div class="hero" id="hero">
     ${src ? `<video id="hv" autoplay muted loop playsinline ${v.poster?`poster="${esc(v.poster)}"`:''} src="${esc(src)}"></video>` : `${v.imagen?`<img class="hph" src="${esc(v.imagen)}"${v.imagenMovil?` srcset="${esc(v.imagenMovil)} 1200w, ${esc(v.imagen)} 2400w" sizes="100vw"`:''} alt="${esc(tx(v.imagenAlt))}" fetchpriority="high">`:''}<div class="anim${v.imagen?' over':''}">${heroArt(!!v.imagen)}</div>`}
-    <div class="shade"></div>
+    <div class="shade"></div><div class="shade2"></div>
     <div class="wrap in">
       <div class="eyebrow rise" style="color:#d6cfc3;animation-delay:.3s">1977 – 2027 · Bizkaiko industria</div><div class="rule rise" style="animation-delay:.4s"></div>
       <h1 class="rise" style="animation-delay:.5s">${t('h1a')}<em>${t('h1b')}</em></h1>
       <div class="tag rise" style="animation-delay:.8s">${t('lema')}</div>
-      <div class="acts rise" style="animation-delay:1s"><button class="btn" id="playfull">${I('play')} ${t('watch')}</button><a class="btn ghost" href="#/agenda">${t('agenda27')} ${I('arrow')}</a></div>
+      ${SEC.botonesPortada ? `<div class="acts rise" style="animation-delay:1s"><button class="btn" id="playfull">${I('play')} ${t('watch')}</button><a class="btn ghost" href="#/agenda">${t('agenda27')} ${I('arrow')}</a></div>` : ''}
     </div>
+    ${vb}
     ${src?`<div class="ctl"><button id="snd" aria-label="${t('sound_on')}">${I('mute')}</button></div>`:''}
-    <div class="scroll"><span>${t('scroll')}</span><i></i></div>
+    <button class="scroll" id="scrolldn"><span>${t('scroll')}</span><i></i></button>
     ${!src&&v.imagen&&tx(v.credito)?`<div class="credit">${esc(tx(v.credito))}</div>`:''}
+  </div>
   </section>
-  ${cdStrip()}
-  <section class="dk pad"><div class="wrap">
+  ${CA ? caStrip() : cdStrip()}
+  ${SEC.agenda ? `<section class="dk pad"><div class="wrap">
     <div class="shead"><div><div class="eyebrow">${t('up_k')}</div><div class="rule"></div><h2 class="h2">${t('up_h')}</h2></div><a class="more-link" href="#/agenda">${t('up_all')} ${I('arrow')}</a></div>
     <div class="evs">${up.map(evCard).join('')}</div>
-  </div></section>
-  <section class="lt pad"><div class="wrap">
-    <div class="eyebrow">${t('st_k')}</div><div class="rule"></div><h2 class="h2" style="max-width:18ch">${t('st_h')}</h2>
+  </div></section>` : ''}
+  ${SEC.cifras || SEC.buscador ? `<section class="lt pad"><div class="wrap">
+    ${SEC.cifras ? `<div class="eyebrow">${t('st_k')}</div><div class="rule"></div><h2 class="h2" style="max-width:18ch">${t('st_h')}</h2>
     <div class="stats reveal" style="margin-top:44px">
       <div class="stat"><b class="num" data-count="${S.emp}">0</b><span>${t('st_emp')}</span></div>
       <div class="stat"><b class="num" data-count="${S.pl}">0</b><span>${t('st_pl')}</span></div>
       <div class="stat"><b class="num" data-count="${S.mun}">0</b><span>${t('st_mun')}</span></div>
       <div class="stat"><b class="num c" data-count="50">0</b><span>${t('st_y')}</span></div>
     </div>
-    <p class="mut" style="font-size:13px;margin-top:16px;color:var(--mut)">${t('st_note')}</p>
-    <div style="margin-top:80px"><h3 style="font-size:clamp(26px,3vw,38px);margin-bottom:22px">${t('se_h')}</h3>
+    <p class="mut" style="font-size:13px;margin-top:16px;color:var(--mut)">${t('st_note')}</p>` : ''}
+    ${SEC.buscador ? `<div style="margin-top:${SEC.cifras?80:0}px"><div class="shead" style="margin-bottom:22px"><h3 style="font-size:clamp(26px,3vw,38px)">${t('se_h')}</h3><a class="more-link" href="#/empresas">${t('em_all')} ${I('arrow')}</a></div>
       <div class="sbox"><div class="f">${I('search')}<input id="hq" type="search" autocomplete="off" placeholder="${t('se_ph')}" aria-label="${t('se_h')}"></div><div class="drop" id="hdrop" hidden></div></div>
       <div class="marq"><div class="tr">${[...marq, ...marq].map(e => `<a href="#/empresas/${e.num_asociada}">${mono(e)}${esc(shortName(e.nombre))}</a>`).join('')}</div></div>
-    </div>
-  </div></section>
-  <section class="dk pad"><div class="wrap hs">
+    </div>` : ''}
+  </div></section>` : ''}
+  ${SEC.historia ? `<section class="dk pad"><div class="wrap hs">
     <div><div class="eyebrow">${t('hi_k')}</div><div class="rule"></div><h2 class="h2">${t('hi_h')}</h2><p class="lead" style="margin-top:16px">${t('hi_p')}</p>
       <div class="line reveal"><div class="ax"></div>${lineYears.map((y,i)=>{ const n = ALL.filter(e=>e.anio_alta>=y&&e.anio_alta<y+10).length, h = C.hitos.find(x=>x.anio===y);
         return `<a class="pt${y===1977||y===2027?' big':''}${i%2?' up':''}" href="#/historia" style="left:${(y-1977)/50*100}%"><i></i><b>${y}</b><small>${h?esc(tx(h)):(y<2027?`+${n}`:'')}</small></a>`; }).join('')}</div>
       <a class="more-link" href="#/historia">${t('hi_more')} ${I('arrow')}</a></div>
     ${cmpHTML('home')}
-  </div></section>
-  <section class="lt pad"><div class="wrap">
+  </div></section>` : ''}
+  ${SEC.personas ? `<section class="lt pad"><div class="wrap">
     <div class="shead"><div><div class="eyebrow">${t('pe_k')}</div><div class="rule"></div><h2 class="h2" style="max-width:16ch">${t('pe_h')}</h2><p class="lead" style="margin-top:14px">${t('pe_p')}</p></div><a class="more-link" href="#/personas">${t('pe_all')} ${I('arrow')}</a></div>
     <div class="pp">${C.personas.map(personCard).join('')}</div>
-  </div></section>
-  <section class="dk pad"><div class="wrap two">
-    <a class="cta-card a reveal" href="#/participa">${deco('d',260)}<div class="eyebrow">${t('nav_pa')}</div><div class="rule"></div><h3>${t('pa_h')}</h3><p>${t('pa_p')}</p><span class="btn" style="align-self:flex-start;margin-top:18px">${t('pa_btn')} ${I('arrow')}</span></a>
-    <div class="cta-card b reveal"><div class="eyebrow" style="color:#fff">Newsletter</div><div class="rule" style="background:#fff"></div><h3>${t('nl_h')}</h3><p>${t('nl_p')}</p>
-      ${FORMS.newsletter?`<a class="btn" style="align-self:flex-start;margin-top:20px;background:var(--negro)" href="${esc(FORMS.newsletter)}" target="_blank" rel="noopener">${t('nl_btn')} ${I('arrow')}</a>`
-        :`<form class="nl" id="nlf"><input type="email" required placeholder="${t('nl_ph')}" aria-label="${t('nl_ph')}"><button class="btn">${t('nl_btn')}</button></form>`}</div>
-  </div></section>`;
+  </div></section>` : ''}
+  ${SEC.participa || SEC.newsletter ? `<section class="dk pad"><div class="wrap ${SEC.participa && SEC.newsletter ? 'two' : ''}">
+    ${SEC.participa ? `<a class="cta-card a reveal" href="#/participa">${deco('d',260)}<div class="eyebrow">${t('nav_pa')}</div><div class="rule"></div><h3>${t('pa_h')}</h3><p>${t('pa_p')}</p><span class="btn" style="align-self:flex-start;margin-top:18px">${t('pa_btn')} ${I('arrow')}</span></a>` : ''}
+    ${SEC.newsletter ? `<div class="cta-card b reveal${SEC.participa ? '' : ' nlwide'}" id="nl"><div><div class="eyebrow" style="color:#fff">Newsletter</div><div class="rule" style="background:#fff"></div><h3>${t('nl_h')}</h3><p>${t('nl_p')}</p></div>
+      ${FORMS.newsletter?`<div><a class="btn" style="margin-top:20px;background:var(--negro)" href="${esc(FORMS.newsletter)}" target="_blank" rel="noopener">${t('nl_btn')} ${I('arrow')}</a></div>`
+        :`<form class="nl" id="nlf"><input type="email" required placeholder="${t('nl_ph')}" aria-label="${t('nl_ph')}"><button class="btn">${t('nl_btn')}</button></form>`}</div>` : ''}
+  </div></section>` : ''}`;
   const root = $('#v-home');
-  $('#playfull').onclick = () => videoModal(v.completo);
+  if ($('#playfull')) $('#playfull').onclick = () => videoModal(v.completo);
+  if ($('#vplay')) $('#vplay').onclick = playVideo;
+  $('#scrolldn').onclick = () => { const s = $('#hseq'), tot = s.offsetHeight - innerHeight; scrollTo({top: s.offsetTop + (tot > 0 ? tot * .8 : innerHeight), behavior: 'smooth'}); };
+  if ($('#caics')) $('#caics').onclick = () => icsFor({ slug: 'apertura-sobre', d0: new Date(CA.fecha), d1: new Date(new Date(CA.fecha).getTime() + 36e5), titulo: CA.titulo, lugar: CA.lugar || { es: 'Online', eu: 'Online' }, desc: CA.texto });
+  if ($('#cago')) $('#cago').onclick = () => { $('#scrolldn').click(); };
   const hv = $('#hv'), snd = $('#snd');
   if (hv && snd) snd.onclick = () => { hv.muted = !hv.muted; snd.innerHTML = I(hv.muted ? 'mute' : 'sound'); snd.setAttribute('aria-label', t(hv.muted ? 'sound_on' : 'sound_off')); };
   if (hv) hv.onerror = () => { hv.outerHTML = `<div class="anim">${heroArt(false)}</div>`; sparks(); };
   if ($('#nlf')) $('#nlf').onsubmit = ev => { ev.preventDefault(); toast(t('nl_ok')); };
-  bindHomeSearch(); bindCmp(root); countUp(root); reveal(root); sparks(); bindCommon(root); tick();
+  if ($('#hq')) bindHomeSearch(); if ($('.cmp', root)) bindCmp(root); countUp(root); reveal(root); sparks(); bindCommon(root); tick(); heroScroll();
+}
+function heroScroll(){
+  const s = $('#hseq'), h = $('#hero'); if (!s || !h || !$('#v-home').classList.contains('on')) return;
+  const tot = s.offsetHeight - innerHeight, p = tot > 0 ? Math.min(1, Math.max(0, -s.getBoundingClientRect().top / tot)) : 0;
+  h.style.setProperty('--p', p.toFixed(3)); h.classList.toggle('vis', p > .45);
 }
 function bindHomeSearch(){
   const q = $('#hq'), d = $('#hdrop'); let sel = -1;
@@ -763,26 +802,35 @@ function renderPrensa(){
    CABECERA, PIE, RUTAS
    ===================================================================== */
 const NAV = [['agenda','nav_ag'],['programa','nav_pr'],['empresas','nav_em'],['historia','nav_hi'],['personas','nav_pe'],['participa','nav_pa']];
+const MENU = () => { const m = Array.isArray(C.menu) ? C.menu : NAV.map(x => x[0]).concat('prensa'); return [...NAV, ['prensa','nav_ps']].filter(([h]) => m.includes(h)); };
 function chrome(view){
-  $('#nav').innerHTML = NAV.map(([h,k]) => `<a href="#/${h}" class="${view===h||(view==='evento'&&h==='agenda')||(view==='ficha'&&h==='empresas')?'on':''}">${t(k)}</a>`).join('');
-  $('#dnav').innerHTML = `<a href="#/">${t('home')}</a>` + NAV.map(([h,k]) => `<a href="#/${h}">${t(k)}</a>`).join('') + `<a href="#/prensa">${t('nav_ps')}</a>`;
-  const ph = phase(), cta = ph === 'before' ? [t('cta_before'), '#/agenda/' + GALA.slug] : ph === 'live' ? [t('cta_live'), '#/programa'] : [t('cta_after'), '#/agenda/' + GALA.slug];
-  [$('#hcta'), $('#dcta')].forEach(a => { a.textContent = cta[0]; a.href = cta[1]; });
+  const menu = MENU();
+  $('#nav').innerHTML = menu.map(([h,k]) => `<a href="#/${h}" class="${view===h||(view==='evento'&&h==='agenda')||(view==='ficha'&&h==='empresas')?'on':''}">${t(k)}</a>`).join('');
+  $('#nav').hidden = !menu.length;
+  $('#dnav').innerHTML = menu.length ? `<a href="#/">${t('home')}</a>` + menu.map(([h,k]) => `<a href="#/${h}">${t(k)}</a>`).join('') : '';
+  $('#burger').hidden = !menu.length;
+  let cta;
+  if ((C.cabecera || {}).boton === 'gala') { const ph = phase(); cta = ph === 'before' ? [t('cta_before'), '#/agenda/' + GALA.slug] : ph === 'live' ? [t('cta_live'), '#/programa'] : [t('cta_after'), '#/agenda/' + GALA.slug]; }
+  else cta = [t('nl_cta'), FORMS.newsletter || '#/newsletter'];
+  [$('#hcta'), $('#dcta')].forEach(a => { a.textContent = cta[0]; a.href = cta[1]; if (/^https?:/.test(cta[1])) { a.target = '_blank'; a.rel = 'noopener'; } else { a.removeAttribute('target'); } });
+  document.body.classList.toggle('nomenu', !menu.length);
   $$('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === L));
   const dm = $('#demo'); if (dm && C.vistaPrevia === false) dm.remove(); else if (dm) dm.innerHTML = `${esc(t('demo'))} <b style="margin-left:6px;color:#fff" aria-hidden="true">×</b>`; if (dm) dm.onclick = ev => { ev.preventDefault(); dm.remove(); };
   document.documentElement.lang = L;
+  const emLinks = [['empresas', t('em_h')], ['historia', t('hi_h')], ['participa', t('pa_h')]].filter(([h]) => h === 'empresas' || menu.some(x => x[0] === h));
   $('#ft').innerHTML = `<div class="wrap"><div class="g">
     <div><img class="logo" src="${LOGO}" alt="50 FVEM"><p style="max-width:34ch">${t('ft_lema')}</p></div>
-    <div><h4>${t('ft_an')}</h4>${NAV.map(([h,k])=>`<a href="#/${h}">${t(k)}</a>`).join('')}<a href="#/prensa">${t('nav_ps')}</a></div>
-    <div><h4>${t('ft_em')}</h4><a href="#/empresas">${t('em_h')}</a><a href="#/historia">${t('hi_h')}</a><a href="#/participa">${t('pa_h')}</a></div>
-    <div><h4>${t('ft_fv')}</h4><a href="${C.sitio}" target="_blank" rel="noopener">${t('ft_web')} ↗</a><a href="#/prensa">${t('ft_contact')}</a></div></div>
-    <div style="margin-top:40px"><h4>${t('ft_sp')}</h4><div class="spn">${Array.from({length:5},()=>`<span>${t('ft_spx')}</span>`).join('')}</div></div>
+    ${menu.length ? `<div><h4>${t('ft_an')}</h4>${menu.map(([h,k])=>`<a href="#/${h}">${t(k)}</a>`).join('')}</div>` : '<div></div>'}
+    <div><h4>${t('ft_em')}</h4>${emLinks.map(([h,l])=>`<a href="#/${h}">${l}</a>`).join('')}</div>
+    <div><h4>${t('ft_fv')}</h4><a href="${C.sitio}" target="_blank" rel="noopener">${t('ft_web')} ↗</a>${SEC.newsletter?`<a href="${esc(FORMS.newsletter || '#/newsletter')}">Newsletter</a>`:''}</div></div>
+    ${SEC.patrocinadores ? `<div style="margin-top:40px"><h4>${t('ft_sp')}</h4><div class="spn">${Array.from({length:5},()=>`<span>${t('ft_spx')}</span>`).join('')}</div></div>` : ''}
     <div class="bt"><span>© FVEM · 1977 – 2027</span><span style="display:flex;gap:16px;flex-wrap:wrap">${[['aviso','ft_legal'],['privacidad','ft_priv'],['cookies','ft_cook'],['accesibilidad','ft_acc']].map(([k,l])=>`<a href="${esc(LEGAL[k]||'#/')}"${LEGAL[k]?' target="_blank" rel="noopener"':''}>${t(l)}</a>`).join('')}</span></div></div>`;
 }
 const VIEWS = { home: renderHome, agenda: renderAgenda, evento: renderEvento, programa: renderPrograma, empresas: renderEmpresas, ficha: renderFicha, historia: renderHistoria, personas: renderPersonas, participa: renderParticipa, prensa: renderPrensa };
 let CUR = null;
 function parse(){ const h = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   if (!h.length) return ['home'];
+  if (h[0] === 'newsletter') return ['home', 'nl'];
   if (h[0] === 'agenda' && h[1]) return ['evento', h[1]];
   if (h[0] === 'empresas' && h[1]) return ['ficha', h[1].padStart(5,'0')];
   return VIEWS[h[0]] ? [h[0]] : ['home']; }
@@ -796,12 +844,13 @@ function route(keepScroll){
   const ttl = { home: 'FVEM 50 · ' + t('h1a') + ' ' + t('h1b'), evento: arg && EVS[arg] ? tx(EVS[arg].titulo) + ' · FVEM 50' : '', ficha: BYNUM[arg] ? shortName(BYNUM[arg].nombre) + ' · FVEM 50' : '' }[v] || (t({agenda:'nav_ag',programa:'nav_pr',empresas:'nav_em',historia:'nav_hi',personas:'nav_pe',participa:'nav_pa',prensa:'nav_ps'}[v]) + ' · FVEM 50');
   document.title = ttl;
   if (!keepScroll && !same) scrollTo(0, 0);
+  if (v === 'home' && arg === 'nl') setTimeout(() => { const n = $('#nl'); if (n) n.scrollIntoView({behavior: 'smooth', block: 'center'}); }, 80);
   onScroll();
 }
-function onScroll(){ const hd = $('#hd'), home = document.body.classList.contains('home-mode'); hd.classList.toggle('over', home && scrollY < innerHeight - 120); }
+function onScroll(){ const hd = $('#hd'), home = document.body.classList.contains('home-mode'), s = $('#hseq'); const end = s ? s.offsetTop + s.offsetHeight - 120 : innerHeight - 120; hd.classList.toggle('over', home && scrollY < end); heroScroll(); }
 addEventListener('scroll', onScroll, {passive:true});
 addEventListener('hashchange', () => route());
-let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (CUR && CUR[0] === 'empresas') drawMap(); }, 200); });
+let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (CUR && CUR[0] === 'empresas') drawMap(); heroScroll(); }, 200); });
 function closeDrawer(){ $('#drawer').classList.remove('open'); $('#drawer').setAttribute('aria-hidden', 'true'); $('#burger').setAttribute('aria-expanded', 'false'); document.body.classList.remove('lock'); }
 $('#burger').onclick = () => { $('#drawer').classList.add('open'); $('#drawer').setAttribute('aria-hidden', 'false'); $('#burger').setAttribute('aria-expanded', 'true'); document.body.classList.add('lock'); };
 $('#dclose').onclick = closeDrawer;

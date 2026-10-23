@@ -38,6 +38,40 @@ window.FVEM50 = {
     ]
   },
 
+  // ---- Qué se ve (false = oculto; no se borra nada, se puede volver a activar) ----
+  secciones: {
+    botonesPortada: false,   // botones «Ver el vídeo» y «Agenda 2027» sobre el titular
+    agenda: false,           // «Próximas citas» en portada
+    cifras: true,            // cifras de empresas
+    buscador: true,          // «Busca una empresa» + banda de logos
+    historia: false,         // «Medio siglo en una línea»
+    personas: false,         // «Detrás de cada empresa, personas»
+    participa: false,        // caja «¿Tu empresa es asociada?»
+    newsletter: true,        // caja de suscripción a la agenda
+    patrocinadores: false    // pie: patrocinadores y colaboradores
+  },
+  // Páginas en el menú de cabecera, menú móvil y pie. Vacío = sin menú.
+  // Opciones: 'agenda', 'programa', 'empresas', 'historia', 'personas', 'participa', 'prensa'
+  menu: [],
+  // Botón de la cabecera: 'newsletter' (Suscríbete) o 'gala' (Inscríbete / En directo / Galería)
+  cabecera: { boton: 'newsletter' },
+
+  // Vídeo que aparece encajado al hacer scroll en la portada (solo se carga YouTube al pulsar «play»)
+  videoPrincipal: {
+    youtube: 'RAlS-zQD1FY',
+    titulo: { es: 'El secreto mejor guardado de FVEM', eu: 'FVEMen sekreturik ondoen gordea' },
+    poster: ''   // imagen propia para la portada del vídeo (si se deja vacío, se usa un gráfico de marca)
+  },
+
+  // Cuenta atrás de la portada. Si se borra este bloque, vuelve la cuenta atrás a la gala.
+  cuentaAtras: {
+    fecha: '2027-01-13T00:00:00+01:00',
+    etiqueta: { es: 'Cuenta atrás', eu: 'Atzerako kontaketa' },
+    titulo: { es: 'Apertura del sobre', eu: 'Gutun-azalaren irekiera' },
+    texto: { es: 'Ese día publicaremos el segundo vídeo.', eu: 'Egun horretan bigarren bideoa argitaratuko dugu.' },
+    despues: { es: 'El sobre ya está abierto: mira el nuevo vídeo.', eu: 'Gutun-azala irekita dago: ikusi bideo berria.' }
+  },
+
   // Evento al que apunta la cuenta atrás principal
   gala: 'gala-50-aniversario',
 
