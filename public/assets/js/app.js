@@ -61,7 +61,7 @@ const T = {
   ps_p:'Notas de prensa, recursos de marca y material gráfico del 50 aniversario.',ps_notes:'Notas de prensa',ps_kit:'Kit de marca',ps_logo:'Logotipo 50 FVEM (PNG)',ps_logo_s:'Versión en blanco para fondos oscuros',
   ps_soon:'Próximamente',ps_svg:'Logotipos vectoriales (SVG, PDF)',ps_man:'Manual de uso de la marca',ps_photo:'Fotografías en alta resolución',ps_contact:'Contacto de comunicación',ps_contact_p:'Datos de contacto por confirmar.',example:'Ejemplo',
   copied:'Enlace copiado',more_info:'Más información',
-  nl_cta:'Suscríbete',nl_e_empty:'Escribe tu correo electrónico.',nl_e_mail:'El correo electrónico no es válido. Revisa que tenga el formato nombre@dominio.com.',nl_e_check:'Para suscribirte tienes que aceptar la política de privacidad.',nl_ok_pre:'He leído y acepto la',nl_cl:'Cláusula informativa',nl_resp:'Responsable',nl_fin:'Finalidad',nl_der:'Derechos',nl_inf:'Información adicional',nl_inf_t:'Para más información diríjase a nuestra',play_v:'Reproducir vídeo',video_k:'Vídeo',yt_note:'El vídeo se carga desde YouTube al pulsar reproducir.',cd_open:'Ver el vídeo',em_all:'Ver todas las empresas'
+  nl_cta:'Suscríbete',yr_see:'Ver las empresas que se asociaron en {y}',nl_e_empty:'Escribe tu correo electrónico.',nl_e_mail:'El correo electrónico no es válido. Revisa que tenga el formato nombre@dominio.com.',nl_e_check:'Para suscribirte tienes que aceptar la política de privacidad.',nl_ok_pre:'He leído y acepto la',nl_cl:'Cláusula informativa',nl_resp:'Responsable',nl_fin:'Finalidad',nl_der:'Derechos',nl_inf:'Información adicional',nl_inf_t:'Para más información diríjase a nuestra',play_v:'Reproducir vídeo',video_k:'Vídeo',yt_note:'El vídeo se carga desde YouTube al pulsar reproducir.',cd_open:'Ver el vídeo',em_all:'Ver todas las empresas'
  },
  eu: {
   demo:'Aurrebista · agenda, egitaraua eta pertsonak adibide-edukiarekin',
@@ -111,7 +111,7 @@ const T = {
   ps_p:'50. urteurreneko prentsa-oharrak, marka-baliabideak eta material grafikoa.',ps_notes:'Prentsa-oharrak',ps_kit:'Marka-kita',ps_logo:'50 FVEM logotipoa (PNG)',ps_logo_s:'Bertsio zuria hondo ilunetarako',
   ps_soon:'Laster',ps_svg:'Logotipo bektorialak (SVG, PDF)',ps_man:'Markaren erabilera-eskuliburua',ps_photo:'Bereizmen handiko argazkiak',ps_contact:'Komunikazio-harremana',ps_contact_p:'Harremanetarako datuak zehazteke.',example:'Adibidea',
   copied:'Esteka kopiatuta',more_info:'Informazio gehiago',
-  nl_cta:'Harpidetu',nl_e_empty:'Idatzi zure helbide elektronikoa.',nl_e_mail:'Helbide elektronikoa ez da zuzena. Egiaztatu izena@domeinua.com formatua duela.',nl_e_check:'Harpidetzeko pribatutasun-politika onartu behar duzu.',nl_ok_pre:'Irakurri eta onartzen dut',nl_cl:'Informazio-klausula',nl_resp:'Arduraduna',nl_fin:'Helburua',nl_der:'Eskubideak',nl_inf:'Informazio gehigarria',nl_inf_t:'Informazio gehiago nahi baduzu, kontsultatu gure',play_v:'Erreproduzitu bideoa',video_k:'Bideoa',yt_note:'Bideoa YouTubetik kargatzen da erreproduzitu sakatzean.',cd_open:'Ikusi bideoa',em_all:'Ikusi enpresa guztiak'
+  nl_cta:'Harpidetu',yr_see:'Ikusi {y}an bazkidetu ziren enpresak',nl_e_empty:'Idatzi zure helbide elektronikoa.',nl_e_mail:'Helbide elektronikoa ez da zuzena. Egiaztatu izena@domeinua.com formatua duela.',nl_e_check:'Harpidetzeko pribatutasun-politika onartu behar duzu.',nl_ok_pre:'Irakurri eta onartzen dut',nl_cl:'Informazio-klausula',nl_resp:'Arduraduna',nl_fin:'Helburua',nl_der:'Eskubideak',nl_inf:'Informazio gehigarria',nl_inf_t:'Informazio gehiago nahi baduzu, kontsultatu gure',play_v:'Erreproduzitu bideoa',video_k:'Bideoa',yt_note:'Bideoa YouTubetik kargatzen da erreproduzitu sakatzean.',cd_open:'Ikusi bideoa',em_all:'Ikusi enpresa guztiak'
  }
 };
 let L = 'es';
@@ -572,7 +572,7 @@ function renderPrograma(){
 /* =====================================================================
    EMPRESAS
    ===================================================================== */
-const F = {q:'', s:'', z:'', m:'', t:'', d:'', fu:false, so:'az', view:'grid', n:60};
+const F = {q:'', s:'', z:'', m:'', t:'', d:'', y:'', fu:false, so:'az', view:'grid', n:60};
 const SIZES = [[1,9],[10,49],[50,249],[250,1e9]], DECS = [1970,1980,1990,2000,2010,2020];
 const uniq = k => [...new Set(ALL.map(e=>e[k]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
 function filtered(){
@@ -581,6 +581,7 @@ function filtered(){
   if (F.t) { const [a,b] = SIZES[F.t-1]; r = r.filter(e=>plOk(e)&&e.plantilla>=a&&e.plantilla<=b); }
   if (F.d) r = r.filter(e=>e.anio_alta>=+F.d && e.anio_alta<+F.d+10);
   if (F.fu) r = r.filter(isF);
+  if (F.y) r = r.filter(e=>e.anio_alta===+F.y);
   const so = {num:(a,b)=>a.num_asociada.localeCompare(b.num_asociada), az:(a,b)=>a.nombre.localeCompare(b.nombre,'es'), pl:(a,b)=>(b.plantilla??-1)-(a.plantilla??-1), new:(a,b)=>b.anio_alta-a.anio_alta};
   return r.sort(so[F.so]);
 }
@@ -596,6 +597,7 @@ function renderEmpresas(){
       <div class="sel"><select data-f="m">${opt('',t('all_m'))}${uniq('municipio').map(s=>opt(s,s,F.m===s)).join('')}</select></div>
       <div class="sel"><select data-f="t">${opt('',t('all_t'))}${[1,2,3,4].map(i=>opt(i,t('t'+i),F.t==i)).join('')}</select></div>
       <div class="sel"><select data-f="d">${opt('',t('all_d'))}${DECS.map(d=>opt(d,t('dec')+(d===1970?'70':String(d).slice(2)),F.d==d)).join('')}</select></div>
+      ${F.y ? `<button class="pillbtn fu" id="fyr" aria-pressed="true">${t('since')} ${esc(F.y)} <span aria-hidden="true">✕</span></button>` : ''}
       ${S.fun ? `<button class="pillbtn fu" id="ffu" aria-pressed="${F.fu}">★ ${t('founders')} <span class="num">${nf(S.fun)}</span></button>` : ''}
     </div>
     <div class="meta"><div class="cnt" id="cnt"></div>
@@ -612,7 +614,8 @@ function renderEmpresas(){
   const r = $('#v-empresas');
   $('#dq').oninput = ev => { F.q = ev.target.value; drawDir(true); };
   $$('select[data-f]', r).forEach(s => s.onchange = () => { F[s.dataset.f] = s.value; drawDir(true); drawMap(); drawBars(); });
-  $('#clr').onclick = () => { Object.assign(F,{q:'',s:'',z:'',m:'',t:'',d:'',fu:false}); renderEmpresas(); };
+  $('#clr').onclick = () => { Object.assign(F,{q:'',s:'',z:'',m:'',t:'',d:'',y:'',fu:false}); renderEmpresas(); };
+  if ($('#fyr')) $('#fyr').onclick = () => { F.y = ''; renderEmpresas(); };
   if ($('#ffu')) $('#ffu').onclick = () => { F.fu = !F.fu; $('#ffu').setAttribute('aria-pressed', F.fu); drawDir(true); };
   $$('[data-view]', r).forEach(b => b.onclick = () => { F.view = b.dataset.view; $$('[data-view]', r).forEach(x=>x.setAttribute('aria-pressed', x===b)); drawDir(true); });
   $('#more').onclick = () => { F.n += 60; drawDir(); };
@@ -622,7 +625,7 @@ function drawDir(reset){
   if (reset) F.n = 60;
   const r = LAST = filtered(), shown = r.slice(0, F.n), res = $('#res');
   $$('#v-empresas select[data-f]').forEach(s => { if (s.dataset.f !== 'so') s.classList.toggle('on', !!s.value); });
-  $('#clr').hidden = !(F.q||F.s||F.z||F.m||F.t||F.d||F.fu);
+  $('#clr').hidden = !(F.q||F.s||F.z||F.m||F.t||F.d||F.y||F.fu);
   $('#cnt').innerHTML = `<b class="num">${nf(r.length)}</b> ${t('companies')} · <span class="num">${nf(r.reduce((a,e)=>a+(e.plantilla||0),0))}</span> ${t('people')}`;
   if (!r.length) { res.innerHTML = `<p class="mut" style="text-align:center;padding:40px 0;color:var(--mut)">${t('se_none')}</p>`; $('#more').hidden = true; return; }
   res.innerHTML = F.view === 'grid'
@@ -672,7 +675,7 @@ function drawBars(){
 
 /* ---------- ficha ---------- */
 let oldPhoto = false;
-function goFilter(k, v){ Object.assign(F, {q:'', s:'', z:'', m:'', t:'', d:'', fu:false}); F[k] = k === 'fu' ? true : v; LAST = []; location.hash = '#/empresas'; setTimeout(() => { const c = $('#v-empresas .ctr'); if (c) c.scrollIntoView({block:'start'}); }, 60); }
+function goFilter(k, v){ Object.assign(F, {q:'', s:'', z:'', m:'', t:'', d:'', y:'', fu:false}); F[k] = k === 'fu' ? true : v; LAST = []; location.hash = '#/empresas'; setTimeout(() => { const c = $('#v-empresas .ctr'); if (c) c.scrollIntoView({block:'start'}); }, 60); }
 function descAuto(e){
   const pl = plOk(e) && e.plantilla > 1 ? (L === 'eu' ? ` eta ${nf(e.plantilla)} pertsonako plantilla du` : ` y cuenta con una plantilla de ${nf(e.plantilla)} personas`) : '';
   if (L === 'eu') return `${shortName(e.nombre)} ${e.sector ? secl(e).toLowerCase() + ' arloko enpresa da' : 'enpresa da'}, ${e.municipio}n egoitza duena. ${e.anio_alta}az geroztik da FVEMeko bazkidea${pl}.`;
@@ -718,7 +721,7 @@ function renderFicha(num){
           <button class="btn sm" id="card" style="margin-top:18px">${I('dl')} ${t('card_dl')}</button></div>
         <div class="box"><div class="k">${t('hist_k')}</div><p>${same>1?t('hist_t',{y:e.anio_alta,n:same}):same===1?t('hist_t1',{y:e.anio_alta}):t('hist_t0',{y:e.anio_alta})}</p>
           <div class="hist"><span class="ln"></span><span class="fl" style="left:${px(e.anio_alta)}%"></span><span class="pt" style="left:${px(e.anio_alta)}%"></span><span class="pt" style="left:100%;background:var(--fg)"></span>
-            ${px(e.anio_alta)>14?'<span class="ax num" style="left:0">1977</span>':''}<span class="ax num" style="left:${Math.min(90,Math.max(0,px(e.anio_alta)))}%;transform:translateX(${px(e.anio_alta)<8?'0':'-50%'});color:var(--fg);font-weight:600">${e.anio_alta}</span>${px(e.anio_alta)<84?'<span class="ax num" style="right:0">2027</span>':''}</div></div>
+            ${px(e.anio_alta)>14?'<span class="ax num" style="left:0">1977</span>':''}<a class="ax num yrlink" href="#/empresas" data-flt="y" data-v="${e.anio_alta}" title="${esc(t('yr_see',{y:e.anio_alta}))}" style="left:${Math.min(90,Math.max(0,px(e.anio_alta)))}%;transform:translateX(${px(e.anio_alta)<8?'0':'-50%'});color:var(--fg);font-weight:600">${e.anio_alta}</a>${px(e.anio_alta)<84?'<span class="ax num" style="right:0">2027</span>':''}</div></div>
         ${frase?`<div class="box" style="background:var(--cobre);color:#fff;border:0"><div class="k" style="color:#fff">50</div><p style="font-size:24px;font-weight:600;letter-spacing:-.02em;line-height:1.2">«${esc(frase)}»</p></div>`:''}
         <dl class="facts">
           <div><dt>${t('num')}</dt><dd class="num">${e.num_asociada}</dd></div>

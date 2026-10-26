@@ -676,3 +676,5 @@ body.home-mode .hd{border-bottom-color:transparent}
 .nlok.bad input{outline:3px solid var(--negro);outline-offset:2px}
 .nlerr{margin:-4px 0 0;font-size:14px;font-weight:600;color:#fff;background:var(--negro);border-radius:6px;padding:7px 12px;display:flex;gap:8px;align-items:center}
 .nlerr::before{content:"!";flex:none;width:18px;height:18px;border-radius:50%;background:#fff;color:var(--negro);display:grid;place-items:center;font-size:12px;font-weight:700}
+.hist a.yrlink{text-decoration:underline;text-decoration-color:var(--cobre);text-underline-offset:3px;text-decoration-thickness:2px;cursor:pointer}
+.hist a.yrlink:hover{color:var(--cobre)!important}
