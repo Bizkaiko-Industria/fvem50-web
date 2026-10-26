@@ -678,3 +678,11 @@ body.home-mode .hd{border-bottom:0;background-repeat:no-repeat}
 .nlerr::before{content:"!";flex:none;width:18px;height:18px;border-radius:50%;background:#fff;color:var(--negro);display:grid;place-items:center;font-size:12px;font-weight:700}
 .hist a.yrlink{text-decoration:underline;text-decoration-color:var(--cobre);text-underline-offset:3px;text-decoration-thickness:2px;cursor:pointer}
 .hist a.yrlink:hover{color:var(--cobre)!important}
+/* buscador en la ficha de empresa */
+.ftop{display:flex;align-items:center;justify-content:space-between;gap:16px 28px;flex-wrap:wrap;margin-bottom:22px}
+.ftop .crumb{margin-bottom:0}
+.fsb{flex:0 1 420px;max-width:420px;margin-left:auto}
+.fsb .f{height:48px;padding:0 18px;gap:10px}
+.fsb input{font-size:16px}
+.fsb .drop{z-index:30}
+@media (max-width:640px){.fsb{flex:1 1 100%;max-width:none;margin-left:0}}

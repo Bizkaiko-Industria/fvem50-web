@@ -460,8 +460,11 @@ function heroScroll(){
   const tot = s.offsetHeight - innerHeight, p = tot > 0 ? Math.min(1, Math.max(0, -s.getBoundingClientRect().top / tot)) : 0;
   h.style.setProperty('--p', p.toFixed(3)); h.classList.toggle('vis', p > .45);
 }
-function bindHomeSearch(){
-  const q = $('#hq'), d = $('#hdrop'); let sel = -1;
+function bindHomeSearch(){ bindSearch($('#hq'), $('#hdrop')); }
+let searchDocBound = false;
+function bindSearch(q, d){
+  let sel = -1; if (!q || !d) return;
+  const toList = v => { Object.assign(F, {q:v, s:'', z:'', m:'', t:'', d:'', y:'', fu:false}); LAST = []; location.hash = '#/empresas'; };
   const draw = () => { const v = q.value.trim(); if (!v) { d.hidden = true; return; } const r = search(v); sel = -1;
     d.innerHTML = r.length ? r.slice(0,6).map(e => `<a href="#/empresas/${e.num_asociada}">${mono(e).replace('class="mono','style="width:40px" class="mono')}<span><b>${esc(shortName(e.nombre))}</b><small>${esc(e.municipio)} · ${t('since')} ${e.anio_alta}</small></span></a>`).join('')
       + (r.length > 6 ? `<a class="all" href="#/empresas" data-all>${t('se_all',{n:nf(r.length)})} →</a>` : '') : `<div class="none">${t('se_none')}</div>`;
@@ -469,10 +472,10 @@ function bindHomeSearch(){
   q.oninput = draw; q.onfocus = draw;
   q.onkeydown = ev => { const it = $$('a', d);
     if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') { ev.preventDefault(); if (!it.length) return; sel = (sel + (ev.key === 'ArrowDown' ? 1 : -1) + it.length) % it.length; it.forEach((a,i)=>a.classList.toggle('act', i===sel)); }
-    else if (ev.key === 'Enter') { ev.preventDefault(); if (sel >= 0) it[sel].click(); else { F.q = q.value; location.hash = '#/empresas'; } }
-    else if (ev.key === 'Escape') d.hidden = true; };
-  d.onclick = ev => { if (ev.target.closest('[data-all]')) F.q = q.value; };
-  document.addEventListener('click', ev => { if (!ev.target.closest('.sbox')) d.hidden = true; });
+    else if (ev.key === 'Enter') { ev.preventDefault(); if (sel >= 0) it[sel].click(); else if (q.value.trim()) toList(q.value.trim()); }
+    else if (ev.key === 'Escape') { d.hidden = true; q.blur(); } };
+  d.onclick = ev => { if (ev.target.closest('[data-all]')) { ev.preventDefault(); toList(q.value.trim()); } else d.hidden = true; };
+  if (!searchDocBound) { searchDocBound = true; document.addEventListener('click', ev => { if (!ev.target.closest('.sbox')) $$('.sbox .drop').forEach(x => x.hidden = true); }); }
 }
 function bindCommon(root){
   $$('[data-ics]', root).forEach(b => b.onclick = () => icsFor(EVS[b.dataset.ics]));
@@ -699,7 +702,8 @@ function renderFicha(num){
   const desc = own || descCtx(e);
   const frase = (L==='eu' ? e.frase_eu : e.frase_es) || e.frase_es;
   $('#v-ficha').innerHTML = `<section class="lt" style="padding:clamp(28px,4vw,48px) 0 90px"><div class="wrap">
-    <div class="crumb"><a href="#/">${t('home')}</a><span>/</span><a href="#/empresas">${t('nav_em')}</a><span>/</span><span>${e.num_asociada}</span></div>
+    <div class="ftop"><div class="crumb"><a href="#/">${t('home')}</a><span>/</span><a href="#/empresas">${t('nav_em')}</a><span>/</span><span>${e.num_asociada}</span></div>
+      <div class="sbox fsb"><div class="f">${I('search')}<input id="fq" type="search" autocomplete="off" placeholder="${t('se_ph')}" aria-label="${t('se_h')}"></div><div class="drop" id="fdrop" hidden></div></div></div>
     <div class="fx">
       <div class="fxl"><div class="bw"><div class="fg">
         <div class="k k-logo${e.logo && e.logo_fondo === 'oscuro' ? ' dkl' : ''}" style="--i:0">${mono(e)}</div>
@@ -737,7 +741,7 @@ function renderFicha(num){
       </div>
     </div></div></section>`;
   $$('#v-ficha [data-flt]').forEach(a => a.onclick = ev => { ev.preventDefault(); goFilter(a.dataset.flt, a.dataset.v); });
-  $('#card').onclick = () => cardPNG(e);
+  $('#card').onclick = () => cardPNG(e); bindSearch($('#fq'), $('#fdrop'));
   tick();
 }
 async function cardPNG(e){
