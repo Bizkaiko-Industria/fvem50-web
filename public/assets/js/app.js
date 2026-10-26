@@ -17,7 +17,7 @@ const T = {
   demo:'Vista previa · agenda, programa y personas con contenido de ejemplo',
   nav_ag:'Agenda',nav_pr:'Programa',nav_em:'Empresas',nav_hi:'Historia',nav_pe:'Personas',nav_pa:'Participa',nav_ps:'Prensa',home:'Inicio',
   cta_before:'Inscríbete a la gala',cta_live:'Ver en directo',cta_after:'Ver la galería',
-  h1a:'50 años',h1b:'de industria',ttl_home:'FVEM · 50 años con la industria',lema:'Pasado que impulsa · Futuro que construimos',watch:'Ver el vídeo',agenda27:'Agenda 2027',scroll:'Desliza',
+  h1a:'50 años',h1b:'con la industria',ttl_home:'FVEM · 50 años con la industria',lema:'Pasado que impulsa · Futuro que construimos',watch:'Ver el vídeo',agenda27:'Agenda 2027',scroll:'Desliza',
   sound_on:'Activar sonido',sound_off:'Silenciar',pause:'Pausar animación',
   video_pend:'El vídeo completo se publicará aquí.',
   cd_before:'Faltan para la',days:'Días',hours:'Horas',mins:'Min',secs:'Seg',years:'Años',
@@ -33,7 +33,7 @@ const T = {
   portrait_pend:'Retrato pendiente',
   pa_h:'¿Tu empresa es asociada?',pa_p:'Envíanos tu logo, una foto antigua y tu mensaje para el 50 aniversario. Lo publicaremos en tu ficha.',pa_btn:'Participa',
   nl_h:'Recibe la agenda en tu correo',nl_p:'Conoce las citas más destacadas de este aniversario.',nl_ph:'Tu correo electrónico',nl_btn:'Suscribirme',nl_ok:'Vista previa: la suscripción se conectará con el sistema de FVEM.',
-  ft_lema:'50 años de industria. Pasado que impulsa, futuro que construimos.',ft_an:'Aniversario',ft_em:'Empresas',ft_fv:'FVEM',ft_sp:'Patrocinadores y colaboradores',ft_spx:'Logo',ft_legal:'Aviso legal',ft_priv:'Política de privacidad',ft_cook:'Política de cookies',ft_terms:'Términos y condiciones de uso',ft_data:'Condiciones generales sobre protección de datos',ft_acc:'Accesibilidad',ck_title:'Cookies de analítica',ck_text:'Usamos Google Analytics para saber cuántas personas visitan esta web y mejorarla. Solo se activa si lo aceptas; puedes cambiar de opinión en cualquier momento desde «Configurar cookies», al pie de la página.',ck_more:'Política de cookies',ck_yes:'Aceptar',ck_no:'Rechazar',ck_cfg:'Configurar cookies',ft_web:'Web de FVEM',ft_contact:'Contacto',
+  ft_lema:'50 años con la industria. Pasado que impulsa, futuro que construimos.',ft_an:'Aniversario',ft_em:'Empresas',ft_fv:'FVEM',ft_sp:'Patrocinadores y colaboradores',ft_spx:'Logo',ft_legal:'Aviso legal',ft_priv:'Política de privacidad',ft_cook:'Política de cookies',ft_terms:'Términos y condiciones de uso',ft_data:'Condiciones generales sobre protección de datos',ft_acc:'Accesibilidad',ck_title:'Cookies de analítica',ck_text:'Usamos Google Analytics para saber cuántas personas visitan esta web y mejorarla. Solo se activa si lo aceptas; puedes cambiar de opinión en cualquier momento desde «Configurar cookies», al pie de la página.',ck_more:'Política de cookies',ck_yes:'Aceptar',ck_no:'Rechazar',ck_cfg:'Configurar cookies',ft_web:'Web de FVEM',ft_contact:'Contacto',
   ag_p:'Todos los actos del 50 aniversario en un solo lugar. Las fechas y lugares son de ejemplo hasta que se confirmen.',all:'Todos',v_list:'Lista',v_cal:'Calendario',
   s_open:'Inscripción abierta',s_soon:'Próximamente',s_full:'Completo',s_past:'Celebrado',s_live:'En directo',s_free:'Entrada libre',
   ev_when:'Fecha',ev_time:'Hora',ev_where:'Lugar',ev_type:'Tipo',ev_reg:'Inscribirme',ev_reg_soon:'Inscripción próximamente',ev_route:'Cómo llegar',ev_share:'Compartir',ev_left:'Faltan',
@@ -785,7 +785,7 @@ async function cardPNG(e){
   if (isF(e)) { x.fillStyle = '#d86b33'; x.font = F(600, 30); x.fillText(`★ ${t('founder_l')}`, M, yb + 312); }
   // pie
   x.fillStyle = 'rgba(255,255,255,.14)'; x.fillRect(M, H - 104, W - 2 * M, 1);
-  x.font = F(500, 26); x.fillStyle = '#b2aca2'; x.fillText(`1977 – 2027 · ${L === 'eu' ? '50 urte industriarekin' : '50 años de industria'}`, M, H - 56);
+  x.font = F(500, 26); x.fillStyle = '#b2aca2'; x.fillText(`1977 – 2027 · ${L === 'eu' ? '50 urte industriarekin' : '50 años con la industria'}`, M, H - 56);
   // logo de la empresa en mancheta blanca o negra (abajo a la derecha)
   if (lg) {
     const dark = e.logo_fondo === 'oscuro', bw = PB, bh = 176, bx = W - M - bw, by = H - 104 - 36 - bh, rad = 22;
