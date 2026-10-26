@@ -291,20 +291,28 @@ const arcD = (cx, cy, r, a0, a1) => { const P = a => [cx + r * Math.cos(a * Math
   const [x0, y0] = P(a0), [x1, y1] = P(a1); return `M${x0} ${y0}A${r} ${r} 0 ${(a1 - a0) > 180 ? 1 : 0} 1 ${x1} ${y1}`; };
 const bladeD = (x, y, w, h) => `M${x} ${y + h}V${y + h / 2}A${h / 2} ${h / 2} 0 0 1 ${x + h / 2} ${y}H${x + w}V${y + h / 2}A${h / 2} ${h / 2} 0 0 1 ${x + w - h / 2} ${y + h}Z`;
 function heroArt(photo){
-  const W = 1600, H = 900, cx = 1185, cy = 360, R = 300, op = photo ? .62 : 1;
-  const big = arcD(cx, cy, R, 128, 318), small = arcD(cx, cy, R - 120, 196, 286);
-  const bl = [[560, 'url(#hm)', 0], [440, '#d86b33', 1], [300, 'none', 2]], bh = 54, by = 640;
-  const mob = matchMedia('(max-width:700px)').matches;
-  return `<svg viewBox="${mob ? '890 -120 600 1300' : `0 0 ${W} ${H}`}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-  <defs>${METAL('hm')}<radialGradient id="hb" cx=".72" cy=".55" r=".75"><stop offset="0" stop-color="#3b2214"/><stop offset=".45" stop-color="#140f0c"/><stop offset="1" stop-color="#070707"/></radialGradient>
+  // «50» geométrico: el 5 con una lama, un trazo y un bucle; el 0 como óvalo. Las piezas se ensamblan al cargar.
+  const W = 1600, H = 900, op = photo ? .82 : 1, mob = matchMedia('(max-width:700px)').matches;
+  const sw = 70, top = 170, x5 = 950;
+  const bar = bladeD(x5 - sw / 2, top - sw / 2, 270, sw);
+  const stem = `M${x5} ${top + 10}V${top + 225}`;
+  const bowl = arcD(x5 + 62, top + 400, 172, -112, 160);
+  const o = { x: x5 + 285, y: top - sw / 2, w: 230, h: 648 };
+  const zero = `M${o.x + o.w / 2} ${o.y + sw / 2}H${o.x + o.w / 2}A${o.w / 2 - sw / 2} ${o.w / 2 - sw / 2} 0 0 1 ${o.x + o.w - sw / 2} ${o.y + o.w / 2}V${o.y + o.h - o.w / 2}A${o.w / 2 - sw / 2} ${o.w / 2 - sw / 2} 0 0 1 ${o.x + sw / 2} ${o.y + o.h - o.w / 2}V${o.y + o.w / 2}A${o.w / 2 - sw / 2} ${o.w / 2 - sw / 2} 0 0 1 ${o.x + o.w / 2} ${o.y + sw / 2}`;
+  const st = `stroke-width="${sw}" stroke-linecap="round" fill="none"`;
+  return `<svg viewBox="${mob ? '780 -110 750 1500' : `0 0 ${W} ${H}`}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>${METAL('hm').replace('<linearGradient id="hm" x1="0" y1="0" x2="1" y2="1"', `<linearGradient id="hm" gradientUnits="userSpaceOnUse" x1="${x5 - 120}" y1="${top - 60}" x2="${x5 + 330}" y2="${top + 640}"`)}<radialGradient id="hb" cx=".72" cy=".55" r=".75"><stop offset="0" stop-color="#3b2214"/><stop offset=".45" stop-color="#140f0c"/><stop offset="1" stop-color="#070707"/></radialGradient>
   <linearGradient id="hs" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-  <mask id="hk"><path d="${big}" stroke="#fff" stroke-width="86" stroke-linecap="round" fill="none"/></mask></defs>
+  <mask id="hk"><path d="${bar}" fill="#fff"/><path d="${stem}" stroke="#fff" ${st}/><path d="${bowl}" stroke="#fff" ${st}/></mask></defs>
   ${photo ? '' : `<rect width="${W}" height="${H}" fill="url(#hb)"/>`}
   <g opacity="${photo ? 0 : .5}">${Array.from({length: 9}, (_, i) => `<line x1="${200 + i * 160}" y1="0" x2="${200 + i * 160}" y2="${H}" stroke="#ffffff" stroke-opacity=".035"/>`).join('')}</g>
-  <path class="draw" pathLength="1" d="${big}" stroke="url(#hm)" stroke-width="86" stroke-linecap="round" fill="none" style="opacity:${op};animation-duration:1.8s;animation-delay:.3s"/>
-  <g mask="url(#hk)"><rect class="sweep" x="${cx - 520}" y="0" width="240" height="${H}" fill="url(#hs)" transform="skewX(-20)"/></g>
-  <path class="draw" pathLength="1" d="${small}" stroke="#d86b33" stroke-width="48" stroke-linecap="round" fill="none" style="animation-duration:1.2s;animation-delay:1.2s"/>
-  ${bl.map(([w, f, i]) => `<path class="blade" style="animation-delay:${1.5 + i * .18}s" d="${bladeD(W - w, by + i * (bh + 20), w + 40, bh)}" fill="${f}"${f === 'none' ? ' stroke="#d86b33" stroke-width="2.5"' : ''}${f === 'url(#hm)' ? ` opacity="${op}"` : ''}/>`).join('')}
+  <g style="opacity:${op}">
+    <path class="blade" style="animation-delay:.3s" d="${bar}" fill="url(#hm)"/>
+    <path class="draw" pathLength="1" d="${stem}" stroke="url(#hm)" ${st} style="animation-duration:.6s;animation-delay:.9s"/>
+    <path class="draw" pathLength="1" d="${bowl}" stroke="url(#hm)" ${st} style="animation-duration:1.3s;animation-delay:1.3s"/>
+  </g>
+  <g mask="url(#hk)"><rect class="sweep" x="${x5 - 520}" y="0" width="240" height="${H}" fill="url(#hs)" transform="skewX(-20)"/></g>
+  <path class="draw" pathLength="1" d="${zero}" stroke="#d86b33" ${st} style="animation-duration:1.8s;animation-delay:1.1s"/>
   </svg><canvas id="sparks"></canvas>`;
 }
 let sparkRAF = 0;
