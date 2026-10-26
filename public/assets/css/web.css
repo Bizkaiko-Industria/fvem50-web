@@ -627,7 +627,11 @@ body.nomenu .hd .cta{display:inline-flex}
 
 /* C de cabecera: se traza como metal fundido y se enfría hasta el cobre */
 .ctrace{animation-duration:1.5s!important;animation-delay:.7s!important;animation-timing-function:cubic-bezier(.45,0,.25,1)!important}
-.cforge{animation:cforge 2.8s ease-out .7s both}
-@keyframes cforge{0%{fill:#fff6d6}25%{fill:#ffd36b}55%{fill:#ff9a3c}100%{fill:#d86b33}}
-.cglow{opacity:0;animation:cglow 3s ease-out .7s both}
-@keyframes cglow{0%{opacity:.95}40%{opacity:.8}100%{opacity:0}}
+.cforge{animation:cforge 1.5s cubic-bezier(.45,0,.25,1) .7s both}
+@keyframes cforge{0%{fill:#fff6d6}30%{fill:#ffd36b}65%{fill:#ff9a3c}100%{fill:#d86b33}}
+.cglow{opacity:0;animation:cglow 1.5s cubic-bezier(.45,0,.25,1) .7s both}
+@keyframes cglow{0%{opacity:.95}60%{opacity:.6}100%{opacity:0}}
+
+/* reflejo vertical que recorre el 5 y la C */
+.shine{animation:shine 6s ease-in-out 2.4s infinite}
+@keyframes shine{0%{transform:translateX(0)}55%,100%{transform:translateX(2150px)}}
