@@ -741,24 +741,54 @@ function renderFicha(num){
   tick();
 }
 async function cardPNG(e){
-  const W = 1080, H = 1350, cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
+  // Tarjeta para redes (1080 x 1350): logo FVEM, nombre de la empresa en grande, año de alta y logo de la empresa
+  const W = 1080, H = 1350, M = 88, cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
   try { await document.fonts.ready; } catch (_) {}
   const F = (w, s) => `${w} ${s}px "Geist", system-ui, sans-serif`;
-  const g = x.createRadialGradient(W*.8, H*.25, 50, W*.6, H*.4, W); g.addColorStop(0,'#3b2214'); g.addColorStop(.5,'#121010'); g.addColorStop(1,'#070707'); x.fillStyle = g; x.fillRect(0,0,W,H);
-  const mg = x.createLinearGradient(500,0,1080,600); [['#ececec',0],['#7c7c7c',.35],['#dedede',.55],['#6c6c6c',.8],['#b8b8b8',1]].forEach(([c,o])=>mg.addColorStop(o,c));
-  { const k = .36; x.save(); x.translate(470, 120); x.scale(k, k);
-    const g5 = x.createLinearGradient(0, 0, 900, 1250); [['#ececec',0],['#7c7c7c',.35],['#dedede',.55],['#6c6c6c',.8],['#b8b8b8',1]].forEach(([c,o])=>g5.addColorStop(o,c));
-    x.fillStyle = g5; x.fill(new Path2D(SHAPE5.d)); x.translate(C50_DX, SHAPEC.dy); x.globalAlpha = .95; x.fillStyle = '#d86b33'; x.fill(new Path2D(SHAPEC.d)); x.restore(); }
-  x.strokeStyle = '#d86b33'; x.lineWidth = 4; x.beginPath(); x.moveTo(0, 585); x.lineTo(860, 585); x.stroke();
-  await new Promise(r => { const im = new Image(); im.onload = () => { const h = 110, w = im.width*h/im.height; x.drawImage(im, 80, 80, w, h); r(); }; im.onerror = r; im.src = LOGO; });
-  x.fillStyle = '#b2aca2'; x.font = F(500, 30); x.fillText((L==='eu'?'FVEMEKO BAZKIDEA':'SOCIA DE FVEM DESDE').split('').join(String.fromCharCode(8202)), 80, 720);
-  x.fillStyle = '#d86b33'; x.font = F(300, 230); x.fillText(String(e.anio_alta), 66, 920);
-  x.fillStyle = '#f5f2eb'; x.font = F(600, 58); const words = shortName(e.nombre).split(' '); let line = '', y = 1030;
-  for (const w of words) { const test = line ? line + ' ' + w : w; if (x.measureText(test).width > 920 && line) { x.fillText(line, 80, y); y += 68; line = w; } else line = test; } x.fillText(line, 80, y);
+  const img = src => new Promise(r => { if (!src) return r(null); const im = new Image(); im.onload = () => r(im); im.onerror = () => r(null); im.src = src; });
+  const [fv, lg] = await Promise.all([img(LOGO), img(e.logo)]);
+  // fondo
+  const g = x.createRadialGradient(W * .85, H * .1, 40, W * .6, H * .45, W * 1.1); g.addColorStop(0, '#3b2214'); g.addColorStop(.45, '#121010'); g.addColorStop(1, '#070707');
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  // logo FVEM 50
+  let y = M; if (fv) { const h = 96, w = fv.width * h / fv.height; x.drawImage(fv, M, y, w, h); y += h; }
+  // nombre de la empresa (T1): se ajusta el tamaño para que quepa en 4 líneas como máximo
+  const name = shortName(e.nombre), maxW = W - 2 * M;
+  let fs = 112, lines;
+  const wrap = size => { x.font = F(600, size); const out = []; let line = '';
+    for (const w of name.split(/\s+/)) { const tst = line ? line + ' ' + w : w; if (x.measureText(tst).width > maxW && line) { out.push(line); line = w; } else line = tst; }
+    out.push(line); return out; };
+  do { lines = wrap(fs); if (lines.length <= 3 && lines.every(l => x.measureText(l).width <= maxW)) break; fs -= 6; } while (fs > 54);
+  y += 110; x.fillStyle = '#f5f2eb'; x.textBaseline = 'alphabetic';
+  lines.forEach((l, i) => { x.fillText(l, M - 4, y + fs * .82 + i * fs * 1.04); });
+  y += fs * .82 + (lines.length - 1) * fs * 1.04 + 46;
+  x.fillStyle = '#d86b33'; x.fillRect(M, y, 72, 6);
+  // municipio · sector
+  y += 58; x.font = F(400, 32); x.fillStyle = '#b2aca2';
+  const sub = [e.municipio, e.sector ? secl(e) : ''].filter(Boolean).join(' · ');
+  { let line = ''; const out = []; for (const w of sub.split(' ')) { const tst = line ? line + ' ' + w : w; if (x.measureText(tst).width > maxW && line) { out.push(line); line = w; } else line = tst; } out.push(line);
+    out.slice(0, 2).forEach((l, i) => x.fillText(l, M, y + i * 44)); }
+  // bloque inferior: socia desde + año (a la izquierda; el logo de la empresa va a la derecha)
+  const PB = 300, yb = H - 540;
+  x.font = F(500, 28); x.fillStyle = '#b2aca2';
+  x.fillText((L === 'eu' ? 'FVEMEKO BAZKIDEA' : 'SOCIA DE FVEM DESDE').split('').join(String.fromCharCode(8202)), M, yb);
+  x.font = F(300, 210); x.fillStyle = '#d86b33'; x.fillText(String(e.anio_alta), M - 8, yb + 200);
   const days = Math.floor((Date.now() - new Date(e.fecha_alta || `${e.anio_alta}-01-01`)) / 864e5);
-  x.font = F(400, 34); x.fillStyle = '#b2aca2'; x.fillText(`${nf(days)} ${L==='eu'?'egun':'días'} · ${yrsWith(e)} ${t('with')}`, 80, y + 70);
-  x.fillStyle = '#d86b33'; x.fillRect(80, H-150, 60, 5); x.font = F(500, 28); x.fillStyle = '#f5f2eb'; x.fillText(`1977 – 2027 · ${L==='eu'?'Industriaren 50 urte':'50 años de industria'}`, 80, H-90);
-  cv.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `fvem50-${e.num_asociada}.png`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 3000); }, 'image/png');
+  x.font = F(400, 32); x.fillStyle = '#f5f2eb';
+  x.fillText(`${nf(days)} ${L === 'eu' ? 'egun' : 'días'} · ${yrsWith(e)} ${t('with')}`, M, yb + 262);
+  if (isF(e)) { x.fillStyle = '#d86b33'; x.font = F(600, 30); x.fillText(`★ ${t('founder_l')}`, M, yb + 312); }
+  // pie
+  x.fillStyle = 'rgba(255,255,255,.14)'; x.fillRect(M, H - 104, W - 2 * M, 1);
+  x.font = F(500, 26); x.fillStyle = '#b2aca2'; x.fillText(`1977 – 2027 · ${L === 'eu' ? 'Industriaren 50 urte' : '50 años de industria'}`, M, H - 56);
+  // logo de la empresa en mancheta blanca o negra (abajo a la derecha)
+  if (lg) {
+    const dark = e.logo_fondo === 'oscuro', bw = PB, bh = 176, bx = W - M - bw, by = H - 104 - 36 - bh, rad = 22;
+    x.beginPath(); x.roundRect ? x.roundRect(bx, by, bw, bh, rad) : x.rect(bx, by, bw, bh); x.fillStyle = dark ? '#141414' : '#ffffff'; x.fill();
+    if (dark) { x.strokeStyle = 'rgba(255,255,255,.18)'; x.lineWidth = 2; x.stroke(); }
+    const pad = 30, sc = Math.min((bw - 2 * pad) / lg.width, (bh - 2 * pad) / lg.height), lw = lg.width * sc, lh = lg.height * sc;
+    x.drawImage(lg, bx + (bw - lw) / 2, by + (bh - lh) / 2, lw, lh);
+  }
+  cv.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `fvem50-${e.num_asociada}.png`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 3000); }, 'image/png');
 }
 
 /* =====================================================================
