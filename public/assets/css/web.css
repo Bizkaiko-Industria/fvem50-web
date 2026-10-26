@@ -668,7 +668,7 @@ a.chip{text-decoration:none;transition:background .2s,color .2s}
 a.chip.o:hover{background:var(--fg);color:var(--bg);box-shadow:none}
 a.chip.c:hover{background:var(--cobre3)}
 /* portada: cabecera sin línea inferior */
-body.home-mode .hd{border-bottom-color:transparent}
+body.home-mode .hd{border-bottom:0;background-repeat:no-repeat}
 
 /* avisos del formulario de newsletter */
 .nl.bad input[type=email]{box-shadow:0 0 0 3px var(--negro)}
