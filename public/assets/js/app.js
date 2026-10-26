@@ -156,10 +156,10 @@ function artEvent(seed, W=640, H=360){
   const cx = W*(.55+r()*.35), cy = H*(.3+r()*.5), R = H*(.55+r()*.35), a0 = Math.floor(r()*4)*90 + 20;
   let s = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>${METAL(id)}<radialGradient id="${id}g" cx=".75" cy=".3" r=".9"><stop offset="0" stop-color="#3a2416"/><stop offset=".6" stop-color="#121212"/><stop offset="1" stop-color="#0b0b0b"/></radialGradient></defs>`;
   s += `<rect width="${W}" height="${H}" fill="url(#${id}g)"/>`;
-  s += `<path d="${ring(cx,cy,R,R*.7,a0,a0+250)}" fill="url(#${id})" opacity=".92"/>`;
-  s += `<path d="${ring(cx,cy,R*.55,R*.38,a0+180,a0+270)}" fill="#d86b33"/>`;
-  s += `<circle cx="${cx}" cy="${cy}" r="${R*1.18}" fill="none" stroke="#d86b33" stroke-width="1.2" stroke-dasharray="2 9" opacity=".7"/>`;
-  s += `<line x1="0" y1="${(cy+R*.85).toFixed(0)}" x2="${cx.toFixed(0)}" y2="${(cy+R*.85).toFixed(0)}" stroke="#d86b33" stroke-width="2"/>`;
+  const k = (H * .78) / 1250, gx = Math.min(W - 1600 * k - W * .05, cx - 800 * k), gy = (H - 1250 * k) / 2;
+  s = s.replace(`<linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"`, `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="900" y2="1250"`);
+  s += `<g transform="translate(${gx.toFixed(1)} ${gy.toFixed(1)}) scale(${k.toFixed(4)})" opacity=".92">${mark50(id)}</g>`;
+  s += `<line x1="0" y1="${(gy + 1250 * k * .92).toFixed(0)}" x2="${(gx + 300 * k).toFixed(0)}" y2="${(gy + 1250 * k * .92).toFixed(0)}" stroke="#d86b33" stroke-width="2"/>`;
   return s + '</svg>';
 }
 function artPerson(seed, old){
@@ -188,7 +188,10 @@ function factory(seed, old){
   b+=`<rect y="${base}" width="${W}" height="${H-base}" fill="${old?'#2a2c2c':'#050505'}"/>`;
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${b}</svg>`;
 }
-const deco = (cls='d', a0=200) => `<svg class="${cls}" viewBox="0 0 400 400" aria-hidden="true"><defs>${METAL('dm'+a0)}</defs><path d="${ring(200,200,190,130,a0,a0+250)}" fill="url(#dm${a0})" opacity=".85"/><path d="${ring(200,200,110,75,a0+180,a0+270)}" fill="#d86b33"/></svg>`;
+// Recurso gráfico de marca: el 5 (metal) y la C (cobre) superpuestos. Sustituye a los antiguos anillos.
+const C50_DX = 733;
+const mark50 = (id, extra = '') => `<path d="${SHAPE5.d}" fill="url(#${id})"/><path transform="translate(${C50_DX} ${SHAPEC.dy})" d="${SHAPEC.d}" fill="#d86b33" opacity=".95"/>${extra}`;
+const deco = (cls='d', a0=200) => `<svg class="${cls}" viewBox="-40 -40 1680 1330" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>${METAL('dm'+a0).replace('x1="0" y1="0" x2="1" y2="1"', 'gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="900" y2="1250"')}</defs>${mark50('dm'+a0)}</svg>`;
 
 /* ---------- empresas ---------- */
 const ALL = RAW.empresas.filter(e => e.anio_alta && !e.anio_baja);
@@ -299,16 +302,18 @@ function heroArt(photo){
   const sc = .44, tx = 760, ty = 150, cx = 733;   // cx: desplazamiento de la C respecto al 5 (en el logo es 923; menos = más superposición)
   return `<svg viewBox="${mob ? '715 -170 800 1550' : `0 0 ${W} ${H}`}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
   <defs>${METAL('hm')}<radialGradient id="hb" cx=".72" cy=".55" r=".75"><stop offset="0" stop-color="#3b2214"/><stop offset=".45" stop-color="#140f0c"/><stop offset="1" stop-color="#070707"/></radialGradient>
-  <linearGradient id="hs" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".18" stop-color="#fff" stop-opacity=".05"/><stop offset=".34" stop-color="#fff" stop-opacity=".17"/><stop offset=".5" stop-color="#fff" stop-opacity=".36"/><stop offset=".66" stop-color="#fff" stop-opacity=".17"/><stop offset=".82" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><filter id="hsb" x="-50%" y="-10%" width="200%" height="120%"><feGaussianBlur stdDeviation="28 0"/></filter>
-  <mask id="hk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="2000" height="1600"><path d="${SHAPE5.d}" fill="#fff"/><path transform="translate(${cx} ${SHAPEC.dy})" d="${SHAPEC.d}" fill="#fff"/></mask>
+  <linearGradient id="hs" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".18" stop-color="#fff" stop-opacity=".05"/><stop offset=".34" stop-color="#fff" stop-opacity=".17"/><stop offset=".5" stop-color="#fff" stop-opacity=".36"/><stop offset=".66" stop-color="#fff" stop-opacity=".17"/><stop offset=".82" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><filter id="hsb" x="-50%" y="-10%" width="200%" height="120%"><feGaussianBlur stdDeviation="36 0"/></filter>
+  <mask id="hk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="2000" height="1600"><path d="${SHAPE5.d}" fill="#fff"/></mask>
+  <mask id="hkc" maskUnits="userSpaceOnUse" x="-200" y="-200" width="2000" height="1600"><path transform="translate(${cx} ${SHAPEC.dy})" d="${SHAPEC.d}" fill="#fff"/></mask>
   <mask id="cm" maskUnits="userSpaceOnUse" x="-400" y="-400" width="1700" height="1900"><path class="draw ctrace" pathLength="1" d="M181.8 955.6A554 554 0 0 1 697.5 80.1" stroke="#fff" stroke-width="320" stroke-linecap="round" fill="none"/></mask>
   <filter id="cg" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="38"/></filter></defs>
   ${photo ? '' : `<rect width="${W}" height="${H}" fill="url(#hb)"/>`}
   <g transform="translate(${tx} ${ty}) scale(${sc})">
     <g class="rise5" style="opacity:${photo ? .85 : 1}"><path d="${SHAPE5.d}" fill="url(#hm)"/></g>
+    <g mask="url(#hk)"><g transform="skewX(-45)"><rect class="shine" x="-800" y="-100" width="560" height="1400" fill="url(#hs)" filter="url(#hsb)"/></g></g>
     <g transform="translate(${cx} ${SHAPEC.dy})">
       <g mask="url(#cm)"><path class="cglow" d="${SHAPEC.d}" fill="#ffb347" filter="url(#cg)"/><path class="cforge" d="${SHAPEC.d}" fill="#d86b33" opacity=".95"/></g></g>
-    <g mask="url(#hk)"><g transform="skewX(-45)"><rect class="shine" x="-720" y="-100" width="420" height="1400" fill="url(#hs)" filter="url(#hsb)"/></g></g>
+    <g mask="url(#hkc)"><g transform="skewX(-45)"><rect class="shine shine-c" x="-800" y="-100" width="560" height="1400" fill="url(#hs)" filter="url(#hsb)"/></g></g>
   </g>
   </svg><canvas id="sparks"></canvas>`;
 }
@@ -674,8 +679,9 @@ function descAuto(e){
   return `${shortName(e.nombre)} es una empresa ${e.sector ? 'del ámbito de ' + secl(e).toLowerCase().replace(/^fabricación de /, 'la fabricación de ') : 'del metal'}, con sede en ${e.municipio}. Forma parte de FVEM desde ${e.anio_alta}${pl}.`;
 }
 function descCtx(e){
-  const pl = plOk(e) && e.plantilla > 1 ? `, con una plantilla de ${nf(e.plantilla)} personas` : '';
-  return `Con sede en ${e.municipio}, forma parte de FVEM desde ${e.anio_alta}${pl}.`;
+  const ok = plOk(e) && e.plantilla > 0;
+  if (L === 'eu') return `Egoitza: ${e.municipio}. ${e.anio_alta}az geroztik da FVEMeko bazkidea${ok ? `, eta gaur egun ${nf(e.plantilla)} langile ditu` : ''}.`;
+  return `Con sede en ${e.municipio}, forma parte de FVEM desde ${e.anio_alta}${ok ? `, con una plantilla actual de ${nf(e.plantilla)} ${e.plantilla === 1 ? 'persona' : 'personas'}` : ''}.`;
 }
 function renderFicha(num){
   const e = BYNUM[num]; if (!e) { location.hash = '#/empresas'; return; }
@@ -687,7 +693,7 @@ function renderFicha(num){
   const pend = oldPhoto ? !e.foto_historica : !e.foto, px = y => ((y-FUND)/(ANIV-FUND)*100).toFixed(2);
   const since = e.fecha_alta ? e.fecha_alta + 'T00:00:00+01:00' : `${e.anio_alta}-01-01T00:00:00+01:00`;
   const own = L === 'eu' ? e.descripcion_eu : e.descripcion_es;
-  const desc = own ? (own.length < 150 ? own + ' ' + descCtx(e) : own) : descAuto(e);
+  const desc = own || descCtx(e);
   const frase = (L==='eu' ? e.frase_eu : e.frase_es) || e.frase_es;
   $('#v-ficha').innerHTML = `<section class="lt" style="padding:clamp(28px,4vw,48px) 0 90px"><div class="wrap">
     <div class="crumb"><a href="#/">${t('home')}</a><span>/</span><a href="#/empresas">${t('nav_em')}</a><span>/</span><span>${e.num_asociada}</span></div>
@@ -737,8 +743,9 @@ async function cardPNG(e){
   const F = (w, s) => `${w} ${s}px "Geist", system-ui, sans-serif`;
   const g = x.createRadialGradient(W*.8, H*.25, 50, W*.6, H*.4, W); g.addColorStop(0,'#3b2214'); g.addColorStop(.5,'#121010'); g.addColorStop(1,'#070707'); x.fillStyle = g; x.fillRect(0,0,W,H);
   const mg = x.createLinearGradient(500,0,1080,600); [['#ececec',0],['#7c7c7c',.35],['#dedede',.55],['#6c6c6c',.8],['#b8b8b8',1]].forEach(([c,o])=>mg.addColorStop(o,c));
-  x.beginPath(); x.arc(860, 330, 300, Math.PI*.25, Math.PI*1.75); x.arc(860, 330, 210, Math.PI*1.75, Math.PI*.25, true); x.closePath(); x.fillStyle = mg; x.fill();
-  x.beginPath(); x.arc(860, 330, 170, Math.PI, Math.PI*1.5); x.arc(860, 330, 120, Math.PI*1.5, Math.PI, true); x.closePath(); x.fillStyle = '#d86b33'; x.fill();
+  { const k = .36; x.save(); x.translate(470, 120); x.scale(k, k);
+    const g5 = x.createLinearGradient(0, 0, 900, 1250); [['#ececec',0],['#7c7c7c',.35],['#dedede',.55],['#6c6c6c',.8],['#b8b8b8',1]].forEach(([c,o])=>g5.addColorStop(o,c));
+    x.fillStyle = g5; x.fill(new Path2D(SHAPE5.d)); x.translate(C50_DX, SHAPEC.dy); x.globalAlpha = .95; x.fillStyle = '#d86b33'; x.fill(new Path2D(SHAPEC.d)); x.restore(); }
   x.strokeStyle = '#d86b33'; x.lineWidth = 4; x.beginPath(); x.moveTo(0, 585); x.lineTo(860, 585); x.stroke();
   await new Promise(r => { const im = new Image(); im.onload = () => { const h = 110, w = im.width*h/im.height; x.drawImage(im, 80, 80, w, h); r(); }; im.onerror = r; im.src = LOGO; });
   x.fillStyle = '#b2aca2'; x.font = F(500, 30); x.fillText((L==='eu'?'FVEMEKO BAZKIDEA':'SOCIA DE FVEM DESDE').split('').join(String.fromCharCode(8202)), 80, 720);

@@ -132,7 +132,7 @@ p{margin:0 0 12px}
 .cds .nx{border-top:1px solid rgba(255,255,255,.3);padding:10px 0 12px;font-size:14px}
 .cds .nx a{text-decoration:none}
 .cds .nx a:hover{text-decoration:underline}
-.cds svg.bg{position:absolute;right:-60px;top:-140px;width:420px;height:420px;opacity:.18;pointer-events:none}
+.cds svg.bg{position:absolute;right:-40px;top:-60px;width:380px;height:300px;opacity:.16;pointer-events:none}
 
 /* ---------- events ---------- */
 .evs{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
@@ -445,7 +445,7 @@ a.m:hover,button.m:hover{transform:scale(1.05)}
 .since .cnums b{font-size:clamp(36px,4.4vw,56px)}
 .since .cnums b.c{color:var(--cobre2);font-weight:400}
 .since .cnums span{color:#b2aca2}
-.since svg.d{position:absolute;right:-70px;top:-70px;width:220px;height:220px;opacity:.6}
+.since svg.d{position:absolute;right:-30px;top:-20px;width:230px;height:190px;opacity:.5}
 .facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:24px}
 .facts div{background:var(--card);padding:14px 18px}
 .facts dt{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:600}
@@ -634,6 +634,7 @@ body.nomenu .hd .cta{display:inline-flex}
 
 /* reflejo vertical que recorre el 5 y la C */
 .shine{animation:shine 8s ease-in-out 2.4s infinite}
+.shine-c{animation-delay:2.75s}
 @keyframes shine{0%{transform:translateX(0)}60%,100%{transform:translateX(3700px)}}
 
 /* ficha de empresa: composición de formas (logo, datos, foto) */
