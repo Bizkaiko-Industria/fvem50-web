@@ -590,3 +590,7 @@ body.nomenu .hd .cta{display:inline-flex}
 .ckb-a [data-ck="0"]{background:var(--blanco);color:var(--negro)}
 .ckb-a [data-ck="0"]:hover{background:#fff}
 @media(max-width:640px){.ckb{flex-direction:column;align-items:stretch}.ckb-a .btn{flex:1}}
+
+.pillbtn.fu{height:50px;padding:0 18px;font-weight:600;display:inline-flex;gap:8px;align-items:center}
+.pillbtn.fu[aria-pressed=true]{background:var(--cobre);color:#fff}
+.pillbtn.fu span{opacity:.75;font-weight:500}

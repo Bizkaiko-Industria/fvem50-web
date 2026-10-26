@@ -18,6 +18,13 @@ window.FVEM50 = {
     newsletter: ''   // URL del formulario de alta de vuestra herramienta de newsletter
   },
 
+  // Cifras oficiales para la portada. Si se dejan vacías, se calculan del listado de empresas.
+  cifras: {
+    empresas: 833,
+    plantilla: 34073,
+    nota: { es: 'Empresas asociadas a FVEM a octubre de 2026.', eu: 'FVEMeko enpresa bazkideak, 2026ko urrian.' }
+  },
+
   // Google Analytics 4. Pega aquí el ID de medición (G-XXXXXXXXXX). Vacío = sin analítica y sin aviso de cookies.
   // Con ID, aparece un aviso de cookies y Analytics solo se carga si la persona pulsa «Aceptar».
   analitica: { ga4: '' },

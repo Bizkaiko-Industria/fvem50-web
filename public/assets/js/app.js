@@ -43,9 +43,9 @@ const T = {
   all_z:'Todas las zonas',all_m:'Todos los municipios',all_t:'Cualquier tamaño',all_d:'Cualquier década',t1:'Micro · 1–9',t2:'Pequeña · 10–49',t3:'Mediana · 50–249',t4:'Grande · 250+',dec:'Altas en los ',
   so_az:'Nombre A–Z',so_num:'Nº de asociada',so_pl:'Mayor plantilla',so_new:'Altas más recientes',
   v_grid:'Logos',companies:'empresas',people:'personas',clear:'Limpiar filtros',more:'Ver más',
-  map_h:'Por municipio',map_p:'Pulsa un municipio para filtrar.',by_z:'Por zona',by_s:'Por sector',sea:'Mar Cantábrico',
+  map_h:'Por municipio',map_p:'Pulsa un municipio para filtrar.',bars_p:'Pulsa para filtrar el directorio.',by_z:'Por zona',by_s:'Por sector',sea:'Mar Cantábrico',
   num:'Nº de asociada',since:'Alta',date:'Fecha de alta',pl:'Plantilla',mun:'Municipio',zone:'Zona',sector:'Sector',addr:'Dirección',web:'Web',noweb:'Sin web',route:'Cómo llegar',
-  founder:'Fundadora',founder_l:'Socia fundadora · 1977',with:'años con FVEM',share:'Compartir',card:'Tarjeta',oldnew:'Ayer · Hoy',
+  founder:'Fundadora',founders:'Fundadoras',founder_l:'Empresa fundadora · 1977',with:'años con FVEM',share:'Compartir',card:'Tarjeta',oldnew:'Ayer · Hoy',
   since_k:'Socia de FVEM desde hace',since_s:'Y el contador sigue subiendo.',card_dl:'Descargar tarjeta para redes',
   hist_k:'Su lugar en la historia',hist_t:'En su año de alta ({y}) entraron también otras {n} empresas.',hist_t1:'En su año de alta ({y}) entró también otra empresa.',hist_t0:'Fue la única empresa que entró en {y}.',
   rel_s:'Más empresas del sector',rel_z:'Más empresas de su zona',desc:'Empresa asociada a FVEM desde {y}, con sede en {m}.',qr:'Escanea el QR para visitar su web',prev:'Anterior',next:'Siguiente',back:'Volver al directorio',
@@ -93,9 +93,9 @@ const T = {
   all_z:'Eremu guztiak',all_m:'Udalerri guztiak',all_t:'Edozein tamaina',all_d:'Edozein hamarkada',t1:'Mikroa · 1–9',t2:'Txikia · 10–49',t3:'Ertaina · 50–249',t4:'Handia · 250+',dec:'Altak: ',
   so_az:'Izena A–Z',so_num:'Bazkide-zk.',so_pl:'Langile gehien',so_new:'Alta berrienak',
   v_grid:'Logoak',companies:'enpresa',people:'pertsona',clear:'Garbitu iragazkiak',more:'Gehiago ikusi',
-  map_h:'Udalerrika',map_p:'Sakatu udalerri bat iragazteko.',by_z:'Eremuka',by_s:'Sektoreka',sea:'Kantauri itsasoa',
+  map_h:'Udalerrika',map_p:'Sakatu udalerri bat iragazteko.',bars_p:'Sakatu direktorioa iragazteko.',by_z:'Eremuka',by_s:'Sektoreka',sea:'Kantauri itsasoa',
   num:'Bazkide-zk.',since:'Alta',date:'Alta-data',pl:'Langileak',mun:'Udalerria',zone:'Eremua',sector:'Sektorea',addr:'Helbidea',web:'Webgunea',noweb:'Webgunerik ez',route:'Nola iritsi',
-  founder:'Sortzailea',founder_l:'Bazkide sortzailea · 1977',with:'urte FVEMekin',share:'Partekatu',card:'Txartela',oldnew:'Atzo · Gaur',
+  founder:'Sortzailea',founders:'Sortzaileak',founder_l:'Enpresa sortzailea · 1977',with:'urte FVEMekin',share:'Partekatu',card:'Txartela',oldnew:'Atzo · Gaur',
   since_k:'FVEMeko bazkide duela',since_s:'Eta kontagailuak gora jarraitzen du.',card_dl:'Deskargatu sare sozialetarako txartela',
   hist_k:'Bere lekua historian',hist_t:'Alta-urte berean ({y}) beste {n} enpresa ere sartu ziren.',hist_t1:'Alta-urte berean ({y}) beste enpresa bat ere sartu zen.',hist_t0:'Urte hartan ({y}) sartu zen enpresa bakarra izan zen.',
   rel_s:'Sektore bereko enpresa gehiago',rel_z:'Bere eremuko enpresa gehiago',desc:'FVEMeko enpresa bazkidea {y}az geroztik. Egoitza: {m}.',qr:'Eskaneatu QRa webgunera joateko',prev:'Aurrekoa',next:'Hurrengoa',back:'Itzuli direktoriora',
@@ -198,6 +198,8 @@ const SEC_EU = RAW.sectores_eu || {};
 const BYNUM = Object.fromEntries(ALL.map(e => [e.num_asociada, e]));
 const zn = z => L === 'eu' ? String(z).replace(/^zona\s*(\d+)$/i, '$1. eremua') : z;
 const secn = s => L === 'eu' ? (SEC_EU[s] || s) : s;
+const SECL_EU = RAW.sectores_largo_eu || {};
+const secl = e => e.sector_largo ? (L === 'eu' ? (SECL_EU[e.sector_largo] || e.sector_largo) : e.sector_largo) : grp(e);
 const grp = e => e.sector ? secn(e.sector) : zn(e.zona);
 const plOk = e => typeof e.plantilla === 'number';
 const shortName = n => n.replace(/,\s*(S\.?\s?(?:L|A)\.?\s?(?:L|U)?\.?|S\.?\s?COOP\.?)(?=\s*(?:-|$))/i, '').trim();
@@ -206,12 +208,14 @@ const eAddr = e => [e.direccion, [e.cp, e.municipio].filter(Boolean).join(' '), 
 const STOP = new Set(['y','de','del','la','el','s.l.','s.a.','grupo','talleres','industrias','cia.,']);
 const initials = n => { const w = shortName(n).replace(/[.,]/g,' ').split(/\s+/).filter(x => x && !STOP.has(x.toLowerCase())); return (w.length > 1 ? w[0][0] + w[1][0] : (w[0]||n).slice(0,2)).toUpperCase(); };
 function mono(e, star){
-  const s = hash(e.nombre) % 4, st = star && e.anio_alta === FUND ? `<span class="star">★</span>` : '';
+  const s = hash(e.nombre) % 4, st = star && isF(e) ? `<span class="star">★</span>` : '';
   if (e.logo) return `<span class="mono s2"><img alt="" loading="lazy" src="${esc(e.logo)}">${st}</span>`;
   return `<span class="mono s${s}" aria-hidden="true"><span>${esc(initials(e.nombre))}</span>${st}</span>`;
 }
 const yrsWith = e => (e.anio_baja || ANIV) - e.anio_alta;
-const S = { emp: ALL.length, pl: ALL.reduce((a,e)=>a+(e.plantilla||0),0), mun: new Set(ALL.map(e=>e.municipio)).size };
+const isF = e => e.fundadora != null ? !!e.fundadora : e.anio_alta === FUND;
+const CIF = C.cifras || {};
+const S = { emp: CIF.empresas || ALL.length, pl: CIF.plantilla || ALL.reduce((a,e)=>a+(e.plantilla||0),0), mun: new Set(ALL.map(e=>e.municipio)).size, fun: ALL.filter(isF).length };
 const PERY = {}; ALL.forEach(e => (PERY[e.anio_alta] = PERY[e.anio_alta] || []).push(e));
 const IDX = ALL.map(e => ({e, s: norm([e.nombre, e.municipio, e.zona, e.cp, e.direccion, e.sector, e.num_asociada, +e.num_asociada].join(' '))}));
 function search(q){ const w = norm(q).trim().split(/\s+/).filter(Boolean); if (!w.length) return ALL.slice(); return IDX.filter(x => w.every(p => x.s.includes(p))).map(x => x.e); }
@@ -396,7 +400,7 @@ function renderHome(){
       <div class="stat"><b class="num" data-count="${S.mun}">0</b><span>${t('st_mun')}</span></div>
       <div class="stat"><b class="num c" data-count="50">0</b><span>${t('st_y')}</span></div>
     </div>
-    <p class="mut" style="font-size:13px;margin-top:16px;color:var(--mut)">${t('st_note')}</p>` : ''}
+    ${tx(CIF.nota) ? `<p class="mut" style="font-size:13px;margin-top:16px;color:var(--mut)">${esc(tx(CIF.nota))}</p>` : ''}` : ''}
     ${SEC.buscador ? `<div style="margin-top:${SEC.cifras?80:0}px"><div class="shead" style="margin-bottom:22px"><h3 style="font-size:clamp(26px,3vw,38px)">${t('se_h')}</h3><a class="more-link" href="#/empresas">${t('em_all')} ${I('arrow')}</a></div>
       <div class="sbox"><div class="f">${I('search')}<input id="hq" type="search" autocomplete="off" placeholder="${t('se_ph')}" aria-label="${t('se_h')}"></div><div class="drop" id="hdrop" hidden></div></div>
       <div class="marq"><div class="tr">${[...marq, ...marq].map(e => `<a href="#/empresas/${e.num_asociada}">${mono(e)}${esc(shortName(e.nombre))}</a>`).join('')}</div></div>
@@ -548,7 +552,7 @@ function renderPrograma(){
 /* =====================================================================
    EMPRESAS
    ===================================================================== */
-const F = {q:'', s:'', z:'', m:'', t:'', d:'', so:'az', view:'grid', n:60};
+const F = {q:'', s:'', z:'', m:'', t:'', d:'', fu:false, so:'az', view:'grid', n:60};
 const SIZES = [[1,9],[10,49],[50,249],[250,1e9]], DECS = [1970,1980,1990,2000,2010,2020];
 const uniq = k => [...new Set(ALL.map(e=>e[k]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
 function filtered(){
@@ -556,6 +560,7 @@ function filtered(){
   if (F.s) r = r.filter(e=>e.sector===F.s); if (F.z) r = r.filter(e=>e.zona===F.z); if (F.m) r = r.filter(e=>e.municipio===F.m);
   if (F.t) { const [a,b] = SIZES[F.t-1]; r = r.filter(e=>plOk(e)&&e.plantilla>=a&&e.plantilla<=b); }
   if (F.d) r = r.filter(e=>e.anio_alta>=+F.d && e.anio_alta<+F.d+10);
+  if (F.fu) r = r.filter(isF);
   const so = {num:(a,b)=>a.num_asociada.localeCompare(b.num_asociada), az:(a,b)=>a.nombre.localeCompare(b.nombre,'es'), pl:(a,b)=>(b.plantilla??-1)-(a.plantilla??-1), new:(a,b)=>b.anio_alta-a.anio_alta};
   return r.sort(so[F.so]);
 }
@@ -571,6 +576,7 @@ function renderEmpresas(){
       <div class="sel"><select data-f="m">${opt('',t('all_m'))}${uniq('municipio').map(s=>opt(s,s,F.m===s)).join('')}</select></div>
       <div class="sel"><select data-f="t">${opt('',t('all_t'))}${[1,2,3,4].map(i=>opt(i,t('t'+i),F.t==i)).join('')}</select></div>
       <div class="sel"><select data-f="d">${opt('',t('all_d'))}${DECS.map(d=>opt(d,t('dec')+(d===1970?'70':String(d).slice(2)),F.d==d)).join('')}</select></div>
+      ${S.fun ? `<button class="pillbtn fu" id="ffu" aria-pressed="${F.fu}">★ ${t('founders')} <span class="num">${nf(S.fun)}</span></button>` : ''}
     </div>
     <div class="meta"><div class="cnt" id="cnt"></div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="clear" id="clr">${t('clear')}</button>
@@ -581,12 +587,13 @@ function renderEmpresas(){
   </div></section>
   <section class="dk pad"><div class="wrap"><div class="eyebrow">Bizkaia</div><div class="rule"></div><h2 class="h2">${t('map_h')}</h2>
     <div class="mapg"><div class="panel"><p class="s">${t('map_p')}</p><div class="map" id="map"><span class="sea">${t('sea')}</span></div></div>
-    <div class="panel"><h3>${HAS_SEC?t('by_s'):t('by_z')}</h3><p class="s">${t('map_p')}</p><div class="bars" id="bars"></div></div></div>
+    <div class="panel"><h3>${HAS_SEC?t('by_s'):t('by_z')}</h3><p class="s">${t('bars_p')}</p><div class="bars" id="bars"></div></div></div>
   </div></section>`;
   const r = $('#v-empresas');
   $('#dq').oninput = ev => { F.q = ev.target.value; drawDir(true); };
   $$('select[data-f]', r).forEach(s => s.onchange = () => { F[s.dataset.f] = s.value; drawDir(true); drawMap(); drawBars(); });
-  $('#clr').onclick = () => { Object.assign(F,{q:'',s:'',z:'',m:'',t:'',d:''}); renderEmpresas(); };
+  $('#clr').onclick = () => { Object.assign(F,{q:'',s:'',z:'',m:'',t:'',d:'',fu:false}); renderEmpresas(); };
+  if ($('#ffu')) $('#ffu').onclick = () => { F.fu = !F.fu; $('#ffu').setAttribute('aria-pressed', F.fu); drawDir(true); };
   $$('[data-view]', r).forEach(b => b.onclick = () => { F.view = b.dataset.view; $$('[data-view]', r).forEach(x=>x.setAttribute('aria-pressed', x===b)); drawDir(true); });
   $('#more').onclick = () => { F.n += 60; drawDir(); };
   drawDir(true); drawMap(); drawBars();
@@ -595,12 +602,12 @@ function drawDir(reset){
   if (reset) F.n = 60;
   const r = LAST = filtered(), shown = r.slice(0, F.n), res = $('#res');
   $$('#v-empresas select[data-f]').forEach(s => { if (s.dataset.f !== 'so') s.classList.toggle('on', !!s.value); });
-  $('#clr').hidden = !(F.q||F.s||F.z||F.m||F.t||F.d);
+  $('#clr').hidden = !(F.q||F.s||F.z||F.m||F.t||F.d||F.fu);
   $('#cnt').innerHTML = `<b class="num">${nf(r.length)}</b> ${t('companies')} · <span class="num">${nf(r.reduce((a,e)=>a+(e.plantilla||0),0))}</span> ${t('people')}`;
   if (!r.length) { res.innerHTML = `<p class="mut" style="text-align:center;padding:40px 0;color:var(--mut)">${t('se_none')}</p>`; $('#more').hidden = true; return; }
   res.innerHTML = F.view === 'grid'
     ? `<div class="cards">${shown.map((e,i)=>`<a class="card" href="#/empresas/${e.num_asociada}" style="animation-delay:${Math.min(i,30)*15}ms">${mono(e,true)}<span class="nm">${esc(shortName(e.nombre))}</span><span class="sub">${esc(e.municipio)} · ${esc(grp(e))}</span>
-        <span class="tags"><span class="chip ${e.anio_alta===FUND?'c':'o'} num">${t('since')} ${e.anio_alta}</span>${plOk(e)?`<span class="chip num">${nf(e.plantilla)} ${L==='es'?'pers.':'pert.'}</span>`:''}</span></a>`).join('')}</div>`
+        <span class="tags"><span class="chip ${isF(e)?'c':'o'} num">${t('since')} ${e.anio_alta}</span>${plOk(e)?`<span class="chip num">${nf(e.plantilla)} ${L==='es'?'pers.':'pert.'}</span>`:''}</span></a>`).join('')}</div>`
     : `<table class="list"><thead><tr><th>${t('num')}</th><th>${L==='es'?'Empresa':'Enpresa'}</th><th class="hm">${t('zone')}</th><th class="hm">${t('mun')}</th><th class="r">${t('since')}</th><th class="r">${t('pl')}</th></tr></thead><tbody>
       ${shown.map(e=>`<tr data-n="${e.num_asociada}"><td class="num">${e.num_asociada}</td><td><span class="n">${mono(e)}<a href="#/empresas/${e.num_asociada}" style="text-decoration:none">${esc(shortName(e.nombre))}</a></span></td><td class="hm">${esc(zn(e.zona))}</td><td class="hm">${esc(e.municipio)}</td><td class="r num">${e.anio_alta}</td><td class="r num">${plOk(e)?nf(e.plantilla):'—'}</td></tr>`).join('')}</tbody></table>`;
   $$('tr[data-n]', res).forEach(tr => tr.onclick = () => location.hash = '#/empresas/' + tr.dataset.n);
@@ -611,9 +618,10 @@ const GEO = {bilbao:[43.263,-2.935],barakaldo:[43.297,-2.989],sestao:[43.309,-3.
  getxo:[43.356,-3.012],leioa:[43.328,-2.987],erandio:[43.304,-2.973],berango:[43.364,-2.995],sopela:[43.380,-2.983],barrika:[43.401,-2.966],plentzia:[43.405,-2.945],gorliz:[43.415,-2.940],urduliz:[43.377,-2.960],derio:[43.293,-2.884],zamudio:[43.284,-2.866],lezama:[43.274,-2.834],loiu:[43.312,-2.937],sondika:[43.300,-2.926],
  larrabetzu:[43.262,-2.796],mungia:[43.355,-2.846],gamizfika:[43.317,-2.808],galdakao:[43.231,-2.843],basauri:[43.237,-2.886],etxebarri:[43.247,-2.889],arrigorriaga:[43.206,-2.888],zaratamo:[43.212,-2.869],ugaomiraballes:[43.181,-2.906],bedia:[43.209,-2.800],lemoa:[43.211,-2.775],igorre:[43.166,-2.776],
  orozko:[43.104,-2.910],arrankudiaga:[43.174,-2.917],amorebietaetxano:[43.220,-2.733],durango:[43.170,-2.631],iurreta:[43.178,-2.633],abadino:[43.153,-2.606],berriz:[43.175,-2.575],atxondo:[43.130,-2.586],elorrio:[43.130,-2.541],zaldibar:[43.170,-2.546],manaria:[43.137,-2.661],ermua:[43.187,-2.502],mallabia:[43.190,-2.528],
- garai:[43.193,-2.611],izurtza:[43.155,-2.640],markinaxemein:[43.267,-2.497],ondarroa:[43.321,-2.420],lekeitio:[43.363,-2.505],gernikalumo:[43.316,-2.678],bermeo:[43.420,-2.722],muxika:[43.287,-2.687],ajangiz:[43.300,-2.660],balmaseda:[43.193,-3.193],zalla:[43.214,-3.135],gueenes:[43.212,-3.096],sopuerta:[43.264,-3.152],
+ garai:[43.193,-2.611],izurtza:[43.155,-2.640],markinaxemein:[43.267,-2.497],ondarroa:[43.321,-2.420],lekeitio:[43.363,-2.505],gernikalumo:[43.316,-2.678],bermeo:[43.420,-2.722],muxika:[43.287,-2.687],ajangiz:[43.300,-2.660],balmaseda:[43.193,-3.193],zalla:[43.214,-3.135],gueenes:[43.212,-3.096],guenes:[43.212,-3.096],sopuerta:[43.264,-3.152],
  gordexola:[43.180,-3.075],alonsotegi:[43.244,-2.987],karrantza:[43.240,-3.370],fruiz:[43.330,-2.786],menaka:[43.364,-2.802],gatika:[43.363,-2.882],laukiz:[43.346,-2.903],lemoiz:[43.416,-2.909],maruri:[43.383,-2.866],mundaka:[43.407,-2.698],busturia:[43.384,-2.698],dima:[43.103,-2.722],zeanuri:[43.099,-2.750],areatza:[43.121,-2.770],
- artea:[43.135,-2.780],berriatua:[43.310,-2.464],etxebarria:[43.252,-2.477]};
+ artea:[43.135,-2.780],berriatua:[43.310,-2.464],etxebarria:[43.252,-2.477],galdames:[43.255,-3.098],murueta:[43.354,-2.683],laudiollodio:[43.143,-2.962],
+ urdunaorduna:[42.994,-3.009],usansolo:[43.219,-2.818]};
 const gkey = m => norm(m).replace(/[^a-z]/g,'');
 function drawMap(){
   const m = $('#map'); if (!m) return; m.querySelectorAll('.mb').forEach(x=>x.remove());
@@ -625,10 +633,10 @@ function drawMap(){
   const proj = ([la,lo]) => [100*(lo-BB.lo0)/(BB.lo1-BB.lo0), 100*(BB.la1-la)/(BB.la1-BB.la0)];
   const cnt = {}; ALL.forEach(e => { if (e.municipio) cnt[e.municipio] = (cnt[e.municipio]||0)+1; });
   const pos = mu => { const g = GEO[gkey(mu)]; return g ? proj(g) : [50,50]; };
-  const arr = Object.entries(cnt).sort((a,b)=>b[1]-a[1]), max = arr[0]?.[1] || 1, dia = n => 2.6 + 7.5*Math.sqrt(n/max);
+  const arr = Object.entries(cnt).sort((a,b)=>b[1]-a[1]), max = arr[0]?.[1] || 1, dia = n => 1.6 + 5.2*Math.sqrt(n/max);
   arr.slice().reverse().forEach(([mu,n],i) => { const [x,y] = pos(mu), d = dia(n), b = document.createElement('button');
     b.className = 'mb' + (F.m===mu?' on':''); b.dataset.mu = mu; b.style.cssText = `left:${x}%;top:${y}%;width:${d}cqw;height:${d}cqw;animation-delay:${i*40}ms`;
-    b.title = `${mu} · ${n}`; b.innerHTML = (d > 4.2 ? `<b class="num">${n}</b>` : '') + `<span class="ml">${esc(mu)}</span>`; b.onclick = () => filterGo('m', mu); m.appendChild(b); });
+    b.title = `${mu} · ${n}`; b.innerHTML = (d > 3.4 ? `<b class="num">${n}</b>` : '') + `<span class="ml">${esc(mu)}</span>`; b.onclick = () => filterGo('m', mu); m.appendChild(b); });
   const placed = arr.map(([mu,n]) => { const [x,y] = pos(mu), r = dia(n)/200*W; return [x/100*W-r, y/100*H-r, x/100*W+r, y/100*H+r]; });
   arr.forEach(([mu,n]) => { const [x,y] = pos(mu), d = dia(n)/100*W, lw = mu.length*6.6+6, cx = x/100*W, cy = y/100*H + d/2 + 4, box = [cx-lw/2, cy, cx+lw/2, cy+15];
     const hit = placed.some(p => !(box[2]<p[0]||box[0]>p[2]||box[3]<p[1]||box[1]>p[3])) || box[0] < 0 || box[2] > W || box[3] > H;
@@ -661,7 +669,7 @@ function renderFicha(num){
       <div class="fxl"><div class="bw"><div class="bg">
         <div class="m f-nm${e.nombre.length>34?' long':''}" style="--i:0">${esc(e.nombre)}</div>
         <div class="m f-num" style="--i:1"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" stroke="#333"/><circle cx="50" cy="50" r="48" stroke="#d86b33" stroke-width="2.4" stroke-dasharray="${(C2*frac).toFixed(1)} ${C2.toFixed(1)}" stroke-linecap="round"/></svg>
-          <span class="l">${t('num')}</span><span class="v num">${e.num_asociada}</span><span class="l2">${e.anio_alta===FUND?'★ '+t('founder'):yrs+' '+t('with')}</span></div>
+          <span class="l">${t('num')}</span><span class="v num">${e.num_asociada}</span><span class="l2">${isF(e)?'★ '+t('founder'):yrs+' '+t('with')}</span></div>
         <div class="m cu q1" style="--i:2;grid-column:3;grid-row:2"><span class="l">${e.sector?t('sector'):t('zone')}</span><span class="v s">${esc(grp(e))}</span></div>
         <div class="m" style="--i:3;grid-column:4;grid-row:2"><span class="l">${t('pl')}</span><span class="v num">${plOk(e)?nf(e.plantilla):'—'}</span></div>
         <div class="m mt q3" style="--i:4;grid-column:3;grid-row:3"><span class="l">${t('mun')}</span><span class="v s">${esc(e.municipio)}</span></div>
@@ -681,7 +689,7 @@ function renderFicha(num){
         ${e.web?`<a class="m wt" style="--i:17;grid-column:4;grid-row:8" href="${esc(e.web)}" target="_blank" rel="noopener" aria-label="QR"><span class="qr">${qrSVG(e.web)}</span></a>`:`<div class="m ol" style="--i:17;grid-column:4;grid-row:8"><span class="l">${t('noweb')}</span></div>`}
       </div></div>${e.web?`<div class="qrcap">${t('qr')}</div>`:''}</div>
       <div class="fxr">
-        <div class="badges">${e.anio_alta===FUND?`<span class="chip c">★ ${t('founder_l')}</span>`:''}<span class="chip o">${esc(zn(e.zona))}</span><span class="chip o">${esc(e.municipio)}</span></div>
+        <div class="badges">${isF(e)?`<span class="chip c">★ ${t('founder_l')}</span>`:''}<span class="chip o">${esc(zn(e.zona))}</span><span class="chip o">${esc(e.municipio)}</span></div>
         <h1>${esc(shortName(e.nombre))}</h1>
         <p class="lead">${esc(desc)}</p>
         <div class="since">${deco('d',30)}<div class="eyebrow">${t('since_k')}</div>${cdHTML(since, true)}<p style="margin:0;color:#b2aca2;font-size:14.5px">${t('since_s')}</p>
@@ -691,7 +699,8 @@ function renderFicha(num){
           <div><dt>${t('num')}</dt><dd class="num">${e.num_asociada}</dd></div>
           <div><dt>${e.fecha_alta?t('date'):t('since')}</dt><dd class="num">${e.fecha_alta?fDate(e.fecha_alta):e.anio_alta}</dd></div>
           <div><dt>${t('pl')}</dt><dd class="num">${plOk(e)?nf(e.plantilla)+' '+t('people'):'—'}</dd></div>
-          <div><dt>${e.sector?t('sector'):t('zone')}</dt><dd>${esc(grp(e))}</dd></div>
+          <div><dt>${e.sector?t('sector'):t('zone')}</dt><dd>${esc(e.sector?secl(e):grp(e))}</dd></div>
+          ${e.sector?`<div><dt>${t('zone')}</dt><dd>${esc(zn(e.zona))}</dd></div><div><dt>${t('mun')}</dt><dd>${esc(e.municipio)}</dd></div>`:''}
           ${e.direccion?`<div class="w"><dt>${t('addr')}</dt><dd>${esc(e.direccion)}, ${esc(e.cp)} ${esc(e.municipio)} · <a href="${maps(eAddr(e))}" target="_blank" rel="noopener" class="acc">${t('route')} ↗</a></dd></div>`:''}
           ${e.web?`<div class="w"><dt>${t('web')}</dt><dd><a href="${esc(e.web)}" target="_blank" rel="noopener">${esc(e.web.replace(/^https?:\/\//,''))}</a></dd></div>`:''}
         </dl>
