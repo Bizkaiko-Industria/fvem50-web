@@ -209,7 +209,7 @@ const STOP = new Set(['y','de','del','la','el','s.l.','s.a.','grupo','talleres',
 const initials = n => { const w = shortName(n).replace(/[.,]/g,' ').split(/\s+/).filter(x => x && !STOP.has(x.toLowerCase())); return (w.length > 1 ? w[0][0] + w[1][0] : (w[0]||n).slice(0,2)).toUpperCase(); };
 function mono(e, star){
   const s = hash(e.nombre) % 4, st = star && isF(e) ? `<span class="star">★</span>` : '';
-  if (e.logo) return `<span class="mono s2"><img alt="" loading="lazy" src="${esc(e.logo)}">${st}</span>`;
+  if (e.logo) return `<span class="mono lg${e.logo_fondo === 'oscuro' ? ' dk' : ''}"><img alt="${esc(shortName(e.nombre))}" loading="lazy" decoding="async" src="${esc(e.logo)}" onerror="this.parentNode.classList.add('err');this.remove()"><span>${esc(initials(e.nombre))}</span>${st}</span>`;
   return `<span class="mono s${s}" aria-hidden="true"><span>${esc(initials(e.nombre))}</span>${st}</span>`;
 }
 const yrsWith = e => (e.anio_baja || ANIV) - e.anio_alta;
@@ -687,7 +687,7 @@ function renderFicha(num){
         <button class="m" style="--i:11;grid-column:1;grid-row:6" id="fsh">${I('share')}<span class="l">${t('share')}</span></button>
         <button class="m${oldPhoto?' cu':' mt'}" style="--i:12;grid-column:1;grid-row:7" id="fold" aria-pressed="${oldPhoto}">${I('clock')}<span class="l">${t('oldnew')}</span></button>
         <div class="m f-ph${oldPhoto?' old':''}" style="--i:13">${ph}${pend?`<span class="tg">${t('ph_pend')}</span>`:''}</div>
-        <div class="m wt" style="--i:14;grid-column:1;grid-row:8">${e.logo?`<img alt="Logo" src="${esc(e.logo)}" style="width:70%;height:70%;object-fit:contain">`:mono(e)}</div>
+        <div class="m ${e.logo && e.logo_fondo === 'oscuro' ? '' : 'wt'}" style="--i:14;grid-column:1;grid-row:8">${mono(e)}</div>
         <a class="m ol" style="--i:15;grid-column:2;grid-row:8" href="#/empresas/${prev.num_asociada}" aria-label="${t('prev')}">${I('left')}</a>
         <a class="m ol" style="--i:16;grid-column:3;grid-row:8" href="#/empresas/${next.num_asociada}" aria-label="${t('next')}">${I('right')}</a>
         ${e.web?`<a class="m wt" style="--i:17;grid-column:4;grid-row:8" href="${esc(e.web)}" target="_blank" rel="noopener" aria-label="QR"><span class="qr">${qrSVG(e.web)}</span></a>`:`<div class="m ol" style="--i:17;grid-column:4;grid-row:8"><span class="l">${t('noweb')}</span></div>`}
