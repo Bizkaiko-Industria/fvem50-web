@@ -18,6 +18,9 @@ window.FVEM50 = {
     newsletter: ''   // URL del formulario de alta de vuestra herramienta de newsletter
   },
 
+  // Banda de logos de empresas en la portada (filas alternando sentido, empresas al azar sin repetirse)
+  marquesina: { filas: 2, empresasPorFila: 30, segundosPorEmpresa: 2.6 },   // filas: de 1 a 6
+
   // Cifras oficiales para la portada. Si se dejan vacías, se calculan del listado de empresas.
   cifras: {
     empresas: 833,

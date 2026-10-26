@@ -372,7 +372,11 @@ function renderHome(){
   const v = currentVideo(), mob = matchMedia('(max-width:700px)').matches, src = (mob && v.mp4Movil) || v.mp4;
   const up = upcoming().slice(0, 3);
   const lineYears = [1977, 1987, 1997, 2007, 2017, 2027];
-  const marq = ALL.slice().sort(()=>Math.random()-.5).slice(0, 40);
+  // Banda de empresas: N filas, cada una en un sentido, empresas al azar y sin repetirse entre filas
+  const MQ = Object.assign({ filas: 2, empresasPorFila: 30, segundosPorEmpresa: 2.6 }, C.marquesina || {});
+  const pool = ALL.slice(); for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+  const rows = Array.from({ length: Math.max(1, Math.min(6, MQ.filas)) }, (_, i) => pool.slice(i * MQ.empresasPorFila, (i + 1) * MQ.empresasPorFila)).filter(rw => rw.length >= 6);
+  const mqItem = (e, dup) => `<a href="#/empresas/${e.num_asociada}"${dup ? ' tabindex="-1" aria-hidden="true"' : ''}>${mono(e)}${esc(shortName(e.nombre))}</a>`;
   const vb = videoBlock();
   $('#v-home').innerHTML = `
   <section class="hero-seq dk" id="hseq"${vb ? '' : ' data-novideo'}>
@@ -407,7 +411,7 @@ function renderHome(){
     ${tx(CIF.nota) ? `<p class="mut" style="font-size:13px;margin-top:16px;color:var(--mut)">${esc(tx(CIF.nota))}</p>` : ''}` : ''}
     ${SEC.buscador ? `<div style="margin-top:${SEC.cifras?80:0}px"><div class="shead" style="margin-bottom:22px"><h3 style="font-size:clamp(26px,3vw,38px)">${t('se_h')}</h3><a class="more-link" href="#/empresas">${t('em_all')} ${I('arrow')}</a></div>
       <div class="sbox"><div class="f">${I('search')}<input id="hq" type="search" autocomplete="off" placeholder="${t('se_ph')}" aria-label="${t('se_h')}"></div><div class="drop" id="hdrop" hidden></div></div>
-      <div class="marq"><div class="tr">${[...marq, ...marq].map(e => `<a href="#/empresas/${e.num_asociada}">${mono(e)}${esc(shortName(e.nombre))}</a>`).join('')}</div></div>
+      <div class="marqs">${rows.map((rw, i) => `<div class="marq${i % 2 ? ' rev' : ''}"><div class="tr" style="--dur:${Math.round(rw.length * MQ.segundosPorEmpresa)}s">${rw.map(e => mqItem(e)).join('')}${rw.map(e => mqItem(e, true)).join('')}</div></div>`).join('')}</div>
     </div>` : ''}
   </div></section>` : ''}
   ${SEC.historia ? `<section class="dk pad"><div class="wrap hs">
