@@ -46,7 +46,7 @@ const T = {
   map_h:'Por municipio',map_p:'Pulsa un municipio para filtrar.',bars_p:'Pulsa para filtrar el directorio.',by_z:'Por zona',by_s:'Por sector',sea:'Mar Cantábrico',
   num:'Nº de asociada',since:'Alta',date:'Fecha de alta',pl:'Plantilla',mun:'Municipio',zone:'Zona',sector:'Sector',addr:'Dirección',web:'Web',noweb:'Sin web',route:'Cómo llegar',
   founder:'Fundadora',founders:'Fundadoras',founder_l:'Empresa fundadora · 1977',with:'años con FVEM',share:'Compartir',card:'Tarjeta',oldnew:'Ayer · Hoy',
-  since_k:'Socia de FVEM desde hace',since_s:'Y el contador sigue subiendo.',card_dl:'Descargar tarjeta para redes',
+  since_k:'Socia de FVEM desde hace',since_l:'Asociada desde',since_s:'Y el contador sigue subiendo.',card_dl:'Descargar tarjeta para redes',
   hist_k:'Su lugar en la historia',hist_t:'En su año de alta ({y}) entraron también otras {n} empresas.',hist_t1:'En su año de alta ({y}) entró también otra empresa.',hist_t0:'Fue la única empresa que entró en {y}.',
   rel_s:'Más empresas del sector',rel_z:'Más empresas de su zona',desc:'Empresa asociada a FVEM desde {y}, con sede en {m}.',qr:'Escanea el QR para visitar su web',prev:'Anterior',next:'Siguiente',back:'Volver al directorio',
   hs_p:'Altas de las actuales asociadas, año a año, desde la fundación de FVEM.',born_h:'¿Quién entró el año que naciste?',born_l:'Mueve el selector o pulsa una barra',joined:'entraron ese año',joined1:'entró ese año',
@@ -96,7 +96,7 @@ const T = {
   map_h:'Udalerrika',map_p:'Sakatu udalerri bat iragazteko.',bars_p:'Sakatu direktorioa iragazteko.',by_z:'Eremuka',by_s:'Sektoreka',sea:'Kantauri itsasoa',
   num:'Bazkide-zk.',since:'Alta',date:'Alta-data',pl:'Langileak',mun:'Udalerria',zone:'Eremua',sector:'Sektorea',addr:'Helbidea',web:'Webgunea',noweb:'Webgunerik ez',route:'Nola iritsi',
   founder:'Sortzailea',founders:'Sortzaileak',founder_l:'Enpresa sortzailea · 1977',with:'urte FVEMekin',share:'Partekatu',card:'Txartela',oldnew:'Atzo · Gaur',
-  since_k:'FVEMeko bazkide duela',since_s:'Eta kontagailuak gora jarraitzen du.',card_dl:'Deskargatu sare sozialetarako txartela',
+  since_k:'FVEMeko bazkide duela',since_l:'Bazkide noiztik',since_s:'Eta kontagailuak gora jarraitzen du.',card_dl:'Deskargatu sare sozialetarako txartela',
   hist_k:'Bere lekua historian',hist_t:'Alta-urte berean ({y}) beste {n} enpresa ere sartu ziren.',hist_t1:'Alta-urte berean ({y}) beste enpresa bat ere sartu zen.',hist_t0:'Urte hartan ({y}) sartu zen enpresa bakarra izan zen.',
   rel_s:'Sektore bereko enpresa gehiago',rel_z:'Bere eremuko enpresa gehiago',desc:'FVEMeko enpresa bazkidea {y}az geroztik. Egoitza: {m}.',qr:'Eskaneatu QRa webgunera joateko',prev:'Aurrekoa',next:'Hurrengoa',back:'Itzuli direktoriora',
   hs_p:'Egungo bazkideen altak, urtez urte, FVEM sortu zenetik.',born_h:'Nor sartu zen jaio zinen urtean?',born_l:'Mugitu hautatzailea edo sakatu barra bat',joined:'sartu ziren urte hartan',joined1:'sartu zen urte hartan',
@@ -667,6 +667,12 @@ function drawBars(){
 
 /* ---------- ficha ---------- */
 let oldPhoto = false;
+function goFilter(k, v){ Object.assign(F, {q:'', s:'', z:'', m:'', t:'', d:'', fu:false}); F[k] = k === 'fu' ? true : v; LAST = []; location.hash = '#/empresas'; setTimeout(() => { const c = $('#v-empresas .ctr'); if (c) c.scrollIntoView({block:'start'}); }, 60); }
+function descAuto(e){
+  const pl = plOk(e) && e.plantilla > 1 ? (L === 'eu' ? ` eta ${nf(e.plantilla)} pertsonako plantilla du` : ` y cuenta con una plantilla de ${nf(e.plantilla)} personas`) : '';
+  if (L === 'eu') return `${shortName(e.nombre)} ${e.sector ? secl(e).toLowerCase() + ' arloko enpresa da' : 'enpresa da'}, ${e.municipio}n egoitza duena. ${e.anio_alta}az geroztik da FVEMeko bazkidea${pl}.`;
+  return `${shortName(e.nombre)} es una empresa ${e.sector ? 'del ámbito de ' + secl(e).toLowerCase().replace(/^fabricación de /, 'la fabricación de ') : 'del metal'}, con sede en ${e.municipio}. Forma parte de FVEM desde ${e.anio_alta}${pl}.`;
+}
 function renderFicha(num){
   const e = BYNUM[num]; if (!e) { location.hash = '#/empresas'; return; }
   const list = LAST.length && LAST.includes(e) ? LAST : ALL.slice().sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')); const i = list.indexOf(e);
@@ -676,39 +682,32 @@ function renderFicha(num){
   const ph = oldPhoto ? (e.foto_historica ? `<img alt="" src="${esc(e.foto_historica)}">` : factory(e.nombre, true)) : (e.foto ? `<img alt="" src="${esc(e.foto)}">` : factory(e.nombre, false));
   const pend = oldPhoto ? !e.foto_historica : !e.foto, px = y => ((y-FUND)/(ANIV-FUND)*100).toFixed(2);
   const since = e.fecha_alta ? e.fecha_alta + 'T00:00:00+01:00' : `${e.anio_alta}-01-01T00:00:00+01:00`;
-  const desc = (L==='eu' ? e.descripcion_eu : e.descripcion_es) || e.descripcion_es || t('desc',{y:e.anio_alta, m:e.municipio});
+  const desc = (L==='eu' ? e.descripcion_eu : e.descripcion_es) || (L==='eu' ? '' : e.descripcion_es) || descAuto(e);
   const frase = (L==='eu' ? e.frase_eu : e.frase_es) || e.frase_es;
   $('#v-ficha').innerHTML = `<section class="lt" style="padding:clamp(28px,4vw,48px) 0 90px"><div class="wrap">
     <div class="crumb"><a href="#/">${t('home')}</a><span>/</span><a href="#/empresas">${t('nav_em')}</a><span>/</span><span>${e.num_asociada}</span></div>
     <div class="fx">
-      <div class="fxl"><div class="bw"><div class="bg">
-        <div class="m f-nm${e.nombre.length>34?' long':''}" style="--i:0">${esc(e.nombre)}</div>
-        <div class="m f-num" style="--i:1"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" stroke="#333"/><circle cx="50" cy="50" r="48" stroke="#d86b33" stroke-width="2.4" stroke-dasharray="${(C2*frac).toFixed(1)} ${C2.toFixed(1)}" stroke-linecap="round"/></svg>
-          <span class="l">${t('num')}</span><span class="v num">${e.num_asociada}</span><span class="l2">${isF(e)?'★ '+t('founder'):yrs+' '+t('with')}</span></div>
-        <div class="m cu q1" style="--i:2;grid-column:3;grid-row:2"><span class="l">${e.sector?t('sector'):t('zone')}</span><span class="v s">${esc(grp(e))}</span></div>
-        <div class="m" style="--i:3;grid-column:4;grid-row:2"><span class="l">${t('pl')}</span><span class="v num">${plOk(e)?nf(e.plantilla):'—'}</span></div>
-        <div class="m mt q3" style="--i:4;grid-column:3;grid-row:3"><span class="l">${t('mun')}</span><span class="v s">${esc(e.municipio)}</span></div>
-        <div class="m cu" style="--i:5;grid-column:4;grid-row:3"><span class="l">${t('years')}</span><span class="v num">${yrs}</span></div>
-        <div class="m yr num" style="--i:6;grid-column:1;grid-row:4">${e.anio_alta}</div>
-        <div class="m ol" style="--i:7;grid-column:2;grid-row:4"><span style="width:16%;height:16%;border-radius:50%;background:var(--cobre)"></span></div>
-        <div class="m ol" style="--i:8;grid-column:3;grid-row:4"><span style="width:16%;height:16%;border-radius:50%;background:var(--cobre)"></span></div>
-        <div class="m yr cu num" style="--i:9;grid-column:4;grid-row:4">${e.anio_baja||ANIV}</div>
-        ${e.web?`<a class="m q2" style="--i:10;grid-column:1;grid-row:5" href="${esc(e.web)}" target="_blank" rel="noopener">${I('web')}<span class="l">${t('web')}</span></a>`
-          :`<a class="m q2" style="--i:10;grid-column:1;grid-row:5" href="${maps(eAddr(e))}" target="_blank" rel="noopener">${I('pin')}<span class="l">${t('route')}</span></a>`}
-        <button class="m" style="--i:11;grid-column:1;grid-row:6" id="fsh">${I('share')}<span class="l">${t('share')}</span></button>
-        <button class="m${oldPhoto?' cu':' mt'}" style="--i:12;grid-column:1;grid-row:7" id="fold" aria-pressed="${oldPhoto}">${I('clock')}<span class="l">${t('oldnew')}</span></button>
-        <div class="m f-ph${oldPhoto?' old':''}" style="--i:13">${ph}${pend?`<span class="tg">${t('ph_pend')}</span>`:''}</div>
-        <div class="m ${e.logo && e.logo_fondo === 'oscuro' ? '' : 'wt'}" style="--i:14;grid-column:1;grid-row:8">${mono(e)}</div>
-        <a class="m ol" style="--i:15;grid-column:2;grid-row:8" href="#/empresas/${prev.num_asociada}" aria-label="${t('prev')}">${I('left')}</a>
-        <a class="m ol" style="--i:16;grid-column:3;grid-row:8" href="#/empresas/${next.num_asociada}" aria-label="${t('next')}">${I('right')}</a>
-        ${e.web?`<a class="m wt" style="--i:17;grid-column:4;grid-row:8" href="${esc(e.web)}" target="_blank" rel="noopener" aria-label="QR"><span class="qr">${qrSVG(e.web)}</span></a>`:`<div class="m ol" style="--i:17;grid-column:4;grid-row:8"><span class="l">${t('noweb')}</span></div>`}
-      </div></div>${e.web?`<div class="qrcap">${t('qr')}</div>`:''}</div>
+      <div class="fxl"><div class="bw"><div class="fg">
+        <div class="k k-logo${e.logo && e.logo_fondo === 'oscuro' ? ' dkl' : ''}" style="--i:0">${mono(e, true)}</div>
+        <div class="k k-desde" style="--i:1"><span class="l">${t('since_l')}</span><span class="v num">${e.anio_alta}</span>${isF(e) ? `<span class="l2">★ ${t('founder')}</span>` : ''}</div>
+        <div class="k k-num" style="--i:2"><span class="l">${t('num')}</span><span class="v num">${e.num_asociada}</span></div>
+        <div class="k k-pl" style="--i:3"><span class="l">${t('pl')}</span><span class="v num">${plOk(e) ? nf(e.plantilla) : '—'}</span></div>
+        <div class="k k-sec" style="--i:4"><span class="l">${e.sector ? t('sector') : t('zone')}</span><span class="v s">${esc(grp(e))}</span></div>
+        <div class="k k-mun" style="--i:5"><span class="l">${t('mun')}</span><span class="v s">${esc(e.municipio)}</span></div>
+        <div class="k k-ph" style="--i:6">${e.foto ? `<img alt="${esc(shortName(e.nombre))}" src="${esc(e.foto)}">` : factory(e.nombre, false)}${e.foto ? '' : `<span class="tg">${t('ph_pend')}</span>`}</div>
+      </div>
+      ${e.web ? `<a class="fweb" href="${esc(e.web)}" target="_blank" rel="noopener">${t('web')} ${I('arrow')}<span>${esc(e.web.replace(/^https?:\/\/(www\.)?/,''))}</span></a>`
+              : `<a class="fweb" href="${maps(eAddr(e))}" target="_blank" rel="noopener">${t('route')} ${I('arrow')}</a>`}
+      </div></div>
       <div class="fxr">
-        <div class="badges">${isF(e)?`<span class="chip c">★ ${t('founder_l')}</span>`:''}<span class="chip o">${esc(zn(e.zona))}</span><span class="chip o">${esc(e.municipio)}</span></div>
+        <div class="badges">${isF(e)?`<a class="chip c" href="#/empresas" data-flt="fu" data-v="1">★ ${t('founder_l')}</a>`:''}${e.zona?`<a class="chip o" href="#/empresas" data-flt="z" data-v="${esc(e.zona)}">${esc(zn(e.zona))}</a>`:''}<a class="chip o" href="#/empresas" data-flt="m" data-v="${esc(e.municipio)}">${esc(e.municipio)}</a></div>
         <h1>${esc(shortName(e.nombre))}</h1>
         <p class="lead">${esc(desc)}</p>
         <div class="since">${deco('d',30)}<div class="eyebrow">${t('since_k')}</div>${cdHTML(since, true)}<p style="margin:0;color:#b2aca2;font-size:14.5px">${t('since_s')}</p>
           <button class="btn sm" id="card" style="margin-top:18px">${I('dl')} ${t('card_dl')}</button></div>
+        <div class="box"><div class="k">${t('hist_k')}</div><p>${same>1?t('hist_t',{y:e.anio_alta,n:same}):same===1?t('hist_t1',{y:e.anio_alta}):t('hist_t0',{y:e.anio_alta})}</p>
+          <div class="hist"><span class="ln"></span><span class="fl" style="left:${px(e.anio_alta)}%"></span><span class="pt" style="left:${px(e.anio_alta)}%"></span><span class="pt" style="left:100%;background:var(--fg)"></span>
+            ${px(e.anio_alta)>14?'<span class="ax num" style="left:0">1977</span>':''}<span class="ax num" style="left:${Math.min(90,Math.max(0,px(e.anio_alta)))}%;transform:translateX(${px(e.anio_alta)<8?'0':'-50%'});color:var(--fg);font-weight:600">${e.anio_alta}</span>${px(e.anio_alta)<84?'<span class="ax num" style="right:0">2027</span>':''}</div></div>
         ${frase?`<div class="box" style="background:var(--cobre);color:#fff;border:0"><div class="k" style="color:#fff">50</div><p style="font-size:24px;font-weight:600;letter-spacing:-.02em;line-height:1.2">«${esc(frase)}»</p></div>`:''}
         <dl class="facts">
           <div><dt>${t('num')}</dt><dd class="num">${e.num_asociada}</dd></div>
@@ -719,15 +718,11 @@ function renderFicha(num){
           ${e.direccion?`<div class="w"><dt>${t('addr')}</dt><dd>${esc(e.direccion)}, ${esc(e.cp)} ${esc(e.municipio)} · <a href="${maps(eAddr(e))}" target="_blank" rel="noopener" class="acc">${t('route')} ↗</a></dd></div>`:''}
           ${e.web?`<div class="w"><dt>${t('web')}</dt><dd><a href="${esc(e.web)}" target="_blank" rel="noopener">${esc(e.web.replace(/^https?:\/\//,''))}</a></dd></div>`:''}
         </dl>
-        <div class="box"><div class="k">${t('hist_k')}</div><p>${same>1?t('hist_t',{y:e.anio_alta,n:same}):same===1?t('hist_t1',{y:e.anio_alta}):t('hist_t0',{y:e.anio_alta})}</p>
-          <div class="hist"><span class="ln"></span><span class="fl" style="left:${px(e.anio_alta)}%"></span><span class="pt" style="left:${px(e.anio_alta)}%"></span><span class="pt" style="left:100%;background:var(--fg)"></span>
-            ${px(e.anio_alta)>14?'<span class="ax num" style="left:0">1977</span>':''}<span class="ax num" style="left:${Math.min(90,Math.max(0,px(e.anio_alta)))}%;transform:translateX(${px(e.anio_alta)<8?'0':'-50%'});color:var(--fg);font-weight:600">${e.anio_alta}</span>${px(e.anio_alta)<84?'<span class="ax num" style="right:0">2027</span>':''}</div></div>
         ${rel.length?`<div class="box"><div class="k">${HAS_SEC?t('rel_s'):t('rel_z')}</div><div class="rel">${rel.map(x=>`<a href="#/empresas/${x.num_asociada}">${mono(x)}<span>${esc(shortName(x.nombre))}</span></a>`).join('')}</div></div>`:''}
         <div class="pn"><a href="#/empresas/${prev.num_asociada}"><small>← ${t('prev')}</small><b>${esc(shortName(prev.nombre))}</b></a><a href="#/empresas/${next.num_asociada}" style="text-align:right"><small>${t('next')} →</small><b>${esc(shortName(next.nombre))}</b></a></div>
       </div>
     </div></div></section>`;
-  $('#fsh').onclick = () => share(shortName(e.nombre) + ' · FVEM 50', '#/empresas/' + e.num_asociada);
-  $('#fold').onclick = () => { oldPhoto = !oldPhoto; const y = scrollY; renderFicha(num); scrollTo(0, y); };
+  $$('#v-ficha [data-flt]').forEach(a => a.onclick = ev => { ev.preventDefault(); goFilter(a.dataset.flt, a.dataset.v); });
   $('#card').onclick = () => cardPNG(e);
   tick();
 }
