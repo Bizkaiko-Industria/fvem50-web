@@ -120,7 +120,8 @@ const t = (k, v) => { let s = T[L][k] ?? T.es[k] ?? k; if (v) for (const x in v)
 const tx = o => o == null ? '' : typeof o === 'string' ? o : (o[L] || o.es || '');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-const nf = n => new Intl.NumberFormat('es-ES').format(n);
+// Cifras con punto de miles siempre (1.210, 33.000, 1.000.000). Los años y los nº de asociada no pasan por aquí.
+const nf = n => { const v = Math.round(Number(n) || 0); return (v < 0 ? '-' : '') + String(Math.abs(v)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); };
 const pad = n => String(n).padStart(2, '0');
 const MES = { es:['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
   eu:['urtarrila','otsaila','martxoa','apirila','maiatza','ekaina','uztaila','abuztua','iraila','urria','azaroa','abendua'] };
