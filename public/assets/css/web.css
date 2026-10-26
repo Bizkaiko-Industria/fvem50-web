@@ -594,3 +594,16 @@ body.nomenu .hd .cta{display:inline-flex}
 .pillbtn.fu{height:50px;padding:0 18px;font-weight:600;display:inline-flex;gap:8px;align-items:center}
 .pillbtn.fu[aria-pressed=true]{background:var(--cobre);color:#fff}
 .pillbtn.fu span{opacity:.75;font-weight:500}
+
+/* newsletter en el pie de todas las páginas */
+.ft .ftnl{margin-bottom:64px}
+.ft .cta-card.b{color:#fff}
+.ft .cta-card.b h3{color:#fff;letter-spacing:-.03em}
+.nlf{display:flex;flex-direction:column;gap:12px}
+.nlf .nl{margin-top:0}
+.nlok{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#fff;cursor:pointer;line-height:1.4}
+.nlok input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--negro);flex:none}
+.nlok a,.nlcl a{color:#fff;text-decoration:underline}
+.nlcl{grid-column:1/-1;font-size:12px;line-height:1.55;color:rgba(255,255,255,.9);border-top:1px solid rgba(255,255,255,.3);padding-top:14px;margin-top:4px}
+.nlcl b{color:#fff;font-weight:600}
+.ft .nlcl a,.ft .nlok a{display:inline;padding:0}

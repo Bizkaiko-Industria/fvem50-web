@@ -61,7 +61,7 @@ const T = {
   ps_p:'Notas de prensa, recursos de marca y material gráfico del 50 aniversario.',ps_notes:'Notas de prensa',ps_kit:'Kit de marca',ps_logo:'Logotipo 50 FVEM (PNG)',ps_logo_s:'Versión en blanco para fondos oscuros',
   ps_soon:'Próximamente',ps_svg:'Logotipos vectoriales (SVG, PDF)',ps_man:'Manual de uso de la marca',ps_photo:'Fotografías en alta resolución',ps_contact:'Contacto de comunicación',ps_contact_p:'Datos de contacto por confirmar.',example:'Ejemplo',
   copied:'Enlace copiado',more_info:'Más información',
-  nl_cta:'Suscríbete',play_v:'Reproducir vídeo',video_k:'Vídeo',yt_note:'El vídeo se carga desde YouTube al pulsar reproducir.',cd_open:'Ver el vídeo',em_all:'Ver todas las empresas'
+  nl_cta:'Suscríbete',nl_ok_pre:'He leído y acepto la',nl_cl:'Cláusula informativa',nl_resp:'Responsable',nl_fin:'Finalidad',nl_der:'Derechos',nl_inf:'Información adicional',nl_inf_t:'Para más información diríjase a nuestra',play_v:'Reproducir vídeo',video_k:'Vídeo',yt_note:'El vídeo se carga desde YouTube al pulsar reproducir.',cd_open:'Ver el vídeo',em_all:'Ver todas las empresas'
  },
  eu: {
   demo:'Aurrebista · agenda, egitaraua eta pertsonak adibide-edukiarekin',
@@ -111,7 +111,7 @@ const T = {
   ps_p:'50. urteurreneko prentsa-oharrak, marka-baliabideak eta material grafikoa.',ps_notes:'Prentsa-oharrak',ps_kit:'Marka-kita',ps_logo:'50 FVEM logotipoa (PNG)',ps_logo_s:'Bertsio zuria hondo ilunetarako',
   ps_soon:'Laster',ps_svg:'Logotipo bektorialak (SVG, PDF)',ps_man:'Markaren erabilera-eskuliburua',ps_photo:'Bereizmen handiko argazkiak',ps_contact:'Komunikazio-harremana',ps_contact_p:'Harremanetarako datuak zehazteke.',example:'Adibidea',
   copied:'Esteka kopiatuta',more_info:'Informazio gehiago',
-  nl_cta:'Harpidetu',play_v:'Erreproduzitu bideoa',video_k:'Bideoa',yt_note:'Bideoa YouTubetik kargatzen da erreproduzitu sakatzean.',cd_open:'Ikusi bideoa',em_all:'Ikusi enpresa guztiak'
+  nl_cta:'Harpidetu',nl_ok_pre:'Irakurri eta onartzen dut',nl_cl:'Informazio-klausula',nl_resp:'Arduraduna',nl_fin:'Helburua',nl_der:'Eskubideak',nl_inf:'Informazio gehigarria',nl_inf_t:'Informazio gehiago nahi baduzu, kontsultatu gure',play_v:'Erreproduzitu bideoa',video_k:'Bideoa',yt_note:'Bideoa YouTubetik kargatzen da erreproduzitu sakatzean.',cd_open:'Ikusi bideoa',em_all:'Ikusi enpresa guztiak'
  }
 };
 let L = 'es';
@@ -417,11 +417,8 @@ function renderHome(){
     <div class="shead"><div><div class="eyebrow">${t('pe_k')}</div><div class="rule"></div><h2 class="h2" style="max-width:16ch">${t('pe_h')}</h2><p class="lead" style="margin-top:14px">${t('pe_p')}</p></div><a class="more-link" href="#/personas">${t('pe_all')} ${I('arrow')}</a></div>
     <div class="pp">${C.personas.map(personCard).join('')}</div>
   </div></section>` : ''}
-  ${SEC.participa || SEC.newsletter ? `<section class="dk pad"><div class="wrap ${SEC.participa && SEC.newsletter ? 'two' : ''}">
-    ${SEC.participa ? `<a class="cta-card a reveal" href="#/participa">${deco('d',260)}<div class="eyebrow">${t('nav_pa')}</div><div class="rule"></div><h3>${t('pa_h')}</h3><p>${t('pa_p')}</p><span class="btn" style="align-self:flex-start;margin-top:18px">${t('pa_btn')} ${I('arrow')}</span></a>` : ''}
-    ${SEC.newsletter ? `<div class="cta-card b reveal${SEC.participa ? '' : ' nlwide'}" id="nl"><div><div class="eyebrow" style="color:#fff">Newsletter</div><div class="rule" style="background:#fff"></div><h3>${t('nl_h')}</h3><p>${t('nl_p')}</p></div>
-      ${FORMS.newsletter?`<div><a class="btn" style="margin-top:20px;background:var(--negro)" href="${esc(FORMS.newsletter)}" target="_blank" rel="noopener">${t('nl_btn')} ${I('arrow')}</a></div>`
-        :`<form class="nl" id="nlf"><input type="email" required placeholder="${t('nl_ph')}" aria-label="${t('nl_ph')}"><button class="btn">${t('nl_btn')}</button></form>`}</div>` : ''}
+  ${SEC.participa ? `<section class="dk pad"><div class="wrap">
+    <a class="cta-card a reveal" href="#/participa">${deco('d',260)}<div class="eyebrow">${t('nav_pa')}</div><div class="rule"></div><h3>${t('pa_h')}</h3><p>${t('pa_p')}</p><span class="btn" style="align-self:flex-start;margin-top:18px">${t('pa_btn')} ${I('arrow')}</span></a>
   </div></section>` : ''}`;
   const root = $('#v-home');
   if ($('#playfull')) $('#playfull').onclick = () => videoModal(v.completo);
@@ -432,7 +429,6 @@ function renderHome(){
   const hv = $('#hv'), snd = $('#snd');
   if (hv && snd) snd.onclick = () => { hv.muted = !hv.muted; snd.innerHTML = I(hv.muted ? 'mute' : 'sound'); snd.setAttribute('aria-label', t(hv.muted ? 'sound_on' : 'sound_off')); };
   if (hv) hv.onerror = () => { hv.outerHTML = `<div class="anim">${heroArt(false)}</div>`; sparks(); };
-  if ($('#nlf')) $('#nlf').onsubmit = ev => { ev.preventDefault(); toast(t('nl_ok')); };
   if ($('#hq')) bindHomeSearch(); if ($('.cmp', root)) bindCmp(root); countUp(root); reveal(root); sparks(); bindCommon(root); tick(); heroScroll();
 }
 function heroScroll(){
@@ -824,12 +820,14 @@ function chrome(view){
   else cta = [t('nl_cta'), FORMS.newsletter || '#/newsletter'];
   [$('#hcta'), $('#dcta')].forEach(a => { a.textContent = cta[0]; a.href = cta[1]; if (/^https?:/.test(cta[1])) { a.target = '_blank'; a.rel = 'noopener'; } else { a.removeAttribute('target'); } });
   document.body.classList.toggle('nomenu', !menu.length);
-  setTimeout(() => { const k = $('#ckcfg'); if (k) k.onclick = ev => { ev.preventDefault(); cookieBanner(true); }; });
+  setTimeout(() => { const k = $('#ckcfg'); if (k) k.onclick = ev => { ev.preventDefault(); cookieBanner(true); };
+    const f = $('#nlf'); if (f) f.onsubmit = ev => { ev.preventDefault(); toast(t('nl_ok')); };
+    $$('a[href="#/newsletter"]').forEach(a => a.onclick = ev => { ev.preventDefault(); goNl(); }); });
   $$('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === L));
   const dm = $('#demo'); if (dm && C.vistaPrevia === false) dm.remove(); else if (dm) dm.innerHTML = `${esc(t('demo'))} <b style="margin-left:6px;color:#fff" aria-hidden="true">×</b>`; if (dm) dm.onclick = ev => { ev.preventDefault(); dm.remove(); };
   document.documentElement.lang = L;
   const emLinks = [['empresas', t('em_h')], ['historia', t('hi_h')], ['participa', t('pa_h')]].filter(([h]) => h === 'empresas' || menu.some(x => x[0] === h));
-  $('#ft').innerHTML = `<div class="wrap"><div class="g">
+  $('#ft').innerHTML = `${SEC.newsletter ? `<div class="wrap ftnl">${nlBox()}</div>` : ''}<div class="wrap"><div class="g">
     <div><img class="logo" src="${LOGO}" alt="50 FVEM">${SEC.lema ? `<p style="max-width:34ch">${t('ft_lema')}</p>` : ''}</div>
     ${menu.length ? `<div><h4>${t('ft_an')}</h4>${menu.map(([h,k])=>`<a href="#/${h}">${t(k)}</a>`).join('')}</div>` : '<div></div>'}
     <div><h4>${t('ft_em')}</h4>${emLinks.map(([h,l])=>`<a href="#/${h}">${l}</a>`).join('')}</div>
@@ -837,6 +835,20 @@ function chrome(view){
     ${SEC.patrocinadores ? `<div style="margin-top:40px"><h4>${t('ft_sp')}</h4><div class="spn">${Array.from({length:5},()=>`<span>${t('ft_spx')}</span>`).join('')}</div></div>` : ''}
     <div class="bt"><span>© FVEM · 1977 – 2027</span><span style="display:flex;gap:16px;flex-wrap:wrap">${[['aviso','ft_legal'],['privacidad','ft_priv'],['cookies','ft_cook'],['terminos','ft_terms'],['datos','ft_data'],['accesibilidad','ft_acc']].filter(([k])=>LEGAL[k]).map(([k,l])=>`<a href="${esc(LEGAL[k])}" target="_blank" rel="noopener">${t(l)}</a>`).join('')}${GA ? `<a href="#" id="ckcfg">${t('ck_cfg')}</a>` : ''}</span></div></div>`;
 }
+function nlBox(){
+  const NL = C.newsletterLegal || {}, priv = LEGAL.privacidad;
+  const clause = `<div class="nlcl"><b>${t('nl_cl')}</b><br>
+    <b>${t('nl_resp')}:</b> ${esc(tx(NL.responsable) || 'FVEM')}<br>
+    <b>${t('nl_fin')}:</b> ${esc(tx(NL.finalidad))}<br>
+    <b>${t('nl_der')}:</b> ${esc(tx(NL.derechos))}${tx(NL.contacto) ? (L === 'eu' ? ', ' : ' ') + (NL.correo ? esc(tx(NL.contacto)).replace(esc(NL.correo), `<a href="mailto:${esc(NL.correo)}">${esc(NL.correo)}</a>`) : esc(tx(NL.contacto))) : ''}.<br>
+    <b>${t('nl_inf')}:</b> ${t('nl_inf_t')}${priv ? ` <a href="${esc(priv)}" target="_blank" rel="noopener">${t('ft_priv').toLowerCase()}</a>` : ''}.</div>`;
+  return `<div class="cta-card b nlwide" id="nl"><div><div class="eyebrow" style="color:#fff">Newsletter</div><div class="rule" style="background:#fff"></div><h3>${t('nl_h')}</h3><p>${t('nl_p')}</p></div>
+    ${FORMS.newsletter ? `<div><a class="btn" style="margin-top:20px;background:var(--negro)" href="${esc(FORMS.newsletter)}" target="_blank" rel="noopener">${t('nl_btn')} ${I('arrow')}</a></div>`
+      : `<form class="nlf" id="nlf"><div class="nl"><input type="email" required placeholder="${t('nl_ph')}" aria-label="${t('nl_ph')}"><button class="btn">${t('nl_btn')}</button></div>
+        <label class="nlok"><input type="checkbox" required> <span>${t('nl_ok_pre')} ${priv ? `<a href="${esc(priv)}" target="_blank" rel="noopener">${t('ft_priv').toLowerCase()}</a>` : t('ft_priv').toLowerCase()}</span></label></form>`}
+    ${FORMS.newsletter ? '' : clause}</div>`;
+}
+function goNl(){ closeDrawer(); const n = $('#nl'); if (!n) return; n.scrollIntoView({behavior: 'smooth', block: 'center'}); const i = $('#nlf input[type=email]'); if (i) setTimeout(() => i.focus({preventScroll: true}), 600); }
 const VIEWS = { home: renderHome, agenda: renderAgenda, evento: renderEvento, programa: renderPrograma, empresas: renderEmpresas, ficha: renderFicha, historia: renderHistoria, personas: renderPersonas, participa: renderParticipa, prensa: renderPrensa };
 let CUR = null;
 function parse(){ const h = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
@@ -856,7 +868,7 @@ function route(keepScroll){
   document.title = ttl;
   gaPage();
   if (!keepScroll && !same) scrollTo(0, 0);
-  if (v === 'home' && arg === 'nl') setTimeout(() => { const n = $('#nl'); if (n) n.scrollIntoView({behavior: 'smooth', block: 'center'}); }, 80);
+  if (v === 'home' && arg === 'nl') setTimeout(goNl, 80);
   onScroll();
 }
 function onScroll(){ const hd = $('#hd'), home = document.body.classList.contains('home-mode'), s = $('#hseq'); const end = s ? s.offsetTop + s.offsetHeight - 120 : innerHeight - 120; hd.classList.toggle('over', home && scrollY < end); heroScroll(); }
