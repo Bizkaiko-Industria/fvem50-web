@@ -44,7 +44,7 @@ const T = {
   so_az:'Nombre A–Z',so_num:'Nº de asociada',so_pl:'Mayor plantilla',so_new:'Altas más recientes',
   v_grid:'Logos',companies:'empresas',people:'personas',clear:'Limpiar filtros',more:'Ver más',
   map_h:'Por municipio',map_p:'Pulsa un municipio para filtrar.',bars_p:'Pulsa para filtrar el directorio.',by_z:'Por zona',by_s:'Por sector',sea:'Mar Cantábrico',
-  num:'Nº de asociada',since:'Alta',date:'Fecha de alta',pl:'Plantilla',mun:'Municipio',zone:'Zona',sector:'Sector',addr:'Dirección',web:'Web',noweb:'Sin web',route:'Cómo llegar',
+  num:'Nº de asociada',since:'Alta',date:'Fecha de alta',pl:'Plantilla',pl_bi:'Plantilla en Bizkaia',mun:'Municipio',zone:'Zona',sector:'Sector',addr:'Dirección',web:'Web',noweb:'Sin web',route:'Cómo llegar',
   founder:'Fundadora',founders:'Fundadoras',founder_l:'Empresa fundadora · 1977',with:'años con FVEM',share:'Compartir',card:'Tarjeta',oldnew:'Ayer · Hoy',
   since_k:'Socia de FVEM desde hace',since_l:'Asociada desde',since_s:'Y el contador sigue subiendo.',card_dl:'Descargar tarjeta para redes',
   hist_k:'Su lugar en la historia',hist_t:'En su año de alta ({y}) entraron también otras {n} empresas.',hist_t1:'En su año de alta ({y}) entró también otra empresa.',hist_t0:'Fue la única empresa que entró en {y}.',
@@ -94,7 +94,7 @@ const T = {
   so_az:'Izena A–Z',so_num:'Bazkide-zk.',so_pl:'Langile gehien',so_new:'Alta berrienak',
   v_grid:'Logoak',companies:'enpresa',people:'pertsona',clear:'Garbitu iragazkiak',more:'Gehiago ikusi',
   map_h:'Udalerrika',map_p:'Sakatu udalerri bat iragazteko.',bars_p:'Sakatu direktorioa iragazteko.',by_z:'Eremuka',by_s:'Sektoreka',sea:'Kantauri itsasoa',
-  num:'Bazkide-zk.',since:'Alta',date:'Alta-data',pl:'Langileak',mun:'Udalerria',zone:'Eremua',sector:'Sektorea',addr:'Helbidea',web:'Webgunea',noweb:'Webgunerik ez',route:'Nola iritsi',
+  num:'Bazkide-zk.',since:'Alta',date:'Alta-data',pl:'Langileak',pl_bi:'Langileak Bizkaian',mun:'Udalerria',zone:'Eremua',sector:'Sektorea',addr:'Helbidea',web:'Webgunea',noweb:'Webgunerik ez',route:'Nola iritsi',
   founder:'Sortzailea',founders:'Sortzaileak',founder_l:'Enpresa sortzailea · 1977',with:'urte FVEMekin',share:'Partekatu',card:'Txartela',oldnew:'Atzo · Gaur',
   since_k:'FVEMeko bazkide duela',since_l:'Bazkide noiztik',since_s:'Eta kontagailuak gora jarraitzen du.',card_dl:'Deskargatu sare sozialetarako txartela',
   hist_k:'Bere lekua historian',hist_t:'Alta-urte berean ({y}) beste {n} enpresa ere sartu ziren.',hist_t1:'Alta-urte berean ({y}) beste enpresa bat ere sartu zen.',hist_t0:'Urte hartan ({y}) sartu zen enpresa bakarra izan zen.',
@@ -295,7 +295,8 @@ const arcD = (cx, cy, r, a0, a1) => { const P = a => [cx + r * Math.cos(a * Math
 const bladeD = (x, y, w, h) => `M${x} ${y + h}V${y + h / 2}A${h / 2} ${h / 2} 0 0 1 ${x + h / 2} ${y}H${x + w}V${y + h / 2}A${h / 2} ${h / 2} 0 0 1 ${x + w - h / 2} ${y + h}Z`;
 // Formas de marca (5 y C) vectorizadas a partir del archivo facilitado por FVEM. Coordenadas propias de cada forma.
 const SHAPE5 = { w: 844, h: 1245, d: "M 277.306 7.095 C 212.753 12.850, 160.379 59.302, 145.703 123.817 L 143.500 133.500 143.817 272.500 C 144.133 410.736, 144.441 424.535, 147.547 439.572 C 161.083 505.105, 217.263 555.019, 281.584 558.661 L 292.668 559.288 293.334 474.394 C 293.699 427.702, 294.007 350.800, 294.017 303.500 C 294.037 206.425, 293.795 209.903, 301.635 194.022 C 307.984 181.159, 318.605 170.383, 331 164.226 C 347.751 155.906, 332.579 156.619, 506.500 155.977 C 679.500 155.338, 665.306 155.924, 687.694 148.498 C 744.191 129.757, 785.566 76.272, 788.712 17.916 L 789.282 7.332 710.391 6.666 C 603.459 5.765, 288.729 6.076, 277.306 7.095 M 409 411.624 C 376.441 417.677, 352.516 437.900, 345.852 465 C 343.884 473.005, 344.157 493.879, 346.337 502 C 351.386 520.817, 364.715 537.009, 382 545.324 C 394.317 551.249, 403.667 553.608, 424.500 556.046 C 509.226 565.960, 569.248 592.125, 617.014 639.968 C 674.103 697.148, 698.807 782.123, 683.954 870.226 C 666.408 974.311, 585.724 1059.925, 484 1082.400 C 459.561 1087.799, 452.528 1088.478, 421 1088.478 C 389.427 1088.478, 382.260 1087.784, 358 1082.378 C 296.571 1068.689, 241.543 1030.296, 204.096 975 C 175.594 932.911, 160.443 888.633, 154.491 830.028 C 149.471 780.596, 133.179 755.139, 100.887 746.276 C 91.948 743.822, 68.112 743.820, 59 746.271 C 32.536 753.392, 14.231 774.426, 8.034 804.832 C 4.462 822.362, 5.316 859.476, 10.036 891.765 C 31.742 1040.267, 140.886 1168.462, 287.759 1217.965 C 355.493 1240.794, 435.135 1245.295, 509.500 1230.497 C 672.130 1198.134, 797.849 1071.194, 829.884 907 C 839.736 856.509, 840.279 797.139, 831.362 745.500 C 802.391 577.725, 668.270 443.587, 501.500 415.596 C 471.660 410.587, 425.289 408.596, 409 411.624" };
-const SHAPEC = { w: 865, h: 1100, dy: -16, d: "M 601.500 6.994 C 534.203 9.859, 469.826 22.201, 411 43.516 C 232.101 108.338, 94.612 249.151, 36.570 427 C 5.687 521.632, -1.867 629.438, 15.060 734 C 31.373 834.771, 71.648 931.870, 128.505 1007.500 C 165.777 1057.080, 196.501 1083.971, 224.500 1091.522 C 239.602 1095.594, 263.005 1094.265, 277.111 1088.533 C 304.455 1077.422, 320.316 1047.871, 316.217 1015.670 C 313.657 995.557, 306.776 982.899, 286.496 961 C 238.737 909.428, 197.749 839.912, 178.301 777.500 C 156.071 706.157, 150.580 609.236, 164.478 533.500 C 194.995 367.207, 312.410 234.027, 475.803 180.373 C 525.369 164.098, 569.150 157.529, 628 157.539 C 676.123 157.547, 694.123 159.890, 747.450 173.090 C 787.697 183.051, 809.326 181.833, 828.985 168.498 C 848.875 155.007, 858.539 135.155, 858.435 108 C 858.348 85.310, 852.378 71.203, 836.376 55.880 C 800.497 21.521, 708.761 2.428, 601.500 6.994" };
+// C de la marca: arco geométrico limpio con extremos redondos completos (centro 625,629 · radio 550 · grosor 148)
+const SHAPEC = { w: 865, h: 1100, dy: -16, d: "M 191.5 1077.9 A 624 624 0 0 1 807.4 32.3 A 74 74 0 0 1 764.2 173.8 A 476 476 0 0 0 294.3 971.4 A 74 74 0 0 1 191.5 1077.9 Z" };
 function heroArt(photo){
   // El 5 (metal) y la C (cobre) de la marca, superpuestos ligeramente
   const W = 1600, H = 900, mob = matchMedia('(max-width:700px)').matches;
@@ -305,7 +306,7 @@ function heroArt(photo){
   <linearGradient id="hs" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".18" stop-color="#fff" stop-opacity=".05"/><stop offset=".34" stop-color="#fff" stop-opacity=".17"/><stop offset=".5" stop-color="#fff" stop-opacity=".36"/><stop offset=".66" stop-color="#fff" stop-opacity=".17"/><stop offset=".82" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><filter id="hsb" x="-50%" y="-10%" width="200%" height="120%"><feGaussianBlur stdDeviation="36 0"/></filter>
   <mask id="hk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="2000" height="1600"><path d="${SHAPE5.d}" fill="#fff"/></mask>
   <mask id="hkc" maskUnits="userSpaceOnUse" x="-200" y="-200" width="2000" height="1600"><path transform="translate(${cx} ${SHAPEC.dy})" d="${SHAPEC.d}" fill="#fff"/></mask>
-  <mask id="cm" maskUnits="userSpaceOnUse" x="-400" y="-400" width="1700" height="1900"><path class="draw ctrace" pathLength="1" d="M181.8 955.6A554 554 0 0 1 697.5 80.1" stroke="#fff" stroke-width="320" stroke-linecap="round" fill="none"/></mask>
+  <mask id="cm" maskUnits="userSpaceOnUse" x="-400" y="-400" width="1700" height="1900"><path class="draw ctrace" pathLength="1" d="M242.9 1024.6A550 550 0 0 1 785.8 103.0" stroke="#fff" stroke-width="320" stroke-linecap="round" fill="none"/></mask>
   <filter id="cg" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="38"/></filter></defs>
   ${photo ? '' : `<rect width="${W}" height="${H}" fill="url(#hb)"/>`}
   <g transform="translate(${tx} ${ty}) scale(${sc})">
@@ -418,13 +419,14 @@ function renderHome(){
   </div></section>` : ''}
   ${SEC.cifras || SEC.buscador ? `<section class="lt pad"><div class="wrap">
     ${SEC.cifras ? `<div class="eyebrow">${t('st_k')}</div><div class="rule"></div><h2 class="h2" style="max-width:18ch">${t('st_h')}</h2>
-    <div class="stats reveal" style="margin-top:44px">
+    ${tx(CIF.nota) ? `<p class="stnote">${esc(tx(CIF.nota))}</p>` : ''}
+    <div class="stats reveal" style="margin-top:${tx(CIF.nota) ? 14 : 44}px">
       <div class="stat"><b class="num" data-count="${S.emp}">0</b><span>${t('st_emp')}</span></div>
       <div class="stat"><b class="num" data-count="${S.pl}">0</b><span>${t('st_pl')}</span></div>
       <div class="stat"><b class="num" data-count="${S.mun}">0</b><span>${t('st_mun')}</span></div>
       <div class="stat"><b class="num c" data-count="50">0</b><span>${t('st_y')}</span></div>
     </div>
-    ${tx(CIF.nota) ? `<p class="mut" style="font-size:13px;margin-top:16px;color:var(--mut)">${esc(tx(CIF.nota))}</p>` : ''}` : ''}
+` : ''}
     ${SEC.buscador ? `<div style="margin-top:${SEC.cifras?80:0}px"><div class="shead" style="margin-bottom:22px"><h3 style="font-size:clamp(26px,3vw,38px)">${t('se_h')}</h3><a class="more-link" href="#/empresas">${t('em_all')} ${I('arrow')}</a></div>
       <div class="sbox"><div class="f">${I('search')}<input id="hq" type="search" autocomplete="off" placeholder="${t('se_ph')}" aria-label="${t('se_h')}"></div><div class="drop" id="hdrop" hidden></div></div>
       <div class="marqs">${rows.map((rw, i) => `<div class="marq${i % 2 ? ' rev' : ''}"><div class="tr" style="--dur:${Math.round(rw.length * MQ.segundosPorEmpresa)}s">${rw.map(e => mqItem(e)).join('')}${rw.map(e => mqItem(e, true)).join('')}</div></div>`).join('')}</div>
@@ -680,14 +682,14 @@ function drawBars(){
 let oldPhoto = false;
 function goFilter(k, v){ Object.assign(F, {q:'', s:'', z:'', m:'', t:'', d:'', y:'', fu:false}); F[k] = k === 'fu' ? true : v; LAST = []; location.hash = '#/empresas'; setTimeout(() => { const c = $('#v-empresas .ctr'); if (c) c.scrollIntoView({block:'start'}); }, 60); }
 function descAuto(e){
-  const pl = plOk(e) && e.plantilla > 1 ? (L === 'eu' ? ` eta ${nf(e.plantilla)} pertsonako plantilla du` : ` y cuenta con una plantilla de ${nf(e.plantilla)} personas`) : '';
+  const pl = plOk(e) && e.plantilla > 1 ? (L === 'eu' ? ` eta Bizkaian ${nf(e.plantilla)} pertsonako plantilla du` : ` y cuenta con una plantilla en Bizkaia de ${nf(e.plantilla)} personas`) : '';
   if (L === 'eu') return `${shortName(e.nombre)} ${e.sector ? secl(e).toLowerCase() + ' arloko enpresa da' : 'enpresa da'}, ${e.municipio}n egoitza duena. ${e.anio_alta}az geroztik da FVEMeko bazkidea${pl}.`;
   return `${shortName(e.nombre)} es una empresa ${e.sector ? 'del ámbito de ' + secl(e).toLowerCase().replace(/^fabricación de /, 'la fabricación de ') : 'del metal'}, con sede en ${e.municipio}. Forma parte de FVEM desde ${e.anio_alta}${pl}.`;
 }
 function descCtx(e){
   const ok = plOk(e) && e.plantilla > 0;
-  if (L === 'eu') return `Egoitza: ${e.municipio}. ${e.anio_alta}az geroztik da FVEMeko bazkidea${ok ? `, eta gaur egun ${nf(e.plantilla)} langile ditu` : ''}.`;
-  return `Con sede en ${e.municipio}, forma parte de FVEM desde ${e.anio_alta}${ok ? `, con una plantilla actual de ${nf(e.plantilla)} ${e.plantilla === 1 ? 'persona' : 'personas'}` : ''}.`;
+  if (L === 'eu') return `Egoitza: ${e.municipio}. ${e.anio_alta}az geroztik da FVEMeko bazkidea${ok ? `, eta gaur egun ${nf(e.plantilla)} langile ditu Bizkaian` : ''}.`;
+  return `Con sede en ${e.municipio}, forma parte de FVEM desde ${e.anio_alta}${ok ? `, con una plantilla actual en Bizkaia de ${nf(e.plantilla)} ${e.plantilla === 1 ? 'persona' : 'personas'}` : ''}.`;
 }
 function renderFicha(num){
   const e = BYNUM[num]; if (!e) { location.hash = '#/empresas'; return; }
@@ -730,7 +732,7 @@ function renderFicha(num){
         <dl class="facts">
           <div><dt>${t('num')}</dt><dd class="num">${e.num_asociada}</dd></div>
           <div><dt>${e.fecha_alta?t('date'):t('since')}</dt><dd class="num">${e.fecha_alta?fDate(e.fecha_alta):e.anio_alta}</dd></div>
-          <div><dt>${t('pl')}</dt><dd class="num">${plOk(e)?nf(e.plantilla)+' '+t('people'):'—'}</dd></div>
+          <div><dt>${t('pl_bi')}</dt><dd class="num">${plOk(e)?nf(e.plantilla)+' '+t('people'):'—'}</dd></div>
           <div><dt>${e.sector?t('sector'):t('zone')}</dt><dd>${esc(e.sector?secl(e):grp(e))}</dd></div>
           ${e.sector?`<div><dt>${t('zone')}</dt><dd>${esc(zn(e.zona))}</dd></div><div><dt>${t('mun')}</dt><dd>${esc(e.municipio)}</dd></div>`:''}
           ${e.direccion?`<div class="w"><dt>${t('addr')}</dt><dd>${esc(e.direccion)}, ${esc(e.cp)} ${esc(e.municipio)} · <a href="${maps(eAddr(e))}" target="_blank" rel="noopener" class="acc">${t('route')} ↗</a></dd></div>`:''}
@@ -767,9 +769,9 @@ async function cardPNG(e){
   lines.forEach((l, i) => { x.fillText(l, M - 4, y + fs * .82 + i * fs * 1.04); });
   y += fs * .82 + (lines.length - 1) * fs * 1.04 + 46;
   x.fillStyle = '#d86b33'; x.fillRect(M, y, 72, 6);
-  // municipio · sector
+  // municipio
   y += 58; x.font = F(400, 32); x.fillStyle = '#b2aca2';
-  const sub = [e.municipio, e.sector ? secl(e) : ''].filter(Boolean).join(' · ');
+  const sub = e.municipio;
   { let line = ''; const out = []; for (const w of sub.split(' ')) { const tst = line ? line + ' ' + w : w; if (x.measureText(tst).width > maxW && line) { out.push(line); line = w; } else line = tst; } out.push(line);
     out.slice(0, 2).forEach((l, i) => x.fillText(l, M, y + i * 44)); }
   // bloque inferior: socia desde + año (a la izquierda; el logo de la empresa va a la derecha)
@@ -903,7 +905,7 @@ function chrome(view){
     <div><img class="logo" src="${LOGO}" alt="50 FVEM">${SEC.lema ? `<p style="max-width:34ch">${t('ft_lema')}</p>` : ''}</div>
     ${menu.length ? `<div><h4>${t('ft_an')}</h4>${menu.map(([h,k])=>`<a href="#/${h}">${t(k)}</a>`).join('')}</div>` : '<div></div>'}
     <div><h4>${t('ft_em')}</h4>${emLinks.map(([h,l])=>`<a href="#/${h}">${l}</a>`).join('')}</div>
-    <div><h4>${t('ft_fv')}</h4><a href="${C.sitio}" target="_blank" rel="noopener">fvem.es</a>${SEC.newsletter?`<a href="${esc(FORMS.newsletter || '#/newsletter')}">Newsletter</a>`:''}</div></div>
+    <div><h4>${t('ft_fv')}</h4><a href="${C.sitio}" target="_blank" rel="noopener">fvem.es</a></div></div>
     ${SEC.patrocinadores ? `<div style="margin-top:40px"><h4>${t('ft_sp')}</h4><div class="spn">${Array.from({length:5},()=>`<span>${t('ft_spx')}</span>`).join('')}</div></div>` : ''}
     <div class="bt"><span>© FVEM · 1977 – 2027</span><span style="display:flex;gap:16px;flex-wrap:wrap">${[['aviso','ft_legal'],['privacidad','ft_priv'],['cookies','ft_cook'],['terminos','ft_terms'],['datos','ft_data'],['accesibilidad','ft_acc']].filter(([k])=>LEGAL[k]).map(([k,l])=>`<a href="${esc(LEGAL[k])}" target="_blank" rel="noopener">${t(l)}</a>`).join('')}${GA ? `<a href="#" id="ckcfg">${t('ck_cfg')}</a>` : ''}</span></div></div>`;
 }

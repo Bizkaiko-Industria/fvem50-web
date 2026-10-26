@@ -25,7 +25,7 @@ window.FVEM50 = {
   cifras: {
     empresas: 833,
     plantilla: 34073,
-    nota: { es: 'Empresas asociadas a FVEM a octubre de 2026.', eu: 'FVEMeko enpresa bazkideak, 2026ko urrian.' }
+    nota: { es: 'Datos a octubre de 2026.', eu: '2026ko urriko datuak.' }
   },
 
   // Cláusula informativa de la newsletter (RGPD). Va en el pie de todas las páginas.
