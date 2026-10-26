@@ -290,29 +290,23 @@ function currentVideo(){ const n = NOW(), v = C.video; const p = (v.programados|
 const arcD = (cx, cy, r, a0, a1) => { const P = a => [cx + r * Math.cos(a * Math.PI / 180), cy + r * Math.sin(a * Math.PI / 180)].map(v => v.toFixed(1));
   const [x0, y0] = P(a0), [x1, y1] = P(a1); return `M${x0} ${y0}A${r} ${r} 0 ${(a1 - a0) > 180 ? 1 : 0} 1 ${x1} ${y1}`; };
 const bladeD = (x, y, w, h) => `M${x} ${y + h}V${y + h / 2}A${h / 2} ${h / 2} 0 0 1 ${x + h / 2} ${y}H${x + w}V${y + h / 2}A${h / 2} ${h / 2} 0 0 1 ${x + w - h / 2} ${y + h}Z`;
+// Formas de marca (5 y C) vectorizadas a partir del archivo facilitado por FVEM. Coordenadas propias de cada forma.
+const SHAPE5 = { w: 844, h: 1245, d: "M 277.306 7.095 C 212.753 12.850, 160.379 59.302, 145.703 123.817 L 143.500 133.500 143.817 272.500 C 144.133 410.736, 144.441 424.535, 147.547 439.572 C 161.083 505.105, 217.263 555.019, 281.584 558.661 L 292.668 559.288 293.334 474.394 C 293.699 427.702, 294.007 350.800, 294.017 303.500 C 294.037 206.425, 293.795 209.903, 301.635 194.022 C 307.984 181.159, 318.605 170.383, 331 164.226 C 347.751 155.906, 332.579 156.619, 506.500 155.977 C 679.500 155.338, 665.306 155.924, 687.694 148.498 C 744.191 129.757, 785.566 76.272, 788.712 17.916 L 789.282 7.332 710.391 6.666 C 603.459 5.765, 288.729 6.076, 277.306 7.095 M 409 411.624 C 376.441 417.677, 352.516 437.900, 345.852 465 C 343.884 473.005, 344.157 493.879, 346.337 502 C 351.386 520.817, 364.715 537.009, 382 545.324 C 394.317 551.249, 403.667 553.608, 424.500 556.046 C 509.226 565.960, 569.248 592.125, 617.014 639.968 C 674.103 697.148, 698.807 782.123, 683.954 870.226 C 666.408 974.311, 585.724 1059.925, 484 1082.400 C 459.561 1087.799, 452.528 1088.478, 421 1088.478 C 389.427 1088.478, 382.260 1087.784, 358 1082.378 C 296.571 1068.689, 241.543 1030.296, 204.096 975 C 175.594 932.911, 160.443 888.633, 154.491 830.028 C 149.471 780.596, 133.179 755.139, 100.887 746.276 C 91.948 743.822, 68.112 743.820, 59 746.271 C 32.536 753.392, 14.231 774.426, 8.034 804.832 C 4.462 822.362, 5.316 859.476, 10.036 891.765 C 31.742 1040.267, 140.886 1168.462, 287.759 1217.965 C 355.493 1240.794, 435.135 1245.295, 509.500 1230.497 C 672.130 1198.134, 797.849 1071.194, 829.884 907 C 839.736 856.509, 840.279 797.139, 831.362 745.500 C 802.391 577.725, 668.270 443.587, 501.500 415.596 C 471.660 410.587, 425.289 408.596, 409 411.624" };
+const SHAPEC = { w: 865, h: 1100, dy: -16, d: "M 601.500 6.994 C 534.203 9.859, 469.826 22.201, 411 43.516 C 232.101 108.338, 94.612 249.151, 36.570 427 C 5.687 521.632, -1.867 629.438, 15.060 734 C 31.373 834.771, 71.648 931.870, 128.505 1007.500 C 165.777 1057.080, 196.501 1083.971, 224.500 1091.522 C 239.602 1095.594, 263.005 1094.265, 277.111 1088.533 C 304.455 1077.422, 320.316 1047.871, 316.217 1015.670 C 313.657 995.557, 306.776 982.899, 286.496 961 C 238.737 909.428, 197.749 839.912, 178.301 777.500 C 156.071 706.157, 150.580 609.236, 164.478 533.500 C 194.995 367.207, 312.410 234.027, 475.803 180.373 C 525.369 164.098, 569.150 157.529, 628 157.539 C 676.123 157.547, 694.123 159.890, 747.450 173.090 C 787.697 183.051, 809.326 181.833, 828.985 168.498 C 848.875 155.007, 858.539 135.155, 858.435 108 C 858.348 85.310, 852.378 71.203, 836.376 55.880 C 800.497 21.521, 708.761 2.428, 601.500 6.994" };
 function heroArt(photo){
-  // «50» geométrico: el 5 con una lama, un trazo y un bucle; el 0 como óvalo. Las piezas se ensamblan al cargar.
-  const W = 1600, H = 900, op = photo ? .82 : 1, mob = matchMedia('(max-width:700px)').matches;
-  const sw = 70, top = 170, x5 = 950;
-  const bar = bladeD(x5 - sw / 2, top - sw / 2, 270, sw);
-  const stem = `M${x5} ${top + 10}V${top + 225}`;
-  const bowl = arcD(x5 + 62, top + 400, 172, -112, 160);
-  const o = { x: x5 + 285, y: top - sw / 2, w: 230, h: 648 };
-  const zero = `M${o.x + o.w / 2} ${o.y + sw / 2}H${o.x + o.w / 2}A${o.w / 2 - sw / 2} ${o.w / 2 - sw / 2} 0 0 1 ${o.x + o.w - sw / 2} ${o.y + o.w / 2}V${o.y + o.h - o.w / 2}A${o.w / 2 - sw / 2} ${o.w / 2 - sw / 2} 0 0 1 ${o.x + sw / 2} ${o.y + o.h - o.w / 2}V${o.y + o.w / 2}A${o.w / 2 - sw / 2} ${o.w / 2 - sw / 2} 0 0 1 ${o.x + o.w / 2} ${o.y + sw / 2}`;
-  const st = `stroke-width="${sw}" stroke-linecap="round" fill="none"`;
-  return `<svg viewBox="${mob ? '780 -110 750 1500' : `0 0 ${W} ${H}`}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-  <defs>${METAL('hm').replace('<linearGradient id="hm" x1="0" y1="0" x2="1" y2="1"', `<linearGradient id="hm" gradientUnits="userSpaceOnUse" x1="${x5 - 120}" y1="${top - 60}" x2="${x5 + 330}" y2="${top + 640}"`)}<radialGradient id="hb" cx=".72" cy=".55" r=".75"><stop offset="0" stop-color="#3b2214"/><stop offset=".45" stop-color="#140f0c"/><stop offset="1" stop-color="#070707"/></radialGradient>
-  <linearGradient id="hs" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-  <mask id="hk"><path d="${bar}" fill="#fff"/><path d="${stem}" stroke="#fff" ${st}/><path d="${bowl}" stroke="#fff" ${st}/></mask></defs>
+  // El 5 (metal) y la C (cobre) de la marca, superpuestos ligeramente
+  const W = 1600, H = 900, mob = matchMedia('(max-width:700px)').matches;
+  const sc = .44, tx = 760, ty = 150, cx = 733;   // cx: desplazamiento de la C respecto al 5 (en el logo es 923; menos = más superposición)
+  return `<svg viewBox="${mob ? '715 -170 800 1550' : `0 0 ${W} ${H}`}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>${METAL('hm')}<radialGradient id="hb" cx=".72" cy=".55" r=".75"><stop offset="0" stop-color="#3b2214"/><stop offset=".45" stop-color="#140f0c"/><stop offset="1" stop-color="#070707"/></radialGradient>
+  <linearGradient id="hs" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <mask id="hk"><path d="${SHAPE5.d}" fill="#fff"/></mask></defs>
   ${photo ? '' : `<rect width="${W}" height="${H}" fill="url(#hb)"/>`}
-  <g opacity="${photo ? 0 : .5}">${Array.from({length: 9}, (_, i) => `<line x1="${200 + i * 160}" y1="0" x2="${200 + i * 160}" y2="${H}" stroke="#ffffff" stroke-opacity=".035"/>`).join('')}</g>
-  <g style="opacity:${op}">
-    <path class="blade" style="animation-delay:.3s" d="${bar}" fill="url(#hm)"/>
-    <path class="draw" pathLength="1" d="${stem}" stroke="url(#hm)" ${st} style="animation-duration:.6s;animation-delay:.9s"/>
-    <path class="draw" pathLength="1" d="${bowl}" stroke="url(#hm)" ${st} style="animation-duration:1.3s;animation-delay:1.3s"/>
+  <g transform="translate(${tx} ${ty}) scale(${sc})">
+    <g class="rise5" style="opacity:${photo ? .85 : 1}"><path d="${SHAPE5.d}" fill="url(#hm)"/>
+      <g mask="url(#hk)"><rect class="sweep" x="-700" y="-100" width="420" height="1500" fill="url(#hs)" transform="skewX(-20)"/></g></g>
+    <g transform="translate(${cx} ${SHAPEC.dy})"><path class="spin-in" style="animation-delay:.9s" d="${SHAPEC.d}" fill="#d86b33" opacity=".93"/></g>
   </g>
-  <g mask="url(#hk)"><rect class="sweep" x="${x5 - 520}" y="0" width="240" height="${H}" fill="url(#hs)" transform="skewX(-20)"/></g>
-  <path class="draw" pathLength="1" d="${zero}" stroke="#d86b33" ${st} style="animation-duration:1.8s;animation-delay:1.1s"/>
   </svg><canvas id="sparks"></canvas>`;
 }
 let sparkRAF = 0;
