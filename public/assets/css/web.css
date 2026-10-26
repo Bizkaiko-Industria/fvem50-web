@@ -624,3 +624,10 @@ body.nomenu .hd .cta{display:inline-flex}
 @keyframes blade{from{transform:translateX(105%)}}
 .rise5{animation:rise5 1.3s cubic-bezier(.2,.8,.2,1) .2s both}
 @keyframes rise5{from{opacity:0;transform:translateY(80px)}}
+
+/* C de cabecera: se traza como metal fundido y se enfría hasta el cobre */
+.ctrace{animation-duration:1.5s!important;animation-delay:.7s!important;animation-timing-function:cubic-bezier(.45,0,.25,1)!important}
+.cforge{animation:cforge 2.8s ease-out .7s both}
+@keyframes cforge{0%{fill:#fff6d6}25%{fill:#ffd36b}55%{fill:#ff9a3c}100%{fill:#d86b33}}
+.cglow{opacity:0;animation:cglow 3s ease-out .7s both}
+@keyframes cglow{0%{opacity:.95}40%{opacity:.8}100%{opacity:0}}
