@@ -1,0 +1,25 @@
+# Recoge las descripciones que las empresas publican en sus webs. No publica nada.
+name: Buscar descripciones de empresas
+on:
+  push:
+    branches: [cambio/descripciones]
+    paths: [herramientas/buscar_descripciones.py, .github/workflows/descripciones.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  buscar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install -q requests beautifulsoup4 lxml
+      - run: python herramientas/buscar_descripciones.py
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add herramientas/descripciones_web.json
+          git commit -m "Descripciones recogidas de las webs de las empresas (pendientes de revisión)" || echo "Sin cambios"
+          git push
