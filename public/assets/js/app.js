@@ -17,7 +17,7 @@ const T = {
   demo:'Vista previa · agenda, programa y personas con contenido de ejemplo',
   nav_ag:'Agenda',nav_pr:'Programa',nav_em:'Empresas',nav_hi:'Historia',nav_pe:'Personas',nav_pa:'Participa',nav_ps:'Prensa',home:'Inicio',
   cta_before:'Inscríbete a la gala',cta_live:'Ver en directo',cta_after:'Ver la galería',
-  h1a:'50 años',h1b:'de industria',lema:'Pasado que impulsa · Futuro que construimos',watch:'Ver el vídeo',agenda27:'Agenda 2027',scroll:'Desliza',
+  h1a:'50 años',h1b:'de industria',ttl_home:'FVEM · 50 años con la industria',lema:'Pasado que impulsa · Futuro que construimos',watch:'Ver el vídeo',agenda27:'Agenda 2027',scroll:'Desliza',
   sound_on:'Activar sonido',sound_off:'Silenciar',pause:'Pausar animación',
   video_pend:'El vídeo completo se publicará aquí.',
   cd_before:'Faltan para la',days:'Días',hours:'Horas',mins:'Min',secs:'Seg',years:'Años',
@@ -67,7 +67,7 @@ const T = {
   demo:'Aurrebista · agenda, egitaraua eta pertsonak adibide-edukiarekin',
   nav_ag:'Agenda',nav_pr:'Egitaraua',nav_em:'Enpresak',nav_hi:'Historia',nav_pe:'Pertsonak',nav_pa:'Parte hartu',nav_ps:'Prentsa',home:'Hasiera',
   cta_before:'Eman izena galan',cta_live:'Ikusi zuzenean',cta_after:'Ikusi galeria',
-  h1a:'Industriaren',h1b:'50 urte',lema:'Bultzatzen duen iragana · Eraikitzen dugun etorkizuna',watch:'Ikusi bideoa',agenda27:'2027ko agenda',scroll:'Irristatu',
+  h1a:'50 urte',h1b:'industriarekin',ttl_home:'FVEM · 50 urte industriarekin',lema:'Bultzatzen duen iragana · Eraikitzen dugun etorkizuna',watch:'Ikusi bideoa',agenda27:'2027ko agenda',scroll:'Irristatu',
   sound_on:'Aktibatu soinua',sound_off:'Isilarazi',pause:'Pausatu animazioa',
   video_pend:'Bideo osoa hemen argitaratuko da.',
   cd_before:'Falta da',days:'Egun',hours:'Ordu',mins:'Min',secs:'Seg',years:'Urte',
@@ -83,7 +83,7 @@ const T = {
   portrait_pend:'Erretratua falta da',
   pa_h:'Zure enpresa bazkidea da?',pa_p:'Bidali zure logoa, argazki zahar bat eta 50. urteurrenerako mezua. Zure fitxan argitaratuko dugu.',pa_btn:'Parte hartu',
   nl_h:'Jaso agenda zure postan',nl_p:'Ezagutu urteurren honetako hitzordu nabarmenenak.',nl_ph:'Zure helbide elektronikoa',nl_btn:'Harpidetu',nl_ok:'Aurrebista: harpidetza FVEMen sistemarekin konektatuko da.',
-  ft_lema:'Industriaren 50 urte. Bultzatzen duen iragana, eraikitzen dugun etorkizuna.',ft_an:'Urteurrena',ft_em:'Enpresak',ft_fv:'FVEM',ft_sp:'Babesleak eta laguntzaileak',ft_spx:'Logoa',ft_legal:'Lege-oharra',ft_priv:'Pribatutasun-politika',ft_cook:'Cookie-politika',ft_terms:'Erabilera-baldintzak',ft_data:'Datuen babesari buruzko baldintza orokorrak',ft_acc:'Irisgarritasuna',ck_title:'Analitikako cookieak',ck_text:'Google Analytics erabiltzen dugu webgune hau zenbat pertsonak bisitatzen duten jakiteko eta hobetzeko. Onartzen baduzu bakarrik aktibatzen da; edozein unetan alda dezakezu orriaren oineko «Cookieak konfiguratu» estekan.',ck_more:'Cookie-politika',ck_yes:'Onartu',ck_no:'Baztertu',ck_cfg:'Cookieak konfiguratu',ft_web:'FVEMen webgunea',ft_contact:'Harremanetarako',
+  ft_lema:'50 urte industriarekin. Bultzatzen duen iragana, eraikitzen dugun etorkizuna.',ft_an:'Urteurrena',ft_em:'Enpresak',ft_fv:'FVEM',ft_sp:'Babesleak eta laguntzaileak',ft_spx:'Logoa',ft_legal:'Lege-oharra',ft_priv:'Pribatutasun-politika',ft_cook:'Cookie-politika',ft_terms:'Erabilera-baldintzak',ft_data:'Datuen babesari buruzko baldintza orokorrak',ft_acc:'Irisgarritasuna',ck_title:'Analitikako cookieak',ck_text:'Google Analytics erabiltzen dugu webgune hau zenbat pertsonak bisitatzen duten jakiteko eta hobetzeko. Onartzen baduzu bakarrik aktibatzen da; edozein unetan alda dezakezu orriaren oineko «Cookieak konfiguratu» estekan.',ck_more:'Cookie-politika',ck_yes:'Onartu',ck_no:'Baztertu',ck_cfg:'Cookieak konfiguratu',ft_web:'FVEMen webgunea',ft_contact:'Harremanetarako',
   ag_p:'50. urteurreneko ekitaldi guztiak leku bakarrean. Datak eta lekuak adibideak dira, berretsi arte.',all:'Guztiak',v_list:'Zerrenda',v_cal:'Egutegia',
   s_open:'Izen-ematea zabalik',s_soon:'Laster',s_full:'Beteta',s_past:'Eginda',s_live:'Zuzenean',s_free:'Sarrera librea',
   ev_when:'Data',ev_time:'Ordua',ev_where:'Lekua',ev_type:'Mota',ev_reg:'Eman izena',ev_reg_soon:'Izen-ematea laster',ev_route:'Nola iritsi',ev_share:'Partekatu',ev_left:'Falta da',
@@ -785,7 +785,7 @@ async function cardPNG(e){
   if (isF(e)) { x.fillStyle = '#d86b33'; x.font = F(600, 30); x.fillText(`★ ${t('founder_l')}`, M, yb + 312); }
   // pie
   x.fillStyle = 'rgba(255,255,255,.14)'; x.fillRect(M, H - 104, W - 2 * M, 1);
-  x.font = F(500, 26); x.fillStyle = '#b2aca2'; x.fillText(`1977 – 2027 · ${L === 'eu' ? 'Industriaren 50 urte' : '50 años de industria'}`, M, H - 56);
+  x.font = F(500, 26); x.fillStyle = '#b2aca2'; x.fillText(`1977 – 2027 · ${L === 'eu' ? '50 urte industriarekin' : '50 años de industria'}`, M, H - 56);
   // logo de la empresa en mancheta blanca o negra (abajo a la derecha)
   if (lg) {
     const dark = e.logo_fondo === 'oscuro', bw = PB, bh = 176, bx = W - M - bw, by = H - 104 - 36 - bh, rad = 22;
@@ -938,7 +938,7 @@ function route(keepScroll){
   $$('.view').forEach(x => { const on = x.id === 'v-' + v; x.classList.toggle('on', on); if (!on) x.innerHTML = ''; });
   document.body.classList.toggle('home-mode', v === 'home');
   closeDrawer(); chrome(v); VIEWS[v](arg);
-  const ttl = { home: 'FVEM 50 · ' + t('h1a') + ' ' + t('h1b'), evento: arg && EVS[arg] ? tx(EVS[arg].titulo) + ' · FVEM 50' : '', ficha: BYNUM[arg] ? shortName(BYNUM[arg].nombre) + ' · FVEM 50' : '' }[v] || (t({agenda:'nav_ag',programa:'nav_pr',empresas:'nav_em',historia:'nav_hi',personas:'nav_pe',participa:'nav_pa',prensa:'nav_ps'}[v]) + ' · FVEM 50');
+  const ttl = { home: t('ttl_home'), evento: arg && EVS[arg] ? tx(EVS[arg].titulo) + ' · FVEM 50' : '', ficha: BYNUM[arg] ? shortName(BYNUM[arg].nombre) + ' · FVEM 50' : '' }[v] || (t({agenda:'nav_ag',programa:'nav_pr',empresas:'nav_em',historia:'nav_hi',personas:'nav_pe',participa:'nav_pa',prensa:'nav_ps'}[v]) + ' · FVEM 50');
   document.title = ttl;
   gaPage();
   if (!keepScroll && !same) scrollTo(0, 0);
