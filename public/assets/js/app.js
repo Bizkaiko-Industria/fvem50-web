@@ -308,7 +308,7 @@ function heroArt(photo){
     <g class="rise5" style="opacity:${photo ? .85 : 1}"><path d="${SHAPE5.d}" fill="url(#hm)"/></g>
     <g transform="translate(${cx} ${SHAPEC.dy})">
       <g mask="url(#cm)"><path class="cglow" d="${SHAPEC.d}" fill="#ffb347" filter="url(#cg)"/><path class="cforge" d="${SHAPEC.d}" fill="#d86b33" opacity=".95"/></g></g>
-    <g mask="url(#hk)"><rect class="shine" x="-320" y="-100" width="220" height="1400" fill="url(#hs)"/></g>
+    <g mask="url(#hk)"><g transform="skewX(-45)"><rect class="shine" x="-520" y="-100" width="240" height="1400" fill="url(#hs)"/></g></g>
   </g>
   </svg><canvas id="sparks"></canvas>`;
 }

@@ -634,4 +634,4 @@ body.nomenu .hd .cta{display:inline-flex}
 
 /* reflejo vertical que recorre el 5 y la C */
 .shine{animation:shine 6s ease-in-out 2.4s infinite}
-@keyframes shine{0%{transform:translateX(0)}55%,100%{transform:translateX(2150px)}}
+@keyframes shine{0%{transform:translateX(0)}60%,100%{transform:translateX(3700px)}}
