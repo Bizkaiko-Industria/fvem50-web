@@ -673,6 +673,10 @@ function descAuto(e){
   if (L === 'eu') return `${shortName(e.nombre)} ${e.sector ? secl(e).toLowerCase() + ' arloko enpresa da' : 'enpresa da'}, ${e.municipio}n egoitza duena. ${e.anio_alta}az geroztik da FVEMeko bazkidea${pl}.`;
   return `${shortName(e.nombre)} es una empresa ${e.sector ? 'del ámbito de ' + secl(e).toLowerCase().replace(/^fabricación de /, 'la fabricación de ') : 'del metal'}, con sede en ${e.municipio}. Forma parte de FVEM desde ${e.anio_alta}${pl}.`;
 }
+function descCtx(e){
+  const pl = plOk(e) && e.plantilla > 1 ? `, con una plantilla de ${nf(e.plantilla)} personas` : '';
+  return `Con sede en ${e.municipio}, forma parte de FVEM desde ${e.anio_alta}${pl}.`;
+}
 function renderFicha(num){
   const e = BYNUM[num]; if (!e) { location.hash = '#/empresas'; return; }
   const list = LAST.length && LAST.includes(e) ? LAST : ALL.slice().sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')); const i = list.indexOf(e);
@@ -682,7 +686,8 @@ function renderFicha(num){
   const ph = oldPhoto ? (e.foto_historica ? `<img alt="" src="${esc(e.foto_historica)}">` : factory(e.nombre, true)) : (e.foto ? `<img alt="" src="${esc(e.foto)}">` : factory(e.nombre, false));
   const pend = oldPhoto ? !e.foto_historica : !e.foto, px = y => ((y-FUND)/(ANIV-FUND)*100).toFixed(2);
   const since = e.fecha_alta ? e.fecha_alta + 'T00:00:00+01:00' : `${e.anio_alta}-01-01T00:00:00+01:00`;
-  const desc = (L==='eu' ? e.descripcion_eu : e.descripcion_es) || (L==='eu' ? '' : e.descripcion_es) || descAuto(e);
+  const own = L === 'eu' ? e.descripcion_eu : e.descripcion_es;
+  const desc = own ? (own.length < 150 ? own + ' ' + descCtx(e) : own) : descAuto(e);
   const frase = (L==='eu' ? e.frase_eu : e.frase_es) || e.frase_es;
   $('#v-ficha').innerHTML = `<section class="lt" style="padding:clamp(28px,4vw,48px) 0 90px"><div class="wrap">
     <div class="crumb"><a href="#/">${t('home')}</a><span>/</span><a href="#/empresas">${t('nav_em')}</a><span>/</span><span>${e.num_asociada}</span></div>

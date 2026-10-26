@@ -94,6 +94,13 @@ for e in emp:
     if e['logo']: con_logo += 1
     if claro: e['logo_fondo'] = 'oscuro'
 print(con_logo, 'empresas con logo')
+# Resúmenes de actividad redactados a partir de la web de cada empresa (herramientas/resumenes_actividad.json)
+try:
+    RES = json.load(open('herramientas/resumenes_actividad.json', encoding='utf-8'))
+    for e in emp:
+        if e['num_asociada'] in RES: e['descripcion_es'] = RES[e['num_asociada']]
+except FileNotFoundError:
+    pass
 out = {'empresas': emp, 'sectores_eu': {v[0]: v[1] for v in SECT.values()}, 'sectores_largo_eu': {v[2]: v[3] for v in SECT.values()}}
 open('public/assets/js/empresas.js', 'w').write('/* Listado de empresas asociadas · generado con herramientas/convertir_asociadas.py (solo columnas públicas) */\n'
     'window.FVEM50_EMPRESAS = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
