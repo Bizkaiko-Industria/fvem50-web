@@ -82,6 +82,8 @@ window.FVEM50 = {
   // Cuenta atrás de la portada. Si se borra este bloque, vuelve la cuenta atrás a la gala.
   cuentaAtras: {
     fecha: '2027-01-13T00:00:00+01:00',
+    mostrarFecha: false,      // true = muestra «13 de enero de 2027» junto al texto
+    botonCalendario: false,   // true = muestra el botón «Añadir a mi calendario»
     etiqueta: { es: 'Cuenta atrás', eu: 'Atzerako kontaketa' },
     titulo: { es: 'Apertura del sobre', eu: 'Gutun-azalaren irekiera' },
     texto: { es: 'Ese día conoceremos el secreto mejor guardado de FVEM.', eu: 'Egun horretan ezagutuko dugu FVEMen sekreturik ondoen gordea.' },

@@ -354,9 +354,9 @@ function playVideo(){
 function caStrip(){
   const d = new Date(CA.fecha), before = NOW() < d;
   if (before) return `<section class="cds" id="cds">${deco('bg',120)}<div class="wrap">
-      <div><div class="lb">${esc(tx(CA.etiqueta))}</div><div class="tt">${esc(tx(CA.titulo))}<small>${fLong(d)} · ${esc(tx(CA.texto))}</small></div></div>
+      <div><div class="lb">${esc(tx(CA.etiqueta))}</div><div class="tt">${esc(tx(CA.titulo))}<small>${CA.mostrarFecha === false ? '' : fLong(d) + ' · '}${esc(tx(CA.texto))}</small></div></div>
       ${cdHTML(CA.fecha)}
-      <div class="ac"><button class="btn sm" id="caics">${I('cal')} ${t('add_cal')}</button></div></div></section>`;
+      <div class="ac">${CA.botonCalendario === false ? '' : `<button class="btn sm" id="caics">${I('cal')} ${t('add_cal')}</button>`}</div></div></section>`;
   return `<section class="cds" id="cds">${deco('bg',120)}<div class="wrap"><div><div class="lb">${esc(tx(CA.etiqueta))}</div><div class="tt">${esc(tx(CA.despues))}</div></div><div></div>
     <div class="ac"><button class="btn sm" id="cago">${I('play')} ${t('cd_open')}</button></div></div></section>`;
 }
