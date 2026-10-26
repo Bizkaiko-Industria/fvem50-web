@@ -824,7 +824,7 @@ function chrome(view){
     <div><img class="logo" src="${LOGO}" alt="50 FVEM">${SEC.lema ? `<p style="max-width:34ch">${t('ft_lema')}</p>` : ''}</div>
     ${menu.length ? `<div><h4>${t('ft_an')}</h4>${menu.map(([h,k])=>`<a href="#/${h}">${t(k)}</a>`).join('')}</div>` : '<div></div>'}
     <div><h4>${t('ft_em')}</h4>${emLinks.map(([h,l])=>`<a href="#/${h}">${l}</a>`).join('')}</div>
-    <div><h4>${t('ft_fv')}</h4><a href="${C.sitio}" target="_blank" rel="noopener">${t('ft_web')} ↗</a>${SEC.newsletter?`<a href="${esc(FORMS.newsletter || '#/newsletter')}">Newsletter</a>`:''}</div></div>
+    <div><h4>${t('ft_fv')}</h4><a href="${C.sitio}" target="_blank" rel="noopener">fvem.es</a>${SEC.newsletter?`<a href="${esc(FORMS.newsletter || '#/newsletter')}">Newsletter</a>`:''}</div></div>
     ${SEC.patrocinadores ? `<div style="margin-top:40px"><h4>${t('ft_sp')}</h4><div class="spn">${Array.from({length:5},()=>`<span>${t('ft_spx')}</span>`).join('')}</div></div>` : ''}
     <div class="bt"><span>© FVEM · 1977 – 2027</span><span style="display:flex;gap:16px;flex-wrap:wrap">${[['aviso','ft_legal'],['privacidad','ft_priv'],['cookies','ft_cook'],['terminos','ft_terms'],['datos','ft_data'],['accesibilidad','ft_acc']].filter(([k])=>LEGAL[k]).map(([k,l])=>`<a href="${esc(LEGAL[k])}" target="_blank" rel="noopener">${t(l)}</a>`).join('')}${GA ? `<a href="#" id="ckcfg">${t('ck_cfg')}</a>` : ''}</span></div></div>`;
 }
