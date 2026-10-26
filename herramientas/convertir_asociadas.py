@@ -73,6 +73,27 @@ for r in rows[1:]:
         anio_baja=(fecha(g('baja')).year if c['baja'] is not None and g('baja') else None),
         fundadora=bool(fa and fa.year == 1977), sector=s[0] if s else '', sector_largo=s[2] if s else '',
         logo='', foto='', foto_historica='', descripcion_es='', descripcion_eu='', producto_es='', producto_eu='', frase_es='', frase_eu=''))
+# Logos: si existe public/assets/img/empresas/<num>.webp (o .png/.svg) se asigna a la empresa.
+# Los logos claros (blancos sobre transparente) se marcan para mostrarse sobre fondo oscuro.
+import os
+from PIL import Image
+LD = 'public/assets/img/empresas/'
+def logo_info(num):
+    for ext in ('webp', 'png', 'svg'):
+        f = f'{LD}{num}.{ext}'
+        if os.path.exists(f):
+            if ext == 'svg': return f[len('public/'):], False
+            im = Image.open(f).convert('RGBA'); a = im.getchannel('A')
+            px = [l for l, al in zip(im.convert('L').getdata(), a.getdata()) if al > 128]
+            claro = bool(px) and a.getextrema()[0] < 250 and sum(px) / len(px) > 215
+            return f[len('public/'):], claro
+    return '', False
+con_logo = 0
+for e in emp:
+    e['logo'], claro = logo_info(e['num_asociada'])
+    if e['logo']: con_logo += 1
+    if claro: e['logo_fondo'] = 'oscuro'
+print(con_logo, 'empresas con logo')
 out = {'empresas': emp, 'sectores_eu': {v[0]: v[1] for v in SECT.values()}, 'sectores_largo_eu': {v[2]: v[3] for v in SECT.values()}}
 open('public/assets/js/empresas.js', 'w').write('/* Listado de empresas asociadas · generado con herramientas/convertir_asociadas.py (solo columnas públicas) */\n'
     'window.FVEM50_EMPRESAS = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
