@@ -92,6 +92,7 @@ window.FVEM50 = {
     titulo: { es: 'El secreto mejor guardado de FVEM', eu: 'FVEMen sekreturik ondoen gordea' },
     poster: 'assets/img/video-portada.jpg',   // imagen de portada del vídeo (vacío = gráfico de marca)
     posterPlay: ['50%', '50%'],               // posición del botón play (horizontal, vertical)
+    subtitulos: false,                        // true = el vídeo arranca con subtítulos de YouTube activados
     tituloSobrePortada: false,                // true = muestra el título sobre la imagen
     nota: false                               // true = muestra «El vídeo se carga desde YouTube al pulsar reproducir»
   },

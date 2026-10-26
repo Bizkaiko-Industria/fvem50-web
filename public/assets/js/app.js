@@ -353,7 +353,11 @@ function videoBlock(){
 }
 function playVideo(){
   const f = $('#vfr'); if (!f) return; const id = f.dataset.yt, yv = C.videoPrincipal || {};
-  f.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1&iv_load_policy=3&color=white" title="${esc(tx(yv.titulo))}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+  const cc = yv.subtitulos === true, org = /^https?:/.test(location.origin) ? '&origin=' + encodeURIComponent(location.origin) : '';
+  f.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1&iv_load_policy=3&color=white&cc_load_policy=${cc ? 1 : 0}&hl=${L}&enablejsapi=1${org}" title="${esc(tx(yv.titulo))}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+  // YouTube puede activar los subtítulos por su cuenta: se le pide que los quite al arrancar (quien quiera, puede activarlos con el botón CC)
+  if (!cc) { const fr = $('iframe', f), off = () => { try { fr.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'unloadModule', args: ['captions'] }), 'https://www.youtube-nocookie.com'); } catch (_) {} };
+    fr.addEventListener('load', () => [600, 1500, 3000, 5000].forEach(ms => setTimeout(off, ms))); }
 }
 function caStrip(){
   const d = new Date(CA.fecha), before = NOW() < d;
