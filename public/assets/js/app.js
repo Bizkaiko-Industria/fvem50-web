@@ -24,7 +24,7 @@ const T = {
   add_cal:'Añadir a mi calendario',see_prog:'Ver programa',next_cita:'Próxima cita',live_now:'En directo ahora',next_s:'A continuación',
   thanks:'Gracias. 50 años y seguimos.',thanks_s:'Revive la gala y todos los actos del aniversario.',
   up_k:'Agenda 2027',up_h:'Próximas citas',up_all:'Ver toda la agenda',
-  st_k:'En cifras',st_h:'Las empresas que hacen la industria de Bizkaia',st_emp:'Empresas asociadas',st_pl:'Personas',st_mun:'Municipios',st_y:'Años',
+  st_k:'En cifras',st_h:'Las empresas que hacen la industria de Bizkaia',st_emp:'Empresas asociadas',st_pl:'Personas trabajadoras',st_mun:'Municipios',st_y:'Años',
   st_note:'Datos calculados a partir del listado de asociadas (parcial en esta vista previa).',
   se_h:'Busca una empresa',se_ph:'Nombre, municipio o nº de asociada',se_all:'Ver los {n} resultados',se_none:'No hay empresas con esos criterios.',
   hi_k:'1977 → 2027',hi_h:'Medio siglo en una línea',hi_p:'De las primeras socias de 1977 a las que se han sumado este mismo año. Desliza la foto para comparar ayer y hoy.',hi_more:'Recorrer la historia',
@@ -61,7 +61,7 @@ const T = {
   ps_p:'Notas de prensa, recursos de marca y material gráfico del 50 aniversario.',ps_notes:'Notas de prensa',ps_kit:'Kit de marca',ps_logo:'Logotipo 50 FVEM (PNG)',ps_logo_s:'Versión en blanco para fondos oscuros',
   ps_soon:'Próximamente',ps_svg:'Logotipos vectoriales (SVG, PDF)',ps_man:'Manual de uso de la marca',ps_photo:'Fotografías en alta resolución',ps_contact:'Contacto de comunicación',ps_contact_p:'Datos de contacto por confirmar.',example:'Ejemplo',
   copied:'Enlace copiado',more_info:'Más información',
-  nl_cta:'Suscríbete',nl_ok_pre:'He leído y acepto la',nl_cl:'Cláusula informativa',nl_resp:'Responsable',nl_fin:'Finalidad',nl_der:'Derechos',nl_inf:'Información adicional',nl_inf_t:'Para más información diríjase a nuestra',play_v:'Reproducir vídeo',video_k:'Vídeo',yt_note:'El vídeo se carga desde YouTube al pulsar reproducir.',cd_open:'Ver el vídeo',em_all:'Ver todas las empresas'
+  nl_cta:'Suscríbete',nl_e_empty:'Escribe tu correo electrónico.',nl_e_mail:'El correo electrónico no es válido. Revisa que tenga el formato nombre@dominio.com.',nl_e_check:'Para suscribirte tienes que aceptar la política de privacidad.',nl_ok_pre:'He leído y acepto la',nl_cl:'Cláusula informativa',nl_resp:'Responsable',nl_fin:'Finalidad',nl_der:'Derechos',nl_inf:'Información adicional',nl_inf_t:'Para más información diríjase a nuestra',play_v:'Reproducir vídeo',video_k:'Vídeo',yt_note:'El vídeo se carga desde YouTube al pulsar reproducir.',cd_open:'Ver el vídeo',em_all:'Ver todas las empresas'
  },
  eu: {
   demo:'Aurrebista · agenda, egitaraua eta pertsonak adibide-edukiarekin',
@@ -74,7 +74,7 @@ const T = {
   add_cal:'Gehitu nire egutegira',see_prog:'Ikusi egitaraua',next_cita:'Hurrengo hitzordua',live_now:'Zuzenean orain',next_s:'Ondoren',
   thanks:'Eskerrik asko. 50 urte, eta aurrera.',thanks_s:'Bizi berriro gala eta urteurreneko ekitaldi guztiak.',
   up_k:'2027ko agenda',up_h:'Hurrengo hitzorduak',up_all:'Ikusi agenda osoa',
-  st_k:'Zifratan',st_h:'Bizkaiko industria egiten duten enpresak',st_emp:'Enpresa bazkideak',st_pl:'Pertsona',st_mun:'Udalerri',st_y:'Urte',
+  st_k:'Zifratan',st_h:'Bizkaiko industria egiten duten enpresak',st_emp:'Enpresa bazkideak',st_pl:'Langile',st_mun:'Udalerri',st_y:'Urte',
   st_note:'Bazkideen zerrendatik kalkulatutako datuak (partziala aurrebista honetan).',
   se_h:'Bilatu enpresa bat',se_ph:'Izena, udalerria edo bazkide-zk.',se_all:'Ikusi {n} emaitzak',se_none:'Ez dago irizpide horiek betetzen dituen enpresarik.',
   hi_k:'1977 → 2027',hi_h:'Mende erdia lerro batean',hi_p:'1977ko lehen bazkideetatik aurten batu direnetara. Irristatu argazkia atzo eta gaur alderatzeko.',hi_more:'Ibili historian zehar',
@@ -111,7 +111,7 @@ const T = {
   ps_p:'50. urteurreneko prentsa-oharrak, marka-baliabideak eta material grafikoa.',ps_notes:'Prentsa-oharrak',ps_kit:'Marka-kita',ps_logo:'50 FVEM logotipoa (PNG)',ps_logo_s:'Bertsio zuria hondo ilunetarako',
   ps_soon:'Laster',ps_svg:'Logotipo bektorialak (SVG, PDF)',ps_man:'Markaren erabilera-eskuliburua',ps_photo:'Bereizmen handiko argazkiak',ps_contact:'Komunikazio-harremana',ps_contact_p:'Harremanetarako datuak zehazteke.',example:'Adibidea',
   copied:'Esteka kopiatuta',more_info:'Informazio gehiago',
-  nl_cta:'Harpidetu',nl_ok_pre:'Irakurri eta onartzen dut',nl_cl:'Informazio-klausula',nl_resp:'Arduraduna',nl_fin:'Helburua',nl_der:'Eskubideak',nl_inf:'Informazio gehigarria',nl_inf_t:'Informazio gehiago nahi baduzu, kontsultatu gure',play_v:'Erreproduzitu bideoa',video_k:'Bideoa',yt_note:'Bideoa YouTubetik kargatzen da erreproduzitu sakatzean.',cd_open:'Ikusi bideoa',em_all:'Ikusi enpresa guztiak'
+  nl_cta:'Harpidetu',nl_e_empty:'Idatzi zure helbide elektronikoa.',nl_e_mail:'Helbide elektronikoa ez da zuzena. Egiaztatu izena@domeinua.com formatua duela.',nl_e_check:'Harpidetzeko pribatutasun-politika onartu behar duzu.',nl_ok_pre:'Irakurri eta onartzen dut',nl_cl:'Informazio-klausula',nl_resp:'Arduraduna',nl_fin:'Helburua',nl_der:'Eskubideak',nl_inf:'Informazio gehigarria',nl_inf_t:'Informazio gehiago nahi baduzu, kontsultatu gure',play_v:'Erreproduzitu bideoa',video_k:'Bideoa',yt_note:'Bideoa YouTubetik kargatzen da erreproduzitu sakatzean.',cd_open:'Ikusi bideoa',em_all:'Ikusi enpresa guztiak'
  }
 };
 let L = 'es';
@@ -693,7 +693,7 @@ function renderFicha(num){
     <div class="crumb"><a href="#/">${t('home')}</a><span>/</span><a href="#/empresas">${t('nav_em')}</a><span>/</span><span>${e.num_asociada}</span></div>
     <div class="fx">
       <div class="fxl"><div class="bw"><div class="fg">
-        <div class="k k-logo${e.logo && e.logo_fondo === 'oscuro' ? ' dkl' : ''}" style="--i:0">${mono(e, true)}</div>
+        <div class="k k-logo${e.logo && e.logo_fondo === 'oscuro' ? ' dkl' : ''}" style="--i:0">${mono(e)}</div>
         <div class="k k-desde" style="--i:1"><span class="l">${t('since_l')}</span><span class="v num">${e.anio_alta}</span>${isF(e) ? `<span class="l2">★ ${t('founder')}</span>` : ''}</div>
         <div class="k k-num" style="--i:2"><span class="l">${t('num')}</span><span class="v num">${e.num_asociada}</span></div>
         <div class="k k-pl" style="--i:3"><span class="l">${t('pl')}</span><span class="v num">${plOk(e) ? nf(e.plantilla) : '—'}</span></div>
@@ -840,7 +840,16 @@ function chrome(view){
   [$('#hcta'), $('#dcta')].forEach(a => { a.textContent = cta[0]; a.href = cta[1]; if (/^https?:/.test(cta[1])) { a.target = '_blank'; a.rel = 'noopener'; } else { a.removeAttribute('target'); } });
   document.body.classList.toggle('nomenu', !menu.length);
   setTimeout(() => { const k = $('#ckcfg'); if (k) k.onclick = ev => { ev.preventDefault(); cookieBanner(true); };
-    const f = $('#nlf'); if (f) f.onsubmit = ev => { ev.preventDefault(); toast(t('nl_ok')); };
+    const f = $('#nlf'); if (f) { f.noValidate = true; const em = $('input[type=email]', f), ck = $('input[type=checkbox]', f);
+      const err = (el, msg) => { const box = el.closest('.nl') || el.closest('.nlok'); box.classList.add('bad'); let m = f.querySelector(`[data-err="${el.type}"]`);
+        if (!m) { m = document.createElement('p'); m.className = 'nlerr'; m.dataset.err = el.type; m.setAttribute('role', 'alert'); box.after(m); } m.textContent = msg; };
+      const clr = el => { const box = el.closest('.nl') || el.closest('.nlok'); box.classList.remove('bad'); const m = f.querySelector(`[data-err="${el.type}"]`); if (m) m.remove(); };
+      em.oninput = () => clr(em); ck.onchange = () => clr(ck);
+      f.onsubmit = ev => { ev.preventDefault(); let ok = true; const v = em.value.trim();
+        if (!v) { err(em, t('nl_e_empty')); ok = false; } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { err(em, t('nl_e_mail')); ok = false; } else clr(em);
+        if (!ck.checked) { err(ck, t('nl_e_check')); ok = false; } else clr(ck);
+        if (!ok) { (em.closest('.bad') ? em : ck).focus(); return; }
+        toast(t('nl_ok')); f.reset(); }; }
     $$('a[href="#/newsletter"]').forEach(a => a.onclick = ev => { ev.preventDefault(); goNl(); }); });
   $$('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === L));
   const dm = $('#demo'); if (dm && C.vistaPrevia === false) dm.remove(); else if (dm) dm.innerHTML = `${esc(t('demo'))} <b style="margin-left:6px;color:#fff" aria-hidden="true">×</b>`; if (dm) dm.onclick = ev => { ev.preventDefault(); dm.remove(); };
