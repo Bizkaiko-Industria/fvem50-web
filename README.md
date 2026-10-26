@@ -1,6 +1,6 @@
 # Web FVEM 50 · 1977–2027
 
-Web estática del 50 aniversario de FVEM. Se publica automáticamente en Cloudflare (Worker `50`, dirección `50.fvem.workers.dev`)
+Web estática del 50 aniversario de FVEM. Se publica automáticamente en Cloudflare (Worker `50`, dirección `50.fvem.es`, y también `50.fvem.workers.dev`)
 al actualizar la rama `main`. Solo se publica la carpeta `public/` (ver `wrangler.jsonc`).
 Cada propuesta en otra rama genera una vista previa.
 

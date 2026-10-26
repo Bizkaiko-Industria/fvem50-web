@@ -7,6 +7,8 @@
     "directory": "./public",
     "not_found_handling": "404-page"
   },
+  // Dominio propio. Debe coincidir con lo configurado en Cloudflare; si no, la publicación automática falla o lo desconecta.
+  "routes": [{ "pattern": "50.fvem.es", "custom_domain": true }],
   "workers_dev": true,
   // Cada rama de propuesta tiene su propia dirección de vista previa
   "preview_urls": true,
