@@ -28,7 +28,7 @@ window.FVEM50 = {
   // Cláusula informativa de la newsletter (RGPD). Va en el pie de todas las páginas.
   newsletterLegal: {
     responsable: { es: 'FVEM', eu: 'FVEM' },
-    finalidad: { es: 'gestionar la consulta, incidencia, o petición', eu: 'kontsulta, gorabehera edo eskaera kudeatzea' },
+    finalidad: { es: 'informar sobre la actividad de FVEM', eu: 'FVEMen jardueraren berri ematea' },
     derechos: { es: 'acceso, rectificación, supresión, oposición y cualquier otro previsto en la normativa de protección de datos',
                 eu: 'datuak eskuratzea, zuzentzea, ezabatzea, aurka egitea eta datuak babesteko araudian aurreikusitako beste edozein' },
     contacto: { es: 'dirigiendo un escrito a rgpd@fvem.es', eu: 'rgpd@fvem.es helbidera idatziz' },
