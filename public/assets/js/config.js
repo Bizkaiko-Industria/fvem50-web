@@ -35,6 +35,7 @@ window.FVEM50 = {
     derechos: { es: 'acceso, rectificación, supresión, oposición y cualquier otro previsto en la normativa de protección de datos',
                 eu: 'datuak eskuratzea, zuzentzea, ezabatzea, aurka egitea eta datuak babesteko araudian aurreikusitako beste edozein' },
     contacto: { es: 'dirigiendo un escrito a rgpd@fvem.es', eu: 'rgpd@fvem.es helbidera idatziz' },
+    infoAdicional: false,   // true = muestra «Información adicional: … política de privacidad»
     correo: 'rgpd@fvem.es'   // se enlaza como correo electrónico en la cláusula
   },
 

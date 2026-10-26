@@ -848,8 +848,8 @@ function nlBox(){
   const clause = `<div class="nlcl"><b>${t('nl_cl')}</b><br>
     <b>${t('nl_resp')}:</b> ${esc(tx(NL.responsable) || 'FVEM')}<br>
     <b>${t('nl_fin')}:</b> ${esc(tx(NL.finalidad))}<br>
-    <b>${t('nl_der')}:</b> ${esc(tx(NL.derechos))}${tx(NL.contacto) ? (L === 'eu' ? ', ' : ' ') + (NL.correo ? esc(tx(NL.contacto)).replace(esc(NL.correo), `<a href="mailto:${esc(NL.correo)}">${esc(NL.correo)}</a>`) : esc(tx(NL.contacto))) : ''}.<br>
-    <b>${t('nl_inf')}:</b> ${t('nl_inf_t')}${priv ? ` <a href="${esc(priv)}" target="_blank" rel="noopener">${t('ft_priv').toLowerCase()}</a>` : ''}.</div>`;
+    <b>${t('nl_der')}:</b> ${esc(tx(NL.derechos))}${tx(NL.contacto) ? (L === 'eu' ? ', ' : ' ') + (NL.correo ? esc(tx(NL.contacto)).replace(esc(NL.correo), `<a href="mailto:${esc(NL.correo)}">${esc(NL.correo)}</a>`) : esc(tx(NL.contacto))) : ''}.${NL.infoAdicional ? `<br>
+    <b>${t('nl_inf')}:</b> ${t('nl_inf_t')}${priv ? ` <a href="${esc(priv)}" target="_blank" rel="noopener">${t('ft_priv').toLowerCase()}</a>` : ''}.` : ''}</div>`;
   return `<div class="cta-card b nlwide" id="nl"><div><div class="eyebrow" style="color:#fff">Newsletter</div><div class="rule" style="background:#fff"></div><h3>${t('nl_h')}</h3><p>${t('nl_p')}</p></div>
     ${FORMS.newsletter ? `<div><a class="btn" style="margin-top:20px;background:var(--negro)" href="${esc(FORMS.newsletter)}" target="_blank" rel="noopener">${t('nl_btn')} ${I('arrow')}</a></div>`
       : `<form class="nlf" id="nlf"><div class="nl"><input type="email" required placeholder="${t('nl_ph')}" aria-label="${t('nl_ph')}"><button class="btn">${t('nl_btn')}</button></div>
