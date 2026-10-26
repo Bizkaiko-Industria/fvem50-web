@@ -8,7 +8,7 @@ window.FVEM50 = {
   sitio: 'https://www.fvem.es',
 
   // true = muestra la etiqueta «Vista previa». Ponlo en false al publicar con contenido real.
-  vistaPrevia: true,
+  vistaPrevia: false,
 
   // Formularios seguros (proveedor externo con datos en la UE, p. ej. Tally).
   // Pega aquí la URL de inserción («embed») de cada formulario. Vacío = formulario de maqueta que no envía nada.
