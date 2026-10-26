@@ -31,8 +31,8 @@ window.FVEM50 = {
     finalidad: { es: 'gestionar la consulta, incidencia, o petición', eu: 'kontsulta, gorabehera edo eskaera kudeatzea' },
     derechos: { es: 'acceso, rectificación, supresión, oposición y cualquier otro previsto en la normativa de protección de datos',
                 eu: 'datuak eskuratzea, zuzentzea, ezabatzea, aurka egitea eta datuak babesteko araudian aurreikusitako beste edozein' },
-    contacto: { es: 'dirigiendo un escrito a rgdp@fvem.es', eu: 'rgdp@fvem.es helbidera idatziz' },
-    correo: 'rgdp@fvem.es'   // se enlaza como correo electrónico en la cláusula
+    contacto: { es: 'dirigiendo un escrito a rgpd@fvem.es', eu: 'rgpd@fvem.es helbidera idatziz' },
+    correo: 'rgpd@fvem.es'   // se enlaza como correo electrónico en la cláusula
   },
 
   // Google Analytics 4. Pega aquí el ID de medición (G-XXXXXXXXXX). Vacío = sin analítica y sin aviso de cookies.
