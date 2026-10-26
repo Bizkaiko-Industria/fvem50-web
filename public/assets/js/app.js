@@ -33,7 +33,7 @@ const T = {
   portrait_pend:'Retrato pendiente',
   pa_h:'¿Tu empresa es asociada?',pa_p:'Envíanos tu logo, una foto antigua y tu mensaje para el 50 aniversario. Lo publicaremos en tu ficha.',pa_btn:'Participa',
   nl_h:'Recibe la agenda en tu correo',nl_p:'Conoce las citas más destacadas de este aniversario.',nl_ph:'Tu correo electrónico',nl_btn:'Suscribirme',nl_ok:'Vista previa: la suscripción se conectará con el sistema de FVEM.',
-  ft_lema:'50 años de industria. Pasado que impulsa, futuro que construimos.',ft_an:'Aniversario',ft_em:'Empresas',ft_fv:'FVEM',ft_sp:'Patrocinadores y colaboradores',ft_spx:'Logo',ft_legal:'Aviso legal',ft_priv:'Política de privacidad',ft_cook:'Política de cookies',ft_terms:'Términos y condiciones de uso',ft_data:'Condiciones generales sobre protección de datos',ft_acc:'Accesibilidad',ft_web:'Web de FVEM',ft_contact:'Contacto',
+  ft_lema:'50 años de industria. Pasado que impulsa, futuro que construimos.',ft_an:'Aniversario',ft_em:'Empresas',ft_fv:'FVEM',ft_sp:'Patrocinadores y colaboradores',ft_spx:'Logo',ft_legal:'Aviso legal',ft_priv:'Política de privacidad',ft_cook:'Política de cookies',ft_terms:'Términos y condiciones de uso',ft_data:'Condiciones generales sobre protección de datos',ft_acc:'Accesibilidad',ck_title:'Cookies de analítica',ck_text:'Usamos Google Analytics para saber cuántas personas visitan esta web y mejorarla. Solo se activa si lo aceptas; puedes cambiar de opinión en cualquier momento desde «Configurar cookies», al pie de la página.',ck_more:'Política de cookies',ck_yes:'Aceptar',ck_no:'Rechazar',ck_cfg:'Configurar cookies',ft_web:'Web de FVEM',ft_contact:'Contacto',
   ag_p:'Todos los actos del 50 aniversario en un solo lugar. Las fechas y lugares son de ejemplo hasta que se confirmen.',all:'Todos',v_list:'Lista',v_cal:'Calendario',
   s_open:'Inscripción abierta',s_soon:'Próximamente',s_full:'Completo',s_past:'Celebrado',s_live:'En directo',s_free:'Entrada libre',
   ev_when:'Fecha',ev_time:'Hora',ev_where:'Lugar',ev_type:'Tipo',ev_reg:'Inscribirme',ev_reg_soon:'Inscripción próximamente',ev_route:'Cómo llegar',ev_share:'Compartir',ev_left:'Faltan',
@@ -83,7 +83,7 @@ const T = {
   portrait_pend:'Erretratua falta da',
   pa_h:'Zure enpresa bazkidea da?',pa_p:'Bidali zure logoa, argazki zahar bat eta 50. urteurrenerako mezua. Zure fitxan argitaratuko dugu.',pa_btn:'Parte hartu',
   nl_h:'Jaso agenda zure postan',nl_p:'Ezagutu urteurren honetako hitzordu nabarmenenak.',nl_ph:'Zure helbide elektronikoa',nl_btn:'Harpidetu',nl_ok:'Aurrebista: harpidetza FVEMen sistemarekin konektatuko da.',
-  ft_lema:'Industriaren 50 urte. Bultzatzen duen iragana, eraikitzen dugun etorkizuna.',ft_an:'Urteurrena',ft_em:'Enpresak',ft_fv:'FVEM',ft_sp:'Babesleak eta laguntzaileak',ft_spx:'Logoa',ft_legal:'Lege-oharra',ft_priv:'Pribatutasun-politika',ft_cook:'Cookie-politika',ft_terms:'Erabilera-baldintzak',ft_data:'Datuen babesari buruzko baldintza orokorrak',ft_acc:'Irisgarritasuna',ft_web:'FVEMen webgunea',ft_contact:'Harremanetarako',
+  ft_lema:'Industriaren 50 urte. Bultzatzen duen iragana, eraikitzen dugun etorkizuna.',ft_an:'Urteurrena',ft_em:'Enpresak',ft_fv:'FVEM',ft_sp:'Babesleak eta laguntzaileak',ft_spx:'Logoa',ft_legal:'Lege-oharra',ft_priv:'Pribatutasun-politika',ft_cook:'Cookie-politika',ft_terms:'Erabilera-baldintzak',ft_data:'Datuen babesari buruzko baldintza orokorrak',ft_acc:'Irisgarritasuna',ck_title:'Analitikako cookieak',ck_text:'Google Analytics erabiltzen dugu webgune hau zenbat pertsonak bisitatzen duten jakiteko eta hobetzeko. Onartzen baduzu bakarrik aktibatzen da; edozein unetan alda dezakezu orriaren oineko «Cookieak konfiguratu» estekan.',ck_more:'Cookie-politika',ck_yes:'Onartu',ck_no:'Baztertu',ck_cfg:'Cookieak konfiguratu',ft_web:'FVEMen webgunea',ft_contact:'Harremanetarako',
   ag_p:'50. urteurreneko ekitaldi guztiak leku bakarrean. Datak eta lekuak adibideak dira, berretsi arte.',all:'Guztiak',v_list:'Zerrenda',v_cal:'Egutegia',
   s_open:'Izen-ematea zabalik',s_soon:'Laster',s_full:'Beteta',s_past:'Eginda',s_live:'Zuzenean',s_free:'Sarrera librea',
   ev_when:'Data',ev_time:'Ordua',ev_where:'Lekua',ev_type:'Mota',ev_reg:'Eman izena',ev_reg_soon:'Izen-ematea laster',ev_route:'Nola iritsi',ev_share:'Partekatu',ev_left:'Falta da',
@@ -815,6 +815,7 @@ function chrome(view){
   else cta = [t('nl_cta'), FORMS.newsletter || '#/newsletter'];
   [$('#hcta'), $('#dcta')].forEach(a => { a.textContent = cta[0]; a.href = cta[1]; if (/^https?:/.test(cta[1])) { a.target = '_blank'; a.rel = 'noopener'; } else { a.removeAttribute('target'); } });
   document.body.classList.toggle('nomenu', !menu.length);
+  setTimeout(() => { const k = $('#ckcfg'); if (k) k.onclick = ev => { ev.preventDefault(); cookieBanner(true); }; });
   $$('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === L));
   const dm = $('#demo'); if (dm && C.vistaPrevia === false) dm.remove(); else if (dm) dm.innerHTML = `${esc(t('demo'))} <b style="margin-left:6px;color:#fff" aria-hidden="true">×</b>`; if (dm) dm.onclick = ev => { ev.preventDefault(); dm.remove(); };
   document.documentElement.lang = L;
@@ -825,7 +826,7 @@ function chrome(view){
     <div><h4>${t('ft_em')}</h4>${emLinks.map(([h,l])=>`<a href="#/${h}">${l}</a>`).join('')}</div>
     <div><h4>${t('ft_fv')}</h4><a href="${C.sitio}" target="_blank" rel="noopener">${t('ft_web')} ↗</a>${SEC.newsletter?`<a href="${esc(FORMS.newsletter || '#/newsletter')}">Newsletter</a>`:''}</div></div>
     ${SEC.patrocinadores ? `<div style="margin-top:40px"><h4>${t('ft_sp')}</h4><div class="spn">${Array.from({length:5},()=>`<span>${t('ft_spx')}</span>`).join('')}</div></div>` : ''}
-    <div class="bt"><span>© FVEM · 1977 – 2027</span><span style="display:flex;gap:16px;flex-wrap:wrap">${[['aviso','ft_legal'],['privacidad','ft_priv'],['cookies','ft_cook'],['terminos','ft_terms'],['datos','ft_data'],['accesibilidad','ft_acc']].filter(([k])=>LEGAL[k]).map(([k,l])=>`<a href="${esc(LEGAL[k])}" target="_blank" rel="noopener">${t(l)}</a>`).join('')}</span></div></div>`;
+    <div class="bt"><span>© FVEM · 1977 – 2027</span><span style="display:flex;gap:16px;flex-wrap:wrap">${[['aviso','ft_legal'],['privacidad','ft_priv'],['cookies','ft_cook'],['terminos','ft_terms'],['datos','ft_data'],['accesibilidad','ft_acc']].filter(([k])=>LEGAL[k]).map(([k,l])=>`<a href="${esc(LEGAL[k])}" target="_blank" rel="noopener">${t(l)}</a>`).join('')}${GA ? `<a href="#" id="ckcfg">${t('ck_cfg')}</a>` : ''}</span></div></div>`;
 }
 const VIEWS = { home: renderHome, agenda: renderAgenda, evento: renderEvento, programa: renderPrograma, empresas: renderEmpresas, ficha: renderFicha, historia: renderHistoria, personas: renderPersonas, participa: renderParticipa, prensa: renderPrensa };
 let CUR = null;
@@ -844,6 +845,7 @@ function route(keepScroll){
   closeDrawer(); chrome(v); VIEWS[v](arg);
   const ttl = { home: 'FVEM 50 · ' + t('h1a') + ' ' + t('h1b'), evento: arg && EVS[arg] ? tx(EVS[arg].titulo) + ' · FVEM 50' : '', ficha: BYNUM[arg] ? shortName(BYNUM[arg].nombre) + ' · FVEM 50' : '' }[v] || (t({agenda:'nav_ag',programa:'nav_pr',empresas:'nav_em',historia:'nav_hi',personas:'nav_pe',participa:'nav_pa',prensa:'nav_ps'}[v]) + ' · FVEM 50');
   document.title = ttl;
+  gaPage();
   if (!keepScroll && !same) scrollTo(0, 0);
   if (v === 'home' && arg === 'nl') setTimeout(() => { const n = $('#nl'); if (n) n.scrollIntoView({behavior: 'smooth', block: 'center'}); }, 80);
   onScroll();
@@ -856,5 +858,53 @@ function closeDrawer(){ $('#drawer').classList.remove('open'); $('#drawer').setA
 $('#burger').onclick = () => { $('#drawer').classList.add('open'); $('#drawer').setAttribute('aria-hidden', 'false'); $('#burger').setAttribute('aria-expanded', 'true'); document.body.classList.add('lock'); };
 $('#dclose').onclick = closeDrawer;
 $$('.lang button').forEach(b => b.onclick = () => { L = b.dataset.lang; try { localStorage.setItem('fvem50-lang', L); } catch (_) {} const y = scrollY; route(true); scrollTo(0, y); });
+/* =====================================================================
+   ANALÍTICA (Google Analytics 4) CON CONSENTIMIENTO PREVIO
+   - No se carga nada de Google hasta que la persona pulsa «Aceptar».
+   - «Rechazar» es igual de visible. La elección se recuerda 12 meses y
+     se puede cambiar desde «Configurar cookies» en el pie.
+   ===================================================================== */
+const GA = (C.analitica || {}).ga4 || '';
+const CK = 'fvem50-consent';
+const consent = () => { try { const c = JSON.parse(localStorage.getItem(CK) || 'null'); return c && Date.now() - c.t < 365 * 864e5 ? c : null; } catch (_) { return null; } };
+let gaOn = false;
+function gaLoad(){
+  if (gaOn || !GA) return; gaOn = true;
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function(){ window.dataLayer.push(arguments); };
+  gtag('consent', 'default', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+  gtag('js', new Date());
+  gtag('config', GA, { send_page_view: false });
+  const s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA); document.head.appendChild(s);
+  gaPage();
+}
+function gaPage(){
+  if (!gaOn) return;
+  const path = '/' + location.hash.replace(/^#\/?/, '');
+  gtag('event', 'page_view', { page_title: document.title, page_location: location.origin + path, page_path: path, language: L });
+}
+function gaClear(){
+  document.cookie.split(';').map(c => c.trim().split('=')[0]).filter(n => /^_ga/.test(n)).forEach(n => {
+    const host = location.hostname, parts = host.split('.');
+    [host, '.' + host, parts.length > 1 ? '.' + parts.slice(-2).join('.') : host].forEach(d => { document.cookie = `${n}=; Max-Age=0; path=/; domain=${d}`; });
+    document.cookie = `${n}=; Max-Age=0; path=/`;
+  });
+}
+function setConsent(ok){
+  try { localStorage.setItem(CK, JSON.stringify({ a: ok, t: Date.now() })); } catch (_) {}
+  $('#ckb') && $('#ckb').remove();
+  if (ok) gaLoad(); else if (gaOn) { gaClear(); location.reload(); } else gaClear();
+}
+function cookieBanner(force){
+  if (!GA || $('#ckb')) return;
+  const c = consent(); if (c && !force) { if (c.a) gaLoad(); return; }
+  const b = document.createElement('div'); b.id = 'ckb'; b.className = 'ckb'; b.setAttribute('role', 'dialog'); b.setAttribute('aria-label', t('ck_title'));
+  b.innerHTML = `<div><b>${t('ck_title')}</b><p>${t('ck_text')}${LEGAL.cookies ? ` <a href="${esc(LEGAL.cookies)}" target="_blank" rel="noopener">${t('ck_more')}</a>` : ''}</p></div>
+    <div class="ckb-a"><button class="btn sm" data-ck="0">${t('ck_no')}</button><button class="btn sm" data-ck="1">${t('ck_yes')}</button></div>`;
+  b.addEventListener('click', ev => { const x = ev.target.closest('[data-ck]'); if (x) setConsent(x.dataset.ck === '1'); });
+  document.body.appendChild(b);
+}
+
 route();
+cookieBanner();
 })();

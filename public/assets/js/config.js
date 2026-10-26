@@ -18,6 +18,10 @@ window.FVEM50 = {
     newsletter: ''   // URL del formulario de alta de vuestra herramienta de newsletter
   },
 
+  // Google Analytics 4. Pega aquí el ID de medición (G-XXXXXXXXXX). Vacío = sin analítica y sin aviso de cookies.
+  // Con ID, aparece un aviso de cookies y Analytics solo se carga si la persona pulsa «Aceptar».
+  analitica: { ga4: '' },
+
   // Páginas legales obligatorias (LSSI y RGPD). Pueden ser páginas de fvem.es.
   // Solo se muestran en el pie los enlaces que tengan dirección.
   legal: {

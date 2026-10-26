@@ -577,3 +577,14 @@ body.nomenu .hd .cta{display:inline-flex}
 @media(max-width:860px){.cta-card.nlwide{grid-template-columns:1fr}}
 
 .vposter.img::after{background:linear-gradient(0deg,rgba(0,0,0,.35),rgba(0,0,0,0) 40%)}
+
+/* aviso de cookies (Analytics) */
+.ckb{position:fixed;left:16px;right:16px;bottom:16px;z-index:95;max-width:760px;margin-inline:auto;background:var(--negro2);color:var(--blanco);border:1px solid #2b2b2b;border-radius:10px;padding:18px 20px;display:flex;gap:18px;align-items:center;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:rise .5s both}
+.ckb b{font-size:15px}
+.ckb p{margin:4px 0 0;font-size:14px;color:#b2aca2;line-height:1.45}
+.ckb a{color:var(--blanco)}
+.ckb-a{display:flex;gap:8px;flex:none}
+.ckb-a .btn{min-width:110px;justify-content:center}
+.ckb-a [data-ck="0"]{background:var(--blanco);color:var(--negro)}
+.ckb-a [data-ck="0"]:hover{background:#fff}
+@media(max-width:640px){.ckb{flex-direction:column;align-items:stretch}.ckb-a .btn{flex:1}}
