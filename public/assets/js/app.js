@@ -285,20 +285,26 @@ const pageHead = (kicker, title, lead, a0=200, crumbs=true) => `<section class="
    PORTADA
    ===================================================================== */
 function currentVideo(){ const n = NOW(), v = C.video; const p = (v.programados||[]).find(x => n >= new Date(x.desde) && n <= new Date(x.hasta + 'T23:59:59')); return {...v, ...(p||{})}; }
+// Formas de cabecera inspiradas en la geometría de la marca: arcos con remate redondeado y «lamas»
+// (barras con dos esquinas opuestas redondeadas). No reproducen el logotipo.
+const arcD = (cx, cy, r, a0, a1) => { const P = a => [cx + r * Math.cos(a * Math.PI / 180), cy + r * Math.sin(a * Math.PI / 180)].map(v => v.toFixed(1));
+  const [x0, y0] = P(a0), [x1, y1] = P(a1); return `M${x0} ${y0}A${r} ${r} 0 ${(a1 - a0) > 180 ? 1 : 0} 1 ${x1} ${y1}`; };
+const bladeD = (x, y, w, h) => `M${x} ${y + h}V${y + h / 2}A${h / 2} ${h / 2} 0 0 1 ${x + h / 2} ${y}H${x + w}V${y + h / 2}A${h / 2} ${h / 2} 0 0 1 ${x + w - h / 2} ${y + h}Z`;
 function heroArt(photo){
-  const W=1600,H=900,cx=1180,cy=450;
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  const W = 1600, H = 900, cx = 1185, cy = 360, R = 300, op = photo ? .62 : 1;
+  const big = arcD(cx, cy, R, 128, 318), small = arcD(cx, cy, R - 120, 196, 286);
+  const bl = [[560, 'url(#hm)', 0], [440, '#d86b33', 1], [300, 'none', 2]], bh = 54, by = 640;
+  const mob = matchMedia('(max-width:700px)').matches;
+  return `<svg viewBox="${mob ? '890 -120 600 1300' : `0 0 ${W} ${H}`}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
   <defs>${METAL('hm')}<radialGradient id="hb" cx=".72" cy=".55" r=".75"><stop offset="0" stop-color="#3b2214"/><stop offset=".45" stop-color="#140f0c"/><stop offset="1" stop-color="#070707"/></radialGradient>
   <linearGradient id="hs" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-  <clipPath id="hc"><path d="${ring(cx,cy,380,270,45,315)}"/></clipPath></defs>
-  ${photo?'':`<rect width="${W}" height="${H}" fill="url(#hb)"/>`}
-  <g opacity="${photo?0:.5}">${Array.from({length:9},(_,i)=>`<line x1="${200+i*160}" y1="0" x2="${200+i*160}" y2="${H}" stroke="#ffffff" stroke-opacity=".035"/>`).join('')}</g>
-  <circle class="rot" cx="${cx}" cy="${cy}" r="470" fill="none" stroke="#d86b33" stroke-width="1.5" stroke-dasharray="2 12" opacity=".6"/>
-  <path class="spin-in" d="${ring(cx,cy,380,270,45,315)}" fill="url(#hm)" style="opacity:${photo?.55:1}"/>
-  <g clip-path="url(#hc)"><rect class="sweep" x="${cx-500}" y="0" width="260" height="${H}" fill="url(#hs)" transform="skewX(-20)"/></g>
-  <path class="spin-in" style="animation-delay:1.3s" d="${ring(cx,cy,225,165,180,270)}" fill="#d86b33"/>
-  <path class="draw" pathLength="1" d="M-20 ${cy+325} H${cx}" stroke="#d86b33" stroke-width="3" fill="none"/>
-  <circle class="fade-in" cx="${cx}" cy="${cy+325}" r="7" fill="#d86b33"/>
+  <mask id="hk"><path d="${big}" stroke="#fff" stroke-width="86" stroke-linecap="round" fill="none"/></mask></defs>
+  ${photo ? '' : `<rect width="${W}" height="${H}" fill="url(#hb)"/>`}
+  <g opacity="${photo ? 0 : .5}">${Array.from({length: 9}, (_, i) => `<line x1="${200 + i * 160}" y1="0" x2="${200 + i * 160}" y2="${H}" stroke="#ffffff" stroke-opacity=".035"/>`).join('')}</g>
+  <path class="draw" pathLength="1" d="${big}" stroke="url(#hm)" stroke-width="86" stroke-linecap="round" fill="none" style="opacity:${op};animation-duration:1.8s;animation-delay:.3s"/>
+  <g mask="url(#hk)"><rect class="sweep" x="${cx - 520}" y="0" width="240" height="${H}" fill="url(#hs)" transform="skewX(-20)"/></g>
+  <path class="draw" pathLength="1" d="${small}" stroke="#d86b33" stroke-width="48" stroke-linecap="round" fill="none" style="animation-duration:1.2s;animation-delay:1.2s"/>
+  ${bl.map(([w, f, i]) => `<path class="blade" style="animation-delay:${1.5 + i * .18}s" d="${bladeD(W - w, by + i * (bh + 20), w + 40, bh)}" fill="${f}"${f === 'none' ? ' stroke="#d86b33" stroke-width="2.5"' : ''}${f === 'url(#hm)' ? ` opacity="${op}"` : ''}/>`).join('')}
   </svg><canvas id="sparks"></canvas>`;
 }
 let sparkRAF = 0;
