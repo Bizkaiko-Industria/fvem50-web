@@ -299,16 +299,16 @@ function heroArt(photo){
   const sc = .44, tx = 760, ty = 150, cx = 733;   // cx: desplazamiento de la C respecto al 5 (en el logo es 923; menos = más superposición)
   return `<svg viewBox="${mob ? '715 -170 800 1550' : `0 0 ${W} ${H}`}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
   <defs>${METAL('hm')}<radialGradient id="hb" cx=".72" cy=".55" r=".75"><stop offset="0" stop-color="#3b2214"/><stop offset=".45" stop-color="#140f0c"/><stop offset="1" stop-color="#070707"/></radialGradient>
-  <linearGradient id="hs" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".72"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <linearGradient id="hs" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".26"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
   <mask id="hk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="2000" height="1600"><path d="${SHAPE5.d}" fill="#fff"/><path transform="translate(${cx} ${SHAPEC.dy})" d="${SHAPEC.d}" fill="#fff"/></mask>
-  <mask id="cm" maskUnits="userSpaceOnUse" x="-400" y="-400" width="1700" height="1900"><path class="draw ctrace" pathLength="1" d="M440.5 1150.6A554 554 0 1 1 1000.7 218.3" stroke="#fff" stroke-width="320" stroke-linecap="round" fill="none"/></mask>
+  <mask id="cm" maskUnits="userSpaceOnUse" x="-400" y="-400" width="1700" height="1900"><path class="draw ctrace" pathLength="1" d="M181.8 955.6A554 554 0 0 1 697.5 80.1" stroke="#fff" stroke-width="320" stroke-linecap="round" fill="none"/></mask>
   <filter id="cg" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="38"/></filter></defs>
   ${photo ? '' : `<rect width="${W}" height="${H}" fill="url(#hb)"/>`}
   <g transform="translate(${tx} ${ty}) scale(${sc})">
     <g class="rise5" style="opacity:${photo ? .85 : 1}"><path d="${SHAPE5.d}" fill="url(#hm)"/></g>
     <g transform="translate(${cx} ${SHAPEC.dy})">
       <g mask="url(#cm)"><path class="cglow" d="${SHAPEC.d}" fill="#ffb347" filter="url(#cg)"/><path class="cforge" d="${SHAPEC.d}" fill="#d86b33" opacity=".95"/></g></g>
-    <g mask="url(#hk)"><g transform="skewX(-45)"><rect class="shine" x="-520" y="-100" width="240" height="1400" fill="url(#hs)"/></g></g>
+    <g mask="url(#hk)"><g transform="skewX(-45)"><rect class="shine" x="-520" y="-100" width="170" height="1400" fill="url(#hs)"/></g></g>
   </g>
   </svg><canvas id="sparks"></canvas>`;
 }
