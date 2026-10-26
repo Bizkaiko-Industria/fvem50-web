@@ -19,7 +19,15 @@ window.FVEM50 = {
   },
 
   // Páginas legales obligatorias (LSSI y RGPD). Pueden ser páginas de fvem.es.
-  legal: { aviso: '', privacidad: '', cookies: '', accesibilidad: '' },
+  // Solo se muestran en el pie los enlaces que tengan dirección.
+  legal: {
+    aviso: 'https://fvem.es/es/aviso-legal.html',
+    privacidad: 'https://fvem.es/es/politica-de-privacidad.html',
+    cookies: 'https://fvem.es/es/politica-de-cookies.html',
+    terminos: 'https://fvem.es/es/terminos-y-condiciones-de-uso.html',
+    datos: 'https://fvem.es/es/condiciones-generales-sobre-proteccion-de-datos.html',
+    accesibilidad: ''
+  },
 
   // Vídeo de portada: deja mp4 vacío para usar la animación de marca.
   video: {
@@ -63,7 +71,8 @@ window.FVEM50 = {
     titulo: { es: 'El secreto mejor guardado de FVEM', eu: 'FVEMen sekreturik ondoen gordea' },
     poster: 'assets/img/video-portada.jpg',   // imagen de portada del vídeo (vacío = gráfico de marca)
     posterPlay: ['50%', '50%'],               // posición del botón play (horizontal, vertical)
-    tituloSobrePortada: false                 // true = muestra el título sobre la imagen
+    tituloSobrePortada: false,                // true = muestra el título sobre la imagen
+    nota: false                               // true = muestra «El vídeo se carga desde YouTube al pulsar reproducir»
   },
 
   // Cuenta atrás de la portada. Si se borra este bloque, vuelve la cuenta atrás a la gala.
@@ -71,7 +80,7 @@ window.FVEM50 = {
     fecha: '2027-01-13T00:00:00+01:00',
     etiqueta: { es: 'Cuenta atrás', eu: 'Atzerako kontaketa' },
     titulo: { es: 'Apertura del sobre', eu: 'Gutun-azalaren irekiera' },
-    texto: { es: 'Ese día publicaremos el segundo vídeo.', eu: 'Egun horretan bigarren bideoa argitaratuko dugu.' },
+    texto: { es: 'Ese día conoceremos el secreto mejor guardado de FVEM.', eu: 'Egun horretan ezagutuko dugu FVEMen sekreturik ondoen gordea.' },
     despues: { es: 'El sobre ya está abierto: mira el nuevo vídeo.', eu: 'Gutun-azala irekita dago: ikusi bideo berria.' }
   },
 

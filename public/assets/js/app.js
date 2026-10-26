@@ -32,8 +32,8 @@ const T = {
   pe_k:'Personas que hacen industria',pe_h:'Detrás de cada empresa, personas',pe_p:'Talento, experiencia, diversidad, innovación y compromiso: historias cortas de quienes trabajan en las asociadas.',pe_all:'Ver todas las historias',
   portrait_pend:'Retrato pendiente',
   pa_h:'¿Tu empresa es asociada?',pa_p:'Envíanos tu logo, una foto antigua y tu mensaje para el 50 aniversario. Lo publicaremos en tu ficha.',pa_btn:'Participa',
-  nl_h:'Recibe la agenda en tu correo',nl_p:'Una vez al mes, las próximas citas del aniversario.',nl_ph:'Tu correo electrónico',nl_btn:'Suscribirme',nl_ok:'Vista previa: la suscripción se conectará con el sistema de FVEM.',
-  ft_lema:'50 años de industria. Pasado que impulsa, futuro que construimos.',ft_an:'Aniversario',ft_em:'Empresas',ft_fv:'FVEM',ft_sp:'Patrocinadores y colaboradores',ft_spx:'Logo',ft_legal:'Aviso legal',ft_priv:'Privacidad',ft_cook:'Cookies',ft_acc:'Accesibilidad',ft_web:'Web de FVEM',ft_contact:'Contacto',
+  nl_h:'Recibe la agenda en tu correo',nl_p:'Conoce las citas más destacadas de este aniversario.',nl_ph:'Tu correo electrónico',nl_btn:'Suscribirme',nl_ok:'Vista previa: la suscripción se conectará con el sistema de FVEM.',
+  ft_lema:'50 años de industria. Pasado que impulsa, futuro que construimos.',ft_an:'Aniversario',ft_em:'Empresas',ft_fv:'FVEM',ft_sp:'Patrocinadores y colaboradores',ft_spx:'Logo',ft_legal:'Aviso legal',ft_priv:'Política de privacidad',ft_cook:'Política de cookies',ft_terms:'Términos y condiciones de uso',ft_data:'Condiciones generales sobre protección de datos',ft_acc:'Accesibilidad',ft_web:'Web de FVEM',ft_contact:'Contacto',
   ag_p:'Todos los actos del 50 aniversario en un solo lugar. Las fechas y lugares son de ejemplo hasta que se confirmen.',all:'Todos',v_list:'Lista',v_cal:'Calendario',
   s_open:'Inscripción abierta',s_soon:'Próximamente',s_full:'Completo',s_past:'Celebrado',s_live:'En directo',s_free:'Entrada libre',
   ev_when:'Fecha',ev_time:'Hora',ev_where:'Lugar',ev_type:'Tipo',ev_reg:'Inscribirme',ev_reg_soon:'Inscripción próximamente',ev_route:'Cómo llegar',ev_share:'Compartir',ev_left:'Faltan',
@@ -82,8 +82,8 @@ const T = {
   pe_k:'Industria egiten duten pertsonak',pe_h:'Enpresa bakoitzaren atzean, pertsonak',pe_p:'Talentua, esperientzia, aniztasuna, berrikuntza eta konpromisoa: bazkideetan lan egiten dutenen istorio laburrak.',pe_all:'Ikusi istorio guztiak',
   portrait_pend:'Erretratua falta da',
   pa_h:'Zure enpresa bazkidea da?',pa_p:'Bidali zure logoa, argazki zahar bat eta 50. urteurrenerako mezua. Zure fitxan argitaratuko dugu.',pa_btn:'Parte hartu',
-  nl_h:'Jaso agenda zure postan',nl_p:'Hilean behin, urteurreneko hurrengo hitzorduak.',nl_ph:'Zure helbide elektronikoa',nl_btn:'Harpidetu',nl_ok:'Aurrebista: harpidetza FVEMen sistemarekin konektatuko da.',
-  ft_lema:'Industriaren 50 urte. Bultzatzen duen iragana, eraikitzen dugun etorkizuna.',ft_an:'Urteurrena',ft_em:'Enpresak',ft_fv:'FVEM',ft_sp:'Babesleak eta laguntzaileak',ft_spx:'Logoa',ft_legal:'Lege-oharra',ft_priv:'Pribatutasuna',ft_cook:'Cookieak',ft_acc:'Irisgarritasuna',ft_web:'FVEMen webgunea',ft_contact:'Harremanetarako',
+  nl_h:'Jaso agenda zure postan',nl_p:'Ezagutu urteurren honetako hitzordu nabarmenenak.',nl_ph:'Zure helbide elektronikoa',nl_btn:'Harpidetu',nl_ok:'Aurrebista: harpidetza FVEMen sistemarekin konektatuko da.',
+  ft_lema:'Industriaren 50 urte. Bultzatzen duen iragana, eraikitzen dugun etorkizuna.',ft_an:'Urteurrena',ft_em:'Enpresak',ft_fv:'FVEM',ft_sp:'Babesleak eta laguntzaileak',ft_spx:'Logoa',ft_legal:'Lege-oharra',ft_priv:'Pribatutasun-politika',ft_cook:'Cookie-politika',ft_terms:'Erabilera-baldintzak',ft_data:'Datuen babesari buruzko baldintza orokorrak',ft_acc:'Irisgarritasuna',ft_web:'FVEMen webgunea',ft_contact:'Harremanetarako',
   ag_p:'50. urteurreneko ekitaldi guztiak leku bakarrean. Datak eta lekuak adibideak dira, berretsi arte.',all:'Guztiak',v_list:'Zerrenda',v_cal:'Egutegia',
   s_open:'Izen-ematea zabalik',s_soon:'Laster',s_full:'Beteta',s_past:'Eginda',s_live:'Zuzenean',s_free:'Sarrera librea',
   ev_when:'Data',ev_time:'Ordua',ev_where:'Lekua',ev_type:'Mota',ev_reg:'Eman izena',ev_reg_soon:'Izen-ematea laster',ev_route:'Nola iritsi',ev_share:'Partekatu',ev_left:'Falta da',
@@ -344,7 +344,7 @@ function videoBlock(){
   return `<div class="vbox" id="vbox"><div class="vfr" id="vfr" data-yt="${id}">
       <button class="vposter${yv.poster ? ' img' : ''}" id="vplay" aria-label="${t('play_v')}: ${esc(tx(yv.titulo))}"${yv.posterPlay ? ` style="--px:${esc(yv.posterPlay[0])};--py:${esc(yv.posterPlay[1])}"` : ''}>${yv.poster ? `<img alt="" src="${esc(yv.poster)}">` : artEvent('video-' + id, 1600, 900)}
         <span class="vp" aria-hidden="true"></span>${yv.tituloSobrePortada === false ? '' : `<span class="vt"><small>${t('video_k')}</small>${esc(tx(yv.titulo))}</span>`}</button></div>
-    <p class="vnote">${t('yt_note')}</p></div>`;
+    ${(C.videoPrincipal || {}).nota ? `<p class="vnote">${t('yt_note')}</p>` : ''}</div>`;
 }
 function playVideo(){
   const f = $('#vfr'); if (!f) return; const id = f.dataset.yt, yv = C.videoPrincipal || {};
@@ -824,7 +824,7 @@ function chrome(view){
     <div><h4>${t('ft_em')}</h4>${emLinks.map(([h,l])=>`<a href="#/${h}">${l}</a>`).join('')}</div>
     <div><h4>${t('ft_fv')}</h4><a href="${C.sitio}" target="_blank" rel="noopener">${t('ft_web')} ↗</a>${SEC.newsletter?`<a href="${esc(FORMS.newsletter || '#/newsletter')}">Newsletter</a>`:''}</div></div>
     ${SEC.patrocinadores ? `<div style="margin-top:40px"><h4>${t('ft_sp')}</h4><div class="spn">${Array.from({length:5},()=>`<span>${t('ft_spx')}</span>`).join('')}</div></div>` : ''}
-    <div class="bt"><span>© FVEM · 1977 – 2027</span><span style="display:flex;gap:16px;flex-wrap:wrap">${[['aviso','ft_legal'],['privacidad','ft_priv'],['cookies','ft_cook'],['accesibilidad','ft_acc']].map(([k,l])=>`<a href="${esc(LEGAL[k]||'#/')}"${LEGAL[k]?' target="_blank" rel="noopener"':''}>${t(l)}</a>`).join('')}</span></div></div>`;
+    <div class="bt"><span>© FVEM · 1977 – 2027</span><span style="display:flex;gap:16px;flex-wrap:wrap">${[['aviso','ft_legal'],['privacidad','ft_priv'],['cookies','ft_cook'],['terminos','ft_terms'],['datos','ft_data'],['accesibilidad','ft_acc']].filter(([k])=>LEGAL[k]).map(([k,l])=>`<a href="${esc(LEGAL[k])}" target="_blank" rel="noopener">${t(l)}</a>`).join('')}</span></div></div>`;
 }
 const VIEWS = { home: renderHome, agenda: renderAgenda, evento: renderEvento, programa: renderPrograma, empresas: renderEmpresas, ficha: renderFicha, historia: renderHistoria, personas: renderPersonas, participa: renderParticipa, prensa: renderPrensa };
 let CUR = null;
