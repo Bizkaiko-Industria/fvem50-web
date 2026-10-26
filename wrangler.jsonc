@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "fvem50-web",
+  "name": "50",
   "compatibility_date": "2026-10-19",
   // Solo se publica la carpeta public/. El resto del repositorio (instrucciones, guía, herramientas) no sale a internet.
   "assets": {
