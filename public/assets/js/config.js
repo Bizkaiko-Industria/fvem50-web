@@ -86,7 +86,9 @@ window.FVEM50 = {
     patrocinadores: false    // pie: patrocinadores y colaboradores
   },
   // Páginas en el menú de cabecera, menú móvil y pie. Vacío = sin menú.
-  // Opciones: 'agenda', 'programa', 'empresas', 'historia', 'personas', 'participa', 'prensa'
+  // Páginas: 'agenda', 'programa', 'empresas', 'historia', 'personas', 'participa', 'prensa'
+  // Secciones de la portada (anclas): 'inicio', 'video', 'cuenta-atras', 'cifras', 'buscador', 'newsletter' (y 'proximas-citas' si se muestra la agenda)
+  // Ejemplo: menu: ['video', 'cifras', 'buscador', 'empresas', 'newsletter'],
   menu: [],
   // Botón de la cabecera: 'newsletter' (Suscríbete) o 'gala' (Inscríbete / En directo / Galería)
   cabecera: { boton: 'newsletter' },

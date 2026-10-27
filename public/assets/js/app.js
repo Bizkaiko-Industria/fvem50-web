@@ -413,21 +413,21 @@ function renderHome(){
   </div>
   </section>
   ${CA ? caStrip() : cdStrip()}
-  ${SEC.agenda ? `<section class="dk pad"><div class="wrap">
+  ${SEC.agenda ? `<section class="dk pad" id="proximas-citas"><div class="wrap">
     <div class="shead"><div><div class="eyebrow">${t('up_k')}</div><div class="rule"></div><h2 class="h2">${t('up_h')}</h2></div><a class="more-link" href="#/agenda">${t('up_all')} ${I('arrow')}</a></div>
     <div class="evs">${up.map(evCard).join('')}</div>
   </div></section>` : ''}
   ${SEC.cifras || SEC.buscador ? `<section class="lt pad"><div class="wrap">
-    ${SEC.cifras ? `<div class="eyebrow">${t('st_k')}</div><div class="rule"></div><h2 class="h2" style="max-width:18ch">${t('st_h')}</h2>
+    ${SEC.cifras ? `<div id="cifras"><div class="eyebrow">${t('st_k')}</div><div class="rule"></div><h2 class="h2" style="max-width:18ch">${t('st_h')}</h2>
     ${tx(CIF.nota) ? `<p class="stnote">${esc(tx(CIF.nota))}</p>` : ''}
     <div class="stats reveal" style="margin-top:${tx(CIF.nota) ? 14 : 44}px">
       <div class="stat"><b class="num" data-count="${S.emp}">0</b><span>${t('st_emp')}</span></div>
       <div class="stat"><b class="num" data-count="${S.pl}">0</b><span>${t('st_pl')}</span></div>
       <div class="stat"><b class="num" data-count="${S.mun}">0</b><span>${t('st_mun')}</span></div>
       <div class="stat"><b class="num c" data-count="50">0</b><span>${t('st_y')}</span></div>
-    </div>
+    </div></div>
 ` : ''}
-    ${SEC.buscador ? `<div style="margin-top:${SEC.cifras?80:0}px"><div class="shead" style="margin-bottom:22px"><h3 style="font-size:clamp(26px,3vw,38px)">${t('se_h')}</h3><a class="more-link" href="#/empresas">${t('em_all')} ${I('arrow')}</a></div>
+    ${SEC.buscador ? `<div id="buscador" style="margin-top:${SEC.cifras?80:0}px"><div class="shead" style="margin-bottom:22px"><h3 style="font-size:clamp(26px,3vw,38px)">${t('se_h')}</h3><a class="more-link" href="#/empresas">${t('em_all')} ${I('arrow')}</a></div>
       <div class="sbox"><div class="f">${I('search')}<input id="hq" type="search" autocomplete="off" placeholder="${t('se_ph')}" aria-label="${t('se_h')}"></div><div class="drop" id="hdrop" hidden></div></div>
       <div class="marqs">${rows.map((rw, i) => `<div class="marq${i % 2 ? ' rev' : ''}"><div class="tr" style="--dur:${Math.round(rw.length * MQ.segundosPorEmpresa)}s">${rw.map(e => mqItem(e)).join('')}${rw.map(e => mqItem(e, true)).join('')}</div></div>`).join('')}</div>
     </div>` : ''}
@@ -874,12 +874,14 @@ function renderPrensa(){
    CABECERA, PIE, RUTAS
    ===================================================================== */
 const NAV = [['agenda','nav_ag'],['programa','nav_pr'],['empresas','nav_em'],['historia','nav_hi'],['personas','nav_pe'],['participa','nav_pa']];
-const MENU = () => { const m = Array.isArray(C.menu) ? C.menu : NAV.map(x => x[0]).concat('prensa'); return [...NAV, ['prensa','nav_ps']].filter(([h]) => m.includes(h)); };
+const MENU = () => { const m = Array.isArray(C.menu) ? C.menu : NAV.map(x => x[0]).concat('prensa'), pages = [...NAV, ['prensa','nav_ps']];
+  return m.map(h => pages.find(x => x[0] === h) || (ANCLAS[h] ? [h, null] : null)).filter(Boolean); };
+const mLabel = (h, k) => k ? t(k) : tx(ANCLAS[h]);
 function chrome(view){
   const menu = MENU();
-  $('#nav').innerHTML = menu.map(([h,k]) => `<a href="#/${h}" class="${view===h||(view==='evento'&&h==='agenda')||(view==='ficha'&&h==='empresas')?'on':''}">${t(k)}</a>`).join('');
+  $('#nav').innerHTML = menu.map(([h,k]) => `<a href="#/${h}" class="${view===h||(view==='evento'&&h==='agenda')||(view==='ficha'&&h==='empresas')||(!k&&CUR&&CUR[0]==='home'&&CUR[1]===h)?'on':''}">${mLabel(h,k)}</a>`).join('');
   $('#nav').hidden = !menu.length;
-  $('#dnav').innerHTML = menu.length ? `<a href="#/">${t('home')}</a>` + menu.map(([h,k]) => `<a href="#/${h}">${t(k)}</a>`).join('') : '';
+  $('#dnav').innerHTML = menu.length ? `<a href="#/">${t('home')}</a>` + menu.map(([h,k]) => `<a href="#/${h}">${mLabel(h,k)}</a>`).join('') : '';
   $('#burger').hidden = !menu.length;
   let cta;
   if ((C.cabecera || {}).boton === 'gala') { const ph = phase(); cta = ph === 'before' ? [t('cta_before'), '#/agenda/' + GALA.slug] : ph === 'live' ? [t('cta_live'), '#/programa'] : [t('cta_after'), '#/agenda/' + GALA.slug]; }
@@ -944,17 +946,37 @@ async function nlSend(f, email){
   finally { btn.disabled = false; btn.textContent = txt; }
 }
 function goNl(){ closeDrawer(); const n = $('#nl'); if (!n) return; n.scrollIntoView({behavior: 'smooth', block: 'center'}); const i = $('#nlf input[type=email]'); if (i) setTimeout(() => i.focus({preventScroll: true}), 600); }
+// Anclas de la portada: https://50.fvem.es/#/cifras, #/buscador… Sirven para enlazar directamente y para el menú (config.menu).
+const ANCLAS = {
+  'inicio':         { es: 'Inicio',         eu: 'Hasiera' },
+  'video':          { es: 'Vídeo',          eu: 'Bideoa' },
+  'cuenta-atras':   { es: 'Cuenta atrás',   eu: 'Atzerako kontaketa', sel: '#cds' },
+  'proximas-citas': { es: 'Próximas citas', eu: 'Hurrengo hitzorduak', sel: '#proximas-citas' },
+  'cifras':         { es: 'En cifras',      eu: 'Zifratan', sel: '#cifras' },
+  'buscador':       { es: 'Busca una empresa', eu: 'Bilatu enpresa bat', sel: '#buscador' },
+  'newsletter':     { es: 'Newsletter',     eu: 'Newsletterra', sel: '#nl' }
+};
+function goAncla(k, smooth){
+  const b = smooth ? 'smooth' : 'auto', hd = ($('#hd') || {}).offsetHeight || 0;
+  if (k === 'inicio') return scrollTo({ top: 0, behavior: b });
+  if (k === 'video') { const s = $('#hseq'); if (!s) return; const tot = s.offsetHeight - innerHeight; return scrollTo({ top: s.offsetTop + (tot > 0 ? tot * .8 : 0), behavior: b }); }
+  if (k === 'newsletter') return goNl();
+  const a = ANCLAS[k], el = a && a.sel && $(a.sel); if (!el) return;
+  scrollTo({ top: el.getBoundingClientRect().top + scrollY - hd - 24, behavior: b });
+}
 const VIEWS = { home: renderHome, agenda: renderAgenda, evento: renderEvento, programa: renderPrograma, empresas: renderEmpresas, ficha: renderFicha, historia: renderHistoria, personas: renderPersonas, participa: renderParticipa, prensa: renderPrensa };
 let CUR = null;
 function parse(){ const h = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   if (!h.length) return ['home'];
-  if (h[0] === 'newsletter') return ['home', 'nl'];
+  if (ANCLAS[h[0]]) return ['home', h[0]];
   if (h[0] === 'agenda' && h[1]) return ['evento', h[1]];
   if (h[0] === 'empresas' && h[1]) return ['ficha', h[1].padStart(5,'0')];
   return VIEWS[h[0]] ? [h[0]] : ['home']; }
 function route(keepScroll){
   const [v, arg] = parse(), same = CUR && CUR[0] === v && CUR[1] === arg;
   if (v !== 'ficha' || !CUR || CUR[0] !== 'ficha') oldPhoto = false;
+  // Saltar entre anclas de la portada sin volver a dibujarla
+  if (v === 'home' && CUR && CUR[0] === 'home' && arg && !same) { CUR = [v, arg]; chrome(v); goAncla(arg, true); return; }
   CUR = [v, arg];
   $$('.view').forEach(x => { const on = x.id === 'v-' + v; x.classList.toggle('on', on); if (!on) x.innerHTML = ''; });
   document.body.classList.toggle('home-mode', v === 'home');
@@ -963,12 +985,15 @@ function route(keepScroll){
   document.title = ttl;
   gaPage();
   if (!keepScroll && !same) scrollTo(0, 0);
-  if (v === 'home' && arg === 'nl') setTimeout(goNl, 80);
+  if (v === 'home' && arg && arg !== 'inicio') setTimeout(() => goAncla(arg, arg === 'newsletter'), 120);
   onScroll();
 }
 function onScroll(){ const hd = $('#hd'), home = document.body.classList.contains('home-mode'), s = $('#hseq'); const end = s ? s.offsetTop + s.offsetHeight - 120 : innerHeight - 120; hd.classList.toggle('over', home && scrollY < end); heroScroll(); }
 addEventListener('scroll', onScroll, {passive:true});
 addEventListener('hashchange', () => route());
+// Pulsar de nuevo un enlace a la misma ancla (el hash no cambia): volver a llevar a la sección
+document.addEventListener('click', ev => { const a = ev.target.closest('a[href^="#/"]'); if (!a) return; const k = a.getAttribute('href').slice(2);
+  if (ANCLAS[k] && a.getAttribute('href') === location.hash && CUR && CUR[0] === 'home') { ev.preventDefault(); closeDrawer(); goAncla(k, true); } });
 let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (CUR && CUR[0] === 'empresas') drawMap(); heroScroll(); }, 200); });
 function closeDrawer(){ $('#drawer').classList.remove('open'); $('#drawer').setAttribute('aria-hidden', 'true'); $('#burger').setAttribute('aria-expanded', 'false'); document.body.classList.remove('lock'); }
 $('#burger').onclick = () => { $('#drawer').classList.add('open'); $('#drawer').setAttribute('aria-hidden', 'false'); $('#burger').setAttribute('aria-expanded', 'true'); document.body.classList.add('lock'); };
