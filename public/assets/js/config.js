@@ -23,8 +23,8 @@ window.FVEM50 = {
 
   // Cifras oficiales para la portada. Si se dejan vacías, se calculan del listado de empresas.
   cifras: {
-    empresas: 833,
-    plantilla: 34073,
+    empresas: 842,
+    plantilla: 34684,
     nota: { es: 'Datos a octubre de 2026.', eu: '2026ko urriko datuak.' }
   },
 
