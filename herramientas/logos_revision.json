@@ -32,7 +32,22 @@
   "05001": "icono ilegible",
   "05048": "foto borrosa",
   "05125": "certificado RePro",
-  "05149": "logo de Instagram"
+  "05149": "logo de Instagram",
+  "00288": "icono genérico del alojamiento web",
+  "03913": "icono genérico del alojamiento web",
+  "00313": "certificado Bureau Veritas",
+  "01047": "logo combinado con otro grupo (Uno Minda)",
+  "03807": "imagen vacía",
+  "03792": "logo de Sarenet (proveedor)",
+  "04859": "logo de Sarenet (proveedor)",
+  "03608": "logo de otra marca (Synot)",
+  "04164": "foto de fachada",
+  "04201": "banner con fondo de cielo",
+  "04618": "banner con carretillas",
+  "04926": "logo de otra empresa (Mebusa)",
+  "05007": "imagen de demostración con sello Sage",
+  "03419": "logo recortado",
+  "04722": "solo el icono, sin nombre"
  },
  "dudosos": {
   "00716": "Teknia (círculo azul)",
@@ -46,6 +61,12 @@
   "04049": "solo un icono",
   "04534": "sello de 20 años",
   "05086": "recorte con mancha rosa",
-  "05088": "solo un icono"
+  "05088": "solo un icono",
+  "04753": "logo del grupo MEK",
+  "04525": "logo de Voltia (grupo)",
+  "05074": "logo de Voltia (grupo)",
+  "05004": "logo de Grupo NBI",
+  "05115": "logo de Maxber (grupo)",
+  "03875": "solo icono (logo de su web)"
  }
 }
