@@ -15,7 +15,8 @@ window.FVEM50 = {
   formularios: {
     empresas: '',    // p. ej. 'https://tally.so/embed/XXXXXX?transparentBackground=1'
     publico: '',
-    newsletter: ''   // URL del formulario de alta de vuestra herramienta de newsletter
+    newsletter: '',  // URL de un formulario externo de alta (si se rellena, sustituye al formulario de la web)
+    newsletterApi: 'https://crm-api.fvem.es/api/public/suscripcion50'  // el formulario de la web envía aquí el correo (POST JSON)
   },
 
   // Banda de logos de empresas en la portada (filas alternando sentido, empresas al azar sin repetirse)

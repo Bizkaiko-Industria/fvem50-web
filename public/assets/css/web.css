@@ -687,3 +687,5 @@ body.home-mode .hd{border-bottom:0;background-repeat:no-repeat}
 .fsb .drop{z-index:30}
 @media (max-width:640px){.fsb{flex:1 1 100%;max-width:none;margin-left:0}}
 .stnote{font-size:13px;color:var(--mut);margin:36px 0 0}
+.nlf .hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.nlf button:disabled{opacity:.7;cursor:wait}

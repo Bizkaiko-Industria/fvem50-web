@@ -32,7 +32,7 @@ const T = {
   pe_k:'Personas que hacen industria',pe_h:'Detrás de cada empresa, personas',pe_p:'Talento, experiencia, diversidad, innovación y compromiso: historias cortas de quienes trabajan en las asociadas.',pe_all:'Ver todas las historias',
   portrait_pend:'Retrato pendiente',
   pa_h:'¿Tu empresa es asociada?',pa_p:'Envíanos tu logo, una foto antigua y tu mensaje para el 50 aniversario. Lo publicaremos en tu ficha.',pa_btn:'Participa',
-  nl_h:'Recibe la agenda en tu correo',nl_p:'Conoce las citas más destacadas de este aniversario.',nl_ph:'Tu correo electrónico',nl_btn:'Suscribirme',nl_ok:'Vista previa: la suscripción se conectará con el sistema de FVEM.',
+  nl_h:'Recibe la agenda en tu correo',nl_p:'Conoce las citas más destacadas de este aniversario.',nl_ph:'Tu correo electrónico',nl_btn:'Suscribirme',nl_ok:'¡Gracias! Te has suscrito correctamente.',nl_fail:'No hemos podido completar la suscripción. Inténtalo de nuevo en unos minutos.',nl_sending:'Enviando…',
   ft_lema:'50 años con la industria. Pasado que impulsa, futuro que construimos.',ft_an:'Aniversario',ft_em:'Empresas',ft_fv:'FVEM',ft_sp:'Patrocinadores y colaboradores',ft_spx:'Logo',ft_legal:'Aviso legal',ft_priv:'Política de privacidad',ft_cook:'Política de cookies',ft_terms:'Términos y condiciones de uso',ft_data:'Condiciones generales sobre protección de datos',ft_acc:'Accesibilidad',ck_title:'Cookies de analítica',ck_text:'Usamos Google Analytics para saber cuántas personas visitan esta web y mejorarla. Solo se activa si lo aceptas; puedes cambiar de opinión en cualquier momento desde «Configurar cookies», al pie de la página.',ck_more:'Política de cookies',ck_yes:'Aceptar',ck_no:'Rechazar',ck_cfg:'Configurar cookies',ft_web:'Web de FVEM',ft_contact:'Contacto',
   ag_p:'Todos los actos del 50 aniversario en un solo lugar. Las fechas y lugares son de ejemplo hasta que se confirmen.',all:'Todos',v_list:'Lista',v_cal:'Calendario',
   s_open:'Inscripción abierta',s_soon:'Próximamente',s_full:'Completo',s_past:'Celebrado',s_live:'En directo',s_free:'Entrada libre',
@@ -82,7 +82,7 @@ const T = {
   pe_k:'Industria egiten duten pertsonak',pe_h:'Enpresa bakoitzaren atzean, pertsonak',pe_p:'Talentua, esperientzia, aniztasuna, berrikuntza eta konpromisoa: bazkideetan lan egiten dutenen istorio laburrak.',pe_all:'Ikusi istorio guztiak',
   portrait_pend:'Erretratua falta da',
   pa_h:'Zure enpresa bazkidea da?',pa_p:'Bidali zure logoa, argazki zahar bat eta 50. urteurrenerako mezua. Zure fitxan argitaratuko dugu.',pa_btn:'Parte hartu',
-  nl_h:'Jaso agenda zure postan',nl_p:'Ezagutu urteurren honetako hitzordu nabarmenenak.',nl_ph:'Zure helbide elektronikoa',nl_btn:'Harpidetu',nl_ok:'Aurrebista: harpidetza FVEMen sistemarekin konektatuko da.',
+  nl_h:'Jaso agenda zure postan',nl_p:'Ezagutu urteurren honetako hitzordu nabarmenenak.',nl_ph:'Zure helbide elektronikoa',nl_btn:'Harpidetu',nl_ok:'Eskerrik asko! Harpidetza ondo egin da.',nl_fail:'Ezin izan dugu harpidetza osatu. Saiatu berriro minutu batzuk barru.',nl_sending:'Bidaltzen…',
   ft_lema:'50 urte industriarekin. Bultzatzen duen iragana, eraikitzen dugun etorkizuna.',ft_an:'Urteurrena',ft_em:'Enpresak',ft_fv:'FVEM',ft_sp:'Babesleak eta laguntzaileak',ft_spx:'Logoa',ft_legal:'Lege-oharra',ft_priv:'Pribatutasun-politika',ft_cook:'Cookie-politika',ft_terms:'Erabilera-baldintzak',ft_data:'Datuen babesari buruzko baldintza orokorrak',ft_acc:'Irisgarritasuna',ck_title:'Analitikako cookieak',ck_text:'Google Analytics erabiltzen dugu webgune hau zenbat pertsonak bisitatzen duten jakiteko eta hobetzeko. Onartzen baduzu bakarrik aktibatzen da; edozein unetan alda dezakezu orriaren oineko «Cookieak konfiguratu» estekan.',ck_more:'Cookie-politika',ck_yes:'Onartu',ck_no:'Baztertu',ck_cfg:'Cookieak konfiguratu',ft_web:'FVEMen webgunea',ft_contact:'Harremanetarako',
   ag_p:'50. urteurreneko ekitaldi guztiak leku bakarrean. Datak eta lekuak adibideak dira, berretsi arte.',all:'Guztiak',v_list:'Zerrenda',v_cal:'Egutegia',
   s_open:'Izen-ematea zabalik',s_soon:'Laster',s_full:'Beteta',s_past:'Eginda',s_live:'Zuzenean',s_free:'Sarrera librea',
@@ -257,7 +257,7 @@ function tick(){
 setInterval(tick, 1000);
 
 /* ---------- utilidades UI ---------- */
-function toast(m){ const el = $('#toast'); el.textContent = m; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(()=>el.classList.remove('on'), 2600); }
+function toast(m){ const el = $('#toast'); el.textContent = m; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(()=>el.classList.remove('on'), 4200); }
 async function share(title, path){
   const url = (/^https?:/.test(location.href) ? location.href.split('#')[0] : C.sitio) + path;
   try { if (navigator.share) { await navigator.share({title, url}); return; } } catch (_) { return; }
@@ -631,7 +631,8 @@ function drawDir(reset){
   const r = LAST = filtered(), shown = r.slice(0, F.n), res = $('#res');
   $$('#v-empresas select[data-f]').forEach(s => { if (s.dataset.f !== 'so') s.classList.toggle('on', !!s.value); });
   $('#clr').hidden = !(F.q||F.s||F.z||F.m||F.t||F.d||F.y||F.fu);
-  $('#cnt').innerHTML = `<b class="num">${nf(r.length)}</b> ${t('companies')} · <span class="num">${nf(r.reduce((a,e)=>a+(e.plantilla||0),0))}</span> ${t('people')}`;
+  const todas = !(F.q||F.s||F.z||F.m||F.t||F.d||F.y||F.fu);  // sin filtros: totales oficiales de FVEM (config.cifras), aunque algunas empresas no aparezcan
+  $('#cnt').innerHTML = `<b class="num">${nf(todas ? S.emp : r.length)}</b> ${t('companies')} · <span class="num">${nf(todas ? S.pl : r.reduce((a,e)=>a+(e.plantilla||0),0))}</span> ${t('people')}`;
   if (!r.length) { res.innerHTML = `<p class="mut" style="text-align:center;padding:40px 0;color:var(--mut)">${t('se_none')}</p>`; $('#more').hidden = true; return; }
   res.innerHTML = F.view === 'grid'
     ? `<div class="cards">${shown.map((e,i)=>`<a class="card" href="#/empresas/${e.num_asociada}" style="animation-delay:${Math.min(i,30)*15}ms">${mono(e,true)}<span class="nm">${esc(shortName(e.nombre))}</span><span class="sub">${esc(e.municipio)} · ${esc(grp(e))}</span>
@@ -895,7 +896,7 @@ function chrome(view){
         if (!v) { err(em, t('nl_e_empty')); ok = false; } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { err(em, t('nl_e_mail')); ok = false; } else clr(em);
         if (!ck.checked) { err(ck, t('nl_e_check')); ok = false; } else clr(ck);
         if (!ok) { (em.closest('.bad') ? em : ck).focus(); return; }
-        toast(t('nl_ok')); f.reset(); }; }
+        nlSend(f, v); }; }
     $$('a[href="#/newsletter"]').forEach(a => a.onclick = ev => { ev.preventDefault(); goNl(); }); });
   $$('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === L));
   const dm = $('#demo'); if (dm && C.vistaPrevia === false) dm.remove(); else if (dm) dm.innerHTML = `${esc(t('demo'))} <b style="margin-left:6px;color:#fff" aria-hidden="true">×</b>`; if (dm) dm.onclick = ev => { ev.preventDefault(); dm.remove(); };
@@ -918,9 +919,24 @@ function nlBox(){
     <b>${t('nl_inf')}:</b> ${t('nl_inf_t')}${priv ? ` <a href="${esc(priv)}" target="_blank" rel="noopener">${t('ft_priv').toLowerCase()}</a>` : ''}.` : ''}</div>`;
   return `<div class="cta-card b nlwide" id="nl"><div><div class="eyebrow" style="color:#fff">Newsletter</div><div class="rule" style="background:#fff"></div><h3>${t('nl_h')}</h3><p>${t('nl_p')}</p></div>
     ${FORMS.newsletter ? `<div><a class="btn" style="margin-top:20px;background:var(--negro)" href="${esc(FORMS.newsletter)}" target="_blank" rel="noopener">${t('nl_btn')} ${I('arrow')}</a></div>`
-      : `<form class="nlf" id="nlf"><div class="nl"><input type="email" required placeholder="${t('nl_ph')}" aria-label="${t('nl_ph')}"><button class="btn">${t('nl_btn')}</button></div>
+      : `<form class="nlf" id="nlf"><input type="text" name="empresa_web" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp"><div class="nl"><input type="email" required placeholder="${t('nl_ph')}" aria-label="${t('nl_ph')}"><button class="btn">${t('nl_btn')}</button></div>
         <label class="nlok"><input type="checkbox" required> <span>${t('nl_ok_pre')} ${priv ? `<a href="${esc(priv)}" target="_blank" rel="noopener">${t('ft_priv').toLowerCase()}</a>` : t('ft_priv').toLowerCase()}</span></label></form>`}
     ${FORMS.newsletter ? '' : clause}</div>`;
+}
+// Alta en la newsletter: se envía al CRM de FVEM (config.formularios.newsletterApi)
+async function nlSend(f, email){
+  const btn = $('button', f), hp = $('.hp', f), api = FORMS.newsletterApi;
+  if (hp && hp.value) { toast(t('nl_ok')); f.reset(); return; }          // robot: se descarta sin avisar
+  if (!api) { toast(t('nl_fail')); return; }
+  const txt = btn.textContent; btn.disabled = true; btn.textContent = t('nl_sending');
+  try {
+    const r = await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, credentials: 'omit',
+      body: JSON.stringify({ email, idioma: L, consentimiento: true, origen: location.host || '50.fvem.es', fecha: new Date().toISOString() }) });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    toast(t('nl_ok')); f.reset();
+    if (window.gtag) gtag('event', 'sign_up', { method: 'newsletter' });
+  } catch (_) { toast(t('nl_fail')); }
+  finally { btn.disabled = false; btn.textContent = txt; }
 }
 function goNl(){ closeDrawer(); const n = $('#nl'); if (!n) return; n.scrollIntoView({behavior: 'smooth', block: 'center'}); const i = $('#nlf input[type=email]'); if (i) setTimeout(() => i.focus({preventScroll: true}), 600); }
 const VIEWS = { home: renderHome, agenda: renderAgenda, evento: renderEvento, programa: renderPrograma, empresas: renderEmpresas, ficha: renderFicha, historia: renderHistoria, personas: renderPersonas, participa: renderParticipa, prensa: renderPrensa };
