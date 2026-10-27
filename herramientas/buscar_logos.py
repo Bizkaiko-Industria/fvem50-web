@@ -19,16 +19,46 @@ try:
 except Exception:  # sin cairo no se pueden convertir SVG
     cairosvg = None
 
-OUT = 'herramientas/logos_candidatos'
+# Reintento: si existe herramientas/logos_reintentar.txt, solo se buscan esas empresas y el resultado va a archivos aparte
+REINTENTO = os.path.exists('herramientas/logos_reintentar.txt')
+OUT = 'herramientas/logos_candidatos_reintento' if REINTENTO else 'herramientas/logos_candidatos'
+RES = 'herramientas/logos_resultado_reintento.json' if REINTENTO else 'herramientas/logos_resultado.json'
 os.makedirs(OUT, exist_ok=True)
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36'
 S = requests.Session(); S.headers.update({'User-Agent': UA, 'Accept-Language': 'es-ES,es;q=0.9,eu;q=0.8'})
-TIMEOUT = 15
+TIMEOUT = 25 if REINTENTO else 15
 MAXW, MAXH = 480, 240
 
 src = open('public/assets/js/empresas.js', encoding='utf-8').read()
 data = json.loads(src[src.index('=') + 1:].strip().rstrip(';'))
 empresas = [e for e in data['empresas'] if e.get('web')]
+if REINTENTO:
+    nums = {l.strip() for l in open('herramientas/logos_reintentar.txt', encoding='utf-8') if l.strip() and not l.startswith('#')}
+    empresas = [e for e in empresas if e['num_asociada'] in nums]
+    import urllib3; urllib3.disable_warnings()
+
+
+def get(url, **kw):
+    """Descarga con tolerancia: si el certificado HTTPS de la web está mal configurado, lo reintenta sin verificarlo
+    (solo se leen páginas e imágenes públicas, no se envía ningún dato)."""
+    try:
+        return S.get(url, timeout=TIMEOUT, **kw)
+    except requests.exceptions.SSLError:
+        if not REINTENTO: raise
+        return S.get(url, timeout=TIMEOUT, verify=False, **kw)
+
+
+def variantes(web):
+    """La web tal cual y, en el reintento, con/sin www y con http/https."""
+    u = urlparse(web if '://' in web else 'http://' + web)
+    host = u.netloc; sin = host[4:] if host.startswith('www.') else host
+    out = [web]
+    if REINTENTO:
+        for sch in ('https', 'http'):
+            for h in (sin, 'www.' + sin):
+                v = f'{sch}://{h}{u.path or "/"}'
+                if v not in out: out.append(v)
+    return out
 if len(sys.argv) > 1:
     empresas = empresas[:int(sys.argv[1])]
 
@@ -103,7 +133,7 @@ def a_imagen(kind, val):
         if 'svg' in head:
             return Image.open(io.BytesIO(cairosvg.svg2png(bytestring=raw, output_width=900))) if cairosvg else None
         return Image.open(io.BytesIO(raw))
-    r = S.get(val, timeout=TIMEOUT); r.raise_for_status()
+    r = get(val); r.raise_for_status()
     ct = r.headers.get('content-type', '').lower()
     if 'svg' in ct or val.lower().split('?')[0].endswith('.svg'):
         return Image.open(io.BytesIO(cairosvg.svg2png(bytestring=r.content, output_width=900))) if cairosvg else None
@@ -135,7 +165,14 @@ def procesa(e):
     num, web = e['num_asociada'], e['web']
     res = dict(num=num, nombre=e['nombre'], web=web, estado='sin_logo')
     try:
-        r = S.get(web, timeout=TIMEOUT, allow_redirects=True)
+        r, ult = None, None
+        for v in variantes(web):
+            try:
+                r = get(v, allow_redirects=True)
+                if r.status_code < 400: break
+            except Exception as ex:
+                ult = ex
+        if r is None: raise ult
         res['web_final'] = r.url
         if r.status_code >= 400:
             res['estado'] = f'web_error_{r.status_code}'; return res
@@ -166,7 +203,7 @@ with ThreadPoolExecutor(max_workers=16) as pool:
         resultados.append(f.result())
         if i % 50 == 0: print(f'{i}/{len(empresas)} · {time.time() - t0:.0f}s', flush=True)
 resultados.sort(key=lambda x: x['num'])
-json.dump(resultados, open('herramientas/logos_resultado.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+json.dump(resultados, open(RES, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 from collections import Counter
 print(Counter(r['estado'] if not r['estado'].startswith('web_error') else 'web_error' for r in resultados))
 print(Counter(r.get('metodo') for r in resultados if r['estado'] == 'ok'))
