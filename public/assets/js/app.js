@@ -32,7 +32,7 @@ const T = {
   pe_k:'Personas que hacen industria',pe_h:'Detrás de cada empresa, personas',pe_p:'Talento, experiencia, diversidad, innovación y compromiso: historias cortas de quienes trabajan en las asociadas.',pe_all:'Ver todas las historias',
   portrait_pend:'Retrato pendiente',
   pa_h:'¿Tu empresa es asociada?',pa_p:'Envíanos tu logo, una foto antigua y tu mensaje para el 50 aniversario. Lo publicaremos en tu ficha.',pa_btn:'Participa',
-  nl_h:'Recibe la agenda en tu correo',nl_p:'Conoce las citas más destacadas de este aniversario.',nl_ph:'Tu correo electrónico',nl_btn:'Suscribirme',nl_ok:'¡Gracias! Te has suscrito correctamente.',nl_fail:'No hemos podido completar la suscripción. Inténtalo de nuevo en unos minutos.',nl_sending:'Enviando…',
+  nl_h:'Recibe la agenda en tu correo',nl_p:'Conoce las citas más destacadas de este aniversario.',nl_ph:'Tu correo electrónico',nl_btn:'Suscribirme',nl_ok:'¡Gracias! Te has suscrito correctamente.',nl_fail:'No hemos podido completar la suscripción. Inténtalo de nuevo en unos minutos.',nl_sending:'Enviando…',nl_dup:'Este correo ya está suscrito a la newsletter. ¡Gracias por seguirnos!',
   ft_lema:'50 años con la industria. Pasado que impulsa, futuro que construimos.',ft_an:'Aniversario',ft_em:'Empresas',ft_fv:'FVEM',ft_sp:'Patrocinadores y colaboradores',ft_spx:'Logo',ft_legal:'Aviso legal',ft_priv:'Política de privacidad',ft_cook:'Política de cookies',ft_terms:'Términos y condiciones de uso',ft_data:'Condiciones generales sobre protección de datos',ft_acc:'Accesibilidad',ck_title:'Cookies de analítica',ck_text:'Usamos Google Analytics para saber cuántas personas visitan esta web y mejorarla. Solo se activa si lo aceptas; puedes cambiar de opinión en cualquier momento desde «Configurar cookies», al pie de la página.',ck_more:'Política de cookies',ck_yes:'Aceptar',ck_no:'Rechazar',ck_cfg:'Configurar cookies',ft_web:'Web de FVEM',ft_contact:'Contacto',
   ag_p:'Todos los actos del 50 aniversario en un solo lugar. Las fechas y lugares son de ejemplo hasta que se confirmen.',all:'Todos',v_list:'Lista',v_cal:'Calendario',
   s_open:'Inscripción abierta',s_soon:'Próximamente',s_full:'Completo',s_past:'Celebrado',s_live:'En directo',s_free:'Entrada libre',
@@ -82,7 +82,7 @@ const T = {
   pe_k:'Industria egiten duten pertsonak',pe_h:'Enpresa bakoitzaren atzean, pertsonak',pe_p:'Talentua, esperientzia, aniztasuna, berrikuntza eta konpromisoa: bazkideetan lan egiten dutenen istorio laburrak.',pe_all:'Ikusi istorio guztiak',
   portrait_pend:'Erretratua falta da',
   pa_h:'Zure enpresa bazkidea da?',pa_p:'Bidali zure logoa, argazki zahar bat eta 50. urteurrenerako mezua. Zure fitxan argitaratuko dugu.',pa_btn:'Parte hartu',
-  nl_h:'Jaso agenda zure postan',nl_p:'Ezagutu urteurren honetako hitzordu nabarmenenak.',nl_ph:'Zure helbide elektronikoa',nl_btn:'Harpidetu',nl_ok:'Eskerrik asko! Harpidetza ondo egin da.',nl_fail:'Ezin izan dugu harpidetza osatu. Saiatu berriro minutu batzuk barru.',nl_sending:'Bidaltzen…',
+  nl_h:'Jaso agenda zure postan',nl_p:'Ezagutu urteurren honetako hitzordu nabarmenenak.',nl_ph:'Zure helbide elektronikoa',nl_btn:'Harpidetu',nl_ok:'Eskerrik asko! Harpidetza ondo egin da.',nl_fail:'Ezin izan dugu harpidetza osatu. Saiatu berriro minutu batzuk barru.',nl_sending:'Bidaltzen…',nl_dup:'Helbide hau newsletterrera harpidetuta dago jada. Eskerrik asko!',
   ft_lema:'50 urte industriarekin. Bultzatzen duen iragana, eraikitzen dugun etorkizuna.',ft_an:'Urteurrena',ft_em:'Enpresak',ft_fv:'FVEM',ft_sp:'Babesleak eta laguntzaileak',ft_spx:'Logoa',ft_legal:'Lege-oharra',ft_priv:'Pribatutasun-politika',ft_cook:'Cookie-politika',ft_terms:'Erabilera-baldintzak',ft_data:'Datuen babesari buruzko baldintza orokorrak',ft_acc:'Irisgarritasuna',ck_title:'Analitikako cookieak',ck_text:'Google Analytics erabiltzen dugu webgune hau zenbat pertsonak bisitatzen duten jakiteko eta hobetzeko. Onartzen baduzu bakarrik aktibatzen da; edozein unetan alda dezakezu orriaren oineko «Cookieak konfiguratu» estekan.',ck_more:'Cookie-politika',ck_yes:'Onartu',ck_no:'Baztertu',ck_cfg:'Cookieak konfiguratu',ft_web:'FVEMen webgunea',ft_contact:'Harremanetarako',
   ag_p:'50. urteurreneko ekitaldi guztiak leku bakarrean. Datak eta lekuak adibideak dira, berretsi arte.',all:'Guztiak',v_list:'Zerrenda',v_cal:'Egutegia',
   s_open:'Izen-ematea zabalik',s_soon:'Laster',s_full:'Beteta',s_past:'Eginda',s_live:'Zuzenean',s_free:'Sarrera librea',
@@ -932,7 +932,12 @@ async function nlSend(f, email){
   try {
     const r = await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, credentials: 'omit',
       body: JSON.stringify({ email, idioma: L, consentimiento: true, origen: location.host || '50.fvem.es', fecha: new Date().toISOString() }) });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
+    if (!r.ok) {
+      // ¿Ya estaba suscrito? El CRM lo indica con 409 o con un mensaje (p. ej. «ya existe», «duplicado», «already»)
+      let body = ''; try { body = (await r.text()).toLowerCase(); } catch (_) {}
+      if (r.status === 409 || /(^|[^a-z])ya([^a-z]|$)|duplic|already|exist|registered|subscribed|jada/.test(body)) { toast(t('nl_dup')); f.reset(); return; }
+      throw new Error('HTTP ' + r.status);
+    }
     toast(t('nl_ok')); f.reset();
     if (window.gtag) gtag('event', 'sign_up', { method: 'newsletter' });
   } catch (_) { toast(t('nl_fail')); }
