@@ -26,7 +26,7 @@ const T = {
   up_k:'Agenda 2027',up_h:'Próximas citas',up_all:'Ver toda la agenda',
   st_k:'En cifras',st_h:'Las empresas que hacen la industria de Bizkaia',st_emp:'Empresas asociadas',st_pl:'Personas trabajadoras',st_mun:'Municipios',st_y:'Años',
   st_note:'Datos calculados a partir del listado de asociadas (parcial en esta vista previa).',
-  se_h:'Busca una empresa',se_ph:'Nombre, municipio o nº de asociada',se_all:'Ver los {n} resultados',se_none:'No hay empresas con esos criterios.',
+  se_h:'Busca una empresa',se_lead:'Cada empresa asociada tiene su ficha: su actividad, su historia con FVEM y su lugar en estos 50 años. Búscala o pulsa en cualquiera de las que pasan.',se_see:'Ver ficha',se_ph:'Nombre, municipio o nº de asociada',se_all:'Ver los {n} resultados',se_none:'No hay empresas con esos criterios.',
   hi_k:'1977 → 2027',hi_h:'Medio siglo en una línea',hi_p:'De las primeras socias de 1977 a las que se han sumado este mismo año. Desliza la foto para comparar ayer y hoy.',hi_more:'Recorrer la historia',
   yesterday:'Ayer',today:'Hoy',ph_pend:'Foto pendiente',
   pe_k:'Personas que hacen industria',pe_h:'Detrás de cada empresa, personas',pe_p:'Talento, experiencia, diversidad, innovación y compromiso: historias cortas de quienes trabajan en las asociadas.',pe_all:'Ver todas las historias',
@@ -76,7 +76,7 @@ const T = {
   up_k:'2027ko agenda',up_h:'Hurrengo hitzorduak',up_all:'Ikusi agenda osoa',
   st_k:'Zifratan',st_h:'Bizkaiko industria egiten duten enpresak',st_emp:'Enpresa bazkideak',st_pl:'Langile',st_mun:'Udalerri',st_y:'Urte',
   st_note:'Bazkideen zerrendatik kalkulatutako datuak (partziala aurrebista honetan).',
-  se_h:'Bilatu enpresa bat',se_ph:'Izena, udalerria edo bazkide-zk.',se_all:'Ikusi {n} emaitzak',se_none:'Ez dago irizpide horiek betetzen dituen enpresarik.',
+  se_h:'Bilatu enpresa bat',se_lead:'Enpresa bazkide bakoitzak bere fitxa du: bere jarduera, FVEMekin duen historia eta 50 urte hauetan duen lekua. Bilatu edo sakatu pasatzen den edozeinetan.',se_see:'Ikusi fitxa',se_ph:'Izena, udalerria edo bazkide-zk.',se_all:'Ikusi {n} emaitzak',se_none:'Ez dago irizpide horiek betetzen dituen enpresarik.',
   hi_k:'1977 → 2027',hi_h:'Mende erdia lerro batean',hi_p:'1977ko lehen bazkideetatik aurten batu direnetara. Irristatu argazkia atzo eta gaur alderatzeko.',hi_more:'Ibili historian zehar',
   yesterday:'Atzo',today:'Gaur',ph_pend:'Argazkia falta da',
   pe_k:'Industria egiten duten pertsonak',pe_h:'Enpresa bakoitzaren atzean, pertsonak',pe_p:'Talentua, esperientzia, aniztasuna, berrikuntza eta konpromisoa: bazkideetan lan egiten dutenen istorio laburrak.',pe_all:'Ikusi istorio guztiak',
@@ -393,7 +393,7 @@ function renderHome(){
   const MQ = Object.assign({ filas: 2, empresasPorFila: 30, segundosPorEmpresa: 2.6 }, C.marquesina || {});
   const pool = ALL.slice(); for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
   const rows = Array.from({ length: Math.max(1, Math.min(6, MQ.filas)) }, (_, i) => pool.slice(i * MQ.empresasPorFila, (i + 1) * MQ.empresasPorFila)).filter(rw => rw.length >= 6);
-  const mqItem = (e, dup) => `<a href="#/empresas/${e.num_asociada}"${dup ? ' tabindex="-1" aria-hidden="true"' : ''}>${mono(e)}${esc(shortName(e.nombre))}</a>`;
+  const mqItem = (e, dup) => `<a href="#/empresas/${e.num_asociada}" title="${esc(t('se_see'))}: ${esc(shortName(e.nombre))}"${dup ? ' tabindex="-1" aria-hidden="true"' : ''}>${mono(e)}<span class="mqn">${esc(shortName(e.nombre))}</span><span class="mqgo">${t('se_see')} ${I('arrow')}</span></a>`;
   const vb = videoBlock();
   $('#v-home').innerHTML = `
   <section class="hero-seq dk" id="hseq"${vb ? '' : ' data-novideo'}>
@@ -428,6 +428,7 @@ function renderHome(){
     </div></div>
 ` : ''}
     ${SEC.buscador ? `<div id="buscador" style="margin-top:${SEC.cifras?80:0}px"><div class="shead" style="margin-bottom:22px"><h3 style="font-size:clamp(26px,3vw,38px)">${t('se_h')}</h3><a class="more-link" href="#/empresas">${t('em_all')} ${I('arrow')}</a></div>
+      <p class="selead">${t('se_lead')}</p>
       <div class="sbox"><div class="f">${I('search')}<input id="hq" type="search" autocomplete="off" placeholder="${t('se_ph')}" aria-label="${t('se_h')}"></div><div class="drop" id="hdrop" hidden></div></div>
       <div class="marqs">${rows.map((rw, i) => `<div class="marq${i % 2 ? ' rev' : ''}"><div class="tr" style="--dur:${Math.round(rw.length * MQ.segundosPorEmpresa)}s">${rw.map(e => mqItem(e)).join('')}${rw.map(e => mqItem(e, true)).join('')}</div></div>`).join('')}</div>
     </div>` : ''}
