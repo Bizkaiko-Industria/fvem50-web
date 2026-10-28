@@ -97,6 +97,7 @@ window.FVEM50 = {
   // Vídeo que aparece encajado al hacer scroll en la portada (solo se carga YouTube al pulsar «play»)
   videoPrincipal: {
     youtube: 'RAlS-zQD1FY',
+    deslizaTras: 90,   // segundos que hay que pasar en la parte del vídeo para que aparezca «Desliza» (0 = siempre)
     titulo: { es: 'El secreto mejor guardado de FVEM', eu: 'FVEMen sekreturik ondoen gordea' },
     poster: 'assets/img/video-portada.jpg',   // imagen de portada del vídeo (vacío = gráfico de marca)
     posterPlay: ['50%', '50%'],               // posición del botón play (horizontal, vertical)

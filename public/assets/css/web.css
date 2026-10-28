@@ -544,7 +544,7 @@ input[type=range]{width:100%;accent-color:var(--cobre)}
 .hero-seq .hero{position:sticky;top:0}
 .hero .in{transform:translateY(calc(var(--p,0) * -60svh));opacity:calc(1 - var(--p,0) * 3.4);will-change:transform,opacity}
 .hero .shade2{position:absolute;inset:0;background:rgba(5,5,5,.55);opacity:calc(var(--p,0) * 1.6);pointer-events:none}
-.hero .scroll{opacity:max(calc(1 - var(--p,0) * 5), clamp(0, calc((var(--p,0) - .55) * 5), 1));cursor:pointer;color:#bbb;font:inherit;font-size:11px;letter-spacing:.3em;text-transform:uppercase}
+.hero .scroll{opacity:calc(1 - var(--p,0) * 5);cursor:pointer;color:#bbb;font:inherit;font-size:11px;letter-spacing:.3em;text-transform:uppercase}
 .vbox{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:calc(var(--hd) + 16px) 16px 56px;
   opacity:clamp(0, calc((var(--p,0) - .3) * 3.2), 1);transform:translateY(calc((1 - clamp(0, calc(var(--p,0) * 1.6), 1)) * 22svh)) scale(calc(.92 + clamp(0, calc(var(--p,0) * 1.6), 1) * .08));pointer-events:none}
 .hero.vis .vbox{pointer-events:auto}
@@ -704,3 +704,5 @@ body.home-mode .hd{border-bottom:0;background-repeat:no-repeat}
 .marq a:hover .mqgo,.marq a:focus-visible .mqgo{max-width:110px;opacity:1}
 .marq a{cursor:pointer}
 @media (hover:none){.marq .mqgo{max-width:none;opacity:1;width:16px}.marq .mqgo{font-size:0}.marq .mqgo .ic{width:14px;height:14px}}
+.hero.dzok .scroll{opacity:max(calc(1 - var(--p,0) * 5), clamp(0, calc((var(--p,0) - .55) * 5), 1));transition:opacity .8s}
+.hero.vis:not(.dzok) .scroll{pointer-events:none}

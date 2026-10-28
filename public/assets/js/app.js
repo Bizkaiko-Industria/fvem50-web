@@ -464,7 +464,13 @@ function heroScroll(){
   const s = $('#hseq'), h = $('#hero'); if (!s || !h || !$('#v-home').classList.contains('on')) return;
   const tot = s.offsetHeight - innerHeight, p = tot > 0 ? Math.min(1, Math.max(0, -s.getBoundingClientRect().top / tot)) : 0;
   h.style.setProperty('--p', p.toFixed(3)); h.classList.toggle('vis', p > .45);
+  // «Desliza» en la parte del vídeo: aparece tras pasar ahí el tiempo de config.videoPrincipal.deslizaTras (segundos acumulados)
+  const enVideo = p > .55, now = Date.now();
+  if (enVideo && !DZ.desde) { DZ.desde = now; clearTimeout(DZ.t); DZ.t = setTimeout(() => { DZ.ok = true; const hh = $('#hero'); if (hh) hh.classList.add('dzok'); }, Math.max(0, DZ.espera - DZ.acum)); }
+  if (!enVideo && DZ.desde) { DZ.acum += now - DZ.desde; DZ.desde = 0; clearTimeout(DZ.t); }
+  h.classList.toggle('dzok', DZ.ok);
 }
+const DZ = { espera: (((C.videoPrincipal || {}).deslizaTras ?? 90) * 1000), acum: 0, desde: 0, t: 0, ok: false };
 function bindHomeSearch(){ bindSearch($('#hq'), $('#hdrop')); }
 let searchDocBound = false;
 function bindSearch(q, d){
