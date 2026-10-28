@@ -83,6 +83,7 @@ window.FVEM50 = {
     personas: false,         // «Detrás de cada empresa, personas»
     participa: false,        // caja «¿Tu empresa es asociada?»
     newsletter: true,        // caja de suscripción a la agenda
+    fotoPendiente: false,    // ficha: hueco de foto «Foto pendiente» cuando la empresa aún no tiene foto (las fotos reales se ven siempre)
     patrocinadores: false    // pie: patrocinadores y colaboradores
   },
   // Páginas en el menú de cabecera, menú móvil y pie. Vacío = sin menú.
@@ -111,7 +112,7 @@ window.FVEM50 = {
     botonCalendario: false,   // true = muestra el botón «Añadir a mi calendario»
     etiqueta: { es: 'Cuenta atrás', eu: 'Atzerako kontaketa' },
     titulo: { es: 'Apertura del sobre', eu: 'Gutun-azalaren irekiera' },
-    texto: { es: 'Pronto conoceremos el secreto mejor guardado de FVEM.', eu: 'Laster ezagutuko dugu FVEMen sekreturik ondoen gordea.' },
+    texto: { es: 'Pronto conoceremos el secreto mejor guardado de FVEM.', eu: 'Laster ezagutuko dugu FVEMeko sekreturik onena.' },
     despues: { es: 'El sobre ya está abierto: mira el nuevo vídeo.', eu: 'Gutun-azala irekita dago: ikusi bideo berria.' }
   },
 
