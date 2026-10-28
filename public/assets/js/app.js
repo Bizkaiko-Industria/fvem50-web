@@ -448,7 +448,7 @@ function renderHome(){
   </div></section>` : ''}`;
   const root = $('#v-home');
   if ($('#playfull')) $('#playfull').onclick = () => videoModal(v.completo);
-  if ($('#vplay')) $('#vplay').onclick = playVideo;
+  if ($('#vplay')) $('#vplay').onclick = () => { playVideo(); gaEv('video_play', { video: 'principal' }); };
   $('#scrolldn').onclick = () => { const s = $('#hseq'), tot = s.offsetHeight - innerHeight; scrollTo({top: s.offsetTop + (tot > 0 ? tot * .8 : innerHeight), behavior: 'smooth'}); };
   if ($('#caics')) $('#caics').onclick = () => icsFor({ slug: 'apertura-sobre', d0: new Date(CA.fecha), d1: new Date(new Date(CA.fecha).getTime() + 36e5), titulo: CA.titulo, lugar: CA.lugar || { es: 'Online', eu: 'Online' }, desc: CA.texto });
   if ($('#cago')) $('#cago').onclick = () => { $('#scrolldn').click(); };
@@ -466,7 +466,7 @@ function bindHomeSearch(){ bindSearch($('#hq'), $('#hdrop')); }
 let searchDocBound = false;
 function bindSearch(q, d){
   let sel = -1; if (!q || !d) return;
-  const toList = v => { Object.assign(F, {q:v, s:'', z:'', m:'', t:'', d:'', y:'', fu:false}); LAST = []; location.hash = '#/empresas'; };
+  const toList = v => { gaEv('search', { search_term: v }); Object.assign(F, {q:v, s:'', z:'', m:'', t:'', d:'', y:'', fu:false}); LAST = []; location.hash = '#/empresas'; };
   const draw = () => { const v = q.value.trim(); if (!v) { d.hidden = true; return; } const r = search(v); sel = -1;
     d.innerHTML = r.length ? r.slice(0,6).map(e => `<a href="#/empresas/${e.num_asociada}">${mono(e).replace('class="mono','style="width:40px" class="mono')}<span><b>${esc(shortName(e.nombre))}</b><small>${esc(e.municipio)} · ${t('since')} ${e.anio_alta}</small></span></a>`).join('')
       + (r.length > 6 ? `<a class="all" href="#/empresas" data-all>${t('se_all',{n:nf(r.length)})} →</a>` : '') : `<div class="none">${t('se_none')}</div>`;
@@ -744,7 +744,7 @@ function renderFicha(num){
       </div>
     </div></div></section>`;
   $$('#v-ficha [data-flt]').forEach(a => a.onclick = ev => { ev.preventDefault(); goFilter(a.dataset.flt, a.dataset.v); });
-  $('#card').onclick = () => cardPNG(e); bindSearch($('#fq'), $('#fdrop'));
+  $('#card').onclick = () => { cardPNG(e); gaEv('descarga_tarjeta', { num_asociada: e.num_asociada }); }; bindSearch($('#fq'), $('#fdrop'));
   tick();
 }
 async function cardPNG(e){
@@ -1019,6 +1019,16 @@ function gaLoad(){
   const s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA); document.head.appendChild(s);
   gaPage();
 }
+// Eventos de Analytics (solo se envían si la visita ha aceptado las cookies)
+function gaEv(name, params){ if (gaOn && window.gtag) gtag('event', name, Object.assign({ language: L }, params || {})); }
+document.addEventListener('click', ev => {
+  const a = ev.target.closest('a[href]'); if (!a || !gaOn) return;
+  const h = a.getAttribute('href');
+  if (/^https?:/.test(h) && !h.startsWith(location.origin)) {
+    const f = CUR && CUR[0] === 'ficha' ? CUR[1] : '';
+    gaEv(f && (a.classList.contains('fweb') || a.closest('.facts')) ? 'clic_web_empresa' : 'clic_enlace_externo', { link_url: h, num_asociada: f || undefined });
+  }
+}, true);
 function gaPage(){
   if (!gaOn) return;
   const path = '/' + location.hash.replace(/^#\/?/, '');
