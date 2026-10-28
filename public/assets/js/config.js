@@ -111,7 +111,7 @@ window.FVEM50 = {
     botonCalendario: false,   // true = muestra el botón «Añadir a mi calendario»
     etiqueta: { es: 'Cuenta atrás', eu: 'Atzerako kontaketa' },
     titulo: { es: 'Apertura del sobre', eu: 'Gutun-azalaren irekiera' },
-    texto: { es: 'Pronto conoceremos el secreto mejor guardado de FVEM.', eu: 'Laster ezagutuko dugu FVEMen sekreturik ondoen gordea.' },
+    texto: { es: 'Pronto conoceremos el secreto mejor guardado de FVEM.', eu: 'Laster ezagutuko dugu FVEMeko sekreturik onena.' },
     despues: { es: 'El sobre ya está abierto: mira el nuevo vídeo.', eu: 'Gutun-azala irekita dago: ikusi bideo berria.' }
   },
 

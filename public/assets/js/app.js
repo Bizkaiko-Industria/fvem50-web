@@ -48,7 +48,7 @@ const T = {
   founder:'Fundadora',founders:'Fundadoras',founder_l:'Empresa fundadora · 1977',with:'años con FVEM',share:'Compartir',card:'Tarjeta',oldnew:'Ayer · Hoy',
   since_k:'Socia de FVEM desde hace',since_l:'Asociada desde',since_s:'Y el contador sigue subiendo.',card_dl:'Descargar tarjeta para redes',
   hist_k:'Su lugar en la historia',hist_t:'En su año de alta ({y}) entraron también otras {n} empresas.',hist_t1:'En su año de alta ({y}) entró también otra empresa.',hist_t0:'Fue la única empresa que entró en {y}.',
-  rel_s:'Más empresas del sector',rel_z:'Más empresas de su zona',desc:'Empresa asociada a FVEM desde {y}, con sede en {m}.',qr:'Escanea el QR para visitar su web',prev:'Anterior',next:'Siguiente',back:'Volver al directorio',
+  rel_s:'Más empresas del sector',rel_more:'Ver otras empresas',rel_z:'Más empresas de su zona',desc:'Empresa asociada a FVEM desde {y}, con sede en {m}.',qr:'Escanea el QR para visitar su web',prev:'Anterior',next:'Siguiente',back:'Volver al directorio',
   hs_p:'Altas de las actuales asociadas, año a año, desde la fundación de FVEM.',born_h:'¿Quién entró el año que naciste?',born_l:'Mueve el selector o pulsa una barra',joined:'entraron ese año',joined1:'entró ese año',
   decs_h:'Década a década',dec_n:'{n} asociadas actuales entraron en esta década',hito_pend:'Hito de la década · por documentar',cmp_h:'Ayer y hoy',cmp_p:'La misma planta, la misma calle, el mismo oficio: fotos de archivo frente a fotos actuales. Las asociadas pueden enviar las suyas desde «Participa».',
   pe_p2:'Cada historia: un retrato, un vídeo de un minuto y una frase. Los nombres y fotos son de ejemplo hasta que se graben las piezas.',
@@ -98,7 +98,7 @@ const T = {
   founder:'Sortzailea',founders:'Sortzaileak',founder_l:'Enpresa sortzailea · 1977',with:'urte FVEMekin',share:'Partekatu',card:'Txartela',oldnew:'Atzo · Gaur',
   since_k:'FVEMeko bazkide duela',since_l:'Bazkide noiztik',since_s:'Eta kontagailuak gora jarraitzen du.',card_dl:'Deskargatu sare sozialetarako txartela',
   hist_k:'Bere lekua historian',hist_t:'Alta-urte berean ({y}) beste {n} enpresa ere sartu ziren.',hist_t1:'Alta-urte berean ({y}) beste enpresa bat ere sartu zen.',hist_t0:'Urte hartan ({y}) sartu zen enpresa bakarra izan zen.',
-  rel_s:'Sektore bereko enpresa gehiago',rel_z:'Bere eremuko enpresa gehiago',desc:'FVEMeko enpresa bazkidea {y}az geroztik. Egoitza: {m}.',qr:'Eskaneatu QRa webgunera joateko',prev:'Aurrekoa',next:'Hurrengoa',back:'Itzuli direktoriora',
+  rel_s:'Sektore bereko enpresa gehiago',rel_more:'Ikusi beste enpresa batzuk',rel_z:'Bere eremuko enpresa gehiago',desc:'FVEMeko enpresa bazkidea {y}az geroztik. Egoitza: {m}.',qr:'Eskaneatu QRa webgunera joateko',prev:'Aurrekoa',next:'Hurrengoa',back:'Itzuli direktoriora',
   hs_p:'Egungo bazkideen altak, urtez urte, FVEM sortu zenetik.',born_h:'Nor sartu zen jaio zinen urtean?',born_l:'Mugitu hautatzailea edo sakatu barra bat',joined:'sartu ziren urte hartan',joined1:'sartu zen urte hartan',
   decs_h:'Hamarkadaz hamarkada',dec_n:'Egungo {n} bazkide sartu ziren hamarkada honetan',hito_pend:'Hamarkadako mugarria · dokumentatzeke',cmp_h:'Atzo eta gaur',cmp_p:'Lantegi bera, kale bera, ofizio bera: artxiboko argazkiak gaurkoen aurrean. Bazkideek «Parte hartu» ataletik bidal ditzakete beraienak.',
   pe_p2:'Istorio bakoitza: erretratu bat, minutu bateko bideo bat eta esaldi bat. Izenak eta argazkiak adibideak dira piezak grabatu arte.',
@@ -136,7 +136,7 @@ const fLong = d => { const p = parts(d); return L === 'eu' ? `${p.y}ko ${EUMES_G
 const fTime = d => { const p = parts(d); return `${p.hh}:${p.mm}`; };
 const fDate = iso => { if (!iso) return ''; const [y,m,d] = iso.split('-'); return `${+d}/${+m}/${y}`; };
 const ic = {
-  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>', cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', pin:'<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  refresh:'<path d="M20 11a8 8 0 0 0-14.7-4.4L3 9"/><path d="M3 4v5h5"/><path d="M4 13a8 8 0 0 0 14.7 4.4L21 15"/><path d="M21 20v-5h-5"/>', arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>', cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', pin:'<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
   clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', play:'<path d="M7 5l12 7-12 7z"/>', share:'<circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="m8.3 10.8 7.4-4.4M8.3 13.2l7.4 4.4"/>',
   web:'<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>', dl:'<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>', left:'<path d="M15 5l-7 7 7 7"/>', right:'<path d="M9 5l7 7-7 7"/>',
   search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>', sound:'<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/>', mute:'<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l4 6M21 9l-4 6"/>', x:'<path d="M6 6l12 12M18 6 6 18"/>',
@@ -697,7 +697,9 @@ function renderFicha(num){
   const list = LAST.length && LAST.includes(e) ? LAST : ALL.slice().sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')); const i = list.indexOf(e);
   const prev = list[(i-1+list.length)%list.length], next = list[(i+1)%list.length];
   const yrs = yrsWith(e), C2 = 2*Math.PI*48, frac = Math.min(1, yrs/50), same = (PERY[e.anio_alta]||[]).length - 1;
-  const rel = ALL.filter(x => x !== e && (HAS_SEC ? x.sector === e.sector : x.zona === e.zona)).sort((a,b)=>a.anio_alta-b.anio_alta).slice(0, 8);
+  const relPool = ALL.filter(x => x !== e && (HAS_SEC ? x.sector === e.sector : x.zona === e.zona)), REL_N = 8;
+  const rel = relPool.slice().sort((a,b)=>a.anio_alta-b.anio_alta).slice(0, REL_N);
+  const relItem = x => `<a href="#/empresas/${x.num_asociada}">${mono(x)}<span>${esc(shortName(x.nombre))}</span></a>`;
   const ph = oldPhoto ? (e.foto_historica ? `<img alt="" src="${esc(e.foto_historica)}">` : factory(e.nombre, true)) : (e.foto ? `<img alt="" src="${esc(e.foto)}">` : factory(e.nombre, false));
   const pend = oldPhoto ? !e.foto_historica : !e.foto, px = y => ((y-FUND)/(ANIV-FUND)*100).toFixed(2);
   const since = e.fecha_alta ? e.fecha_alta + 'T00:00:00+01:00' : `${e.anio_alta}-01-01T00:00:00+01:00`;
@@ -739,11 +741,19 @@ function renderFicha(num){
           ${e.direccion?`<div class="w"><dt>${t('addr')}</dt><dd>${esc(e.direccion)}, ${esc(e.cp)} ${esc(e.municipio)} · <a href="${maps(eAddr(e))}" target="_blank" rel="noopener" class="acc">${t('route')} ↗</a></dd></div>`:''}
           ${e.web?`<div class="w"><dt>${t('web')}</dt><dd><a href="${esc(e.web)}" target="_blank" rel="noopener">${esc(e.web.replace(/^https?:\/\//,''))}</a></dd></div>`:''}
         </dl>
-        ${rel.length?`<div class="box"><div class="k">${HAS_SEC?t('rel_s'):t('rel_z')}</div><div class="rel">${rel.map(x=>`<a href="#/empresas/${x.num_asociada}">${mono(x)}<span>${esc(shortName(x.nombre))}</span></a>`).join('')}</div></div>`:''}
+        ${rel.length?`<div class="box"><div class="k">${HAS_SEC?t('rel_s'):t('rel_z')}</div><div class="rel" id="rel">${rel.map(relItem).join('')}</div>${relPool.length > REL_N ? `<button class="btn ghost sm relmore" id="relmore" type="button">${I('refresh')} ${t('rel_more')}</button>` : ''}</div>`:''}
         <div class="pn"><a href="#/empresas/${prev.num_asociada}"><small>← ${t('prev')}</small><b>${esc(shortName(prev.nombre))}</b></a><a href="#/empresas/${next.num_asociada}" style="text-align:right"><small>${t('next')} →</small><b>${esc(shortName(next.nombre))}</b></a></div>
       </div>
     </div></div></section>`;
   $$('#v-ficha [data-flt]').forEach(a => a.onclick = ev => { ev.preventDefault(); goFilter(a.dataset.flt, a.dataset.v); });
+  // Más empresas del sector: el botón muestra otras al azar, sin repetir hasta haberlas visto todas
+  if ($('#relmore')) { let seen = new Set(rel);
+    $('#relmore').onclick = () => {
+      let left = relPool.filter(x => !seen.has(x)); if (left.length < REL_N) { seen = new Set(); left = relPool.slice(); }
+      for (let i = left.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [left[i], left[j]] = [left[j], left[i]]; }
+      const pick = left.slice(0, REL_N); pick.forEach(x => seen.add(x));
+      const box = $('#rel'); box.classList.remove('swap'); void box.offsetWidth; box.innerHTML = pick.map(relItem).join(''); box.classList.add('swap');
+      gaEv('mas_empresas_sector', { num_asociada: e.num_asociada }); }; }
   $('#card').onclick = () => { cardPNG(e); gaEv('descarga_tarjeta', { num_asociada: e.num_asociada }); }; bindSearch($('#fq'), $('#fdrop'));
   tick();
 }
