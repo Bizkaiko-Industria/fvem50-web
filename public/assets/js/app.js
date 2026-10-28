@@ -190,8 +190,9 @@ function factory(seed, old){
 }
 // Recurso gráfico de marca: el 5 (metal) y la C (cobre) superpuestos. Sustituye a los antiguos anillos.
 const C50_DX = 733;
-const mark50 = (id, extra = '') => `<path d="${SHAPE5.d}" fill="url(#${id})"/><path transform="translate(${C50_DX} ${SHAPEC.dy})" d="${SHAPEC.d}" fill="#d86b33" opacity=".95"/>${extra}`;
-const deco = (cls='d', a0=200) => `<svg class="${cls}" viewBox="-40 -40 1680 1330" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>${METAL('dm'+a0).replace('x1="0" y1="0" x2="1" y2="1"', 'gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="900" y2="1250"')}</defs>${mark50('dm'+a0)}</svg>`;
+// cMetal: la C con el mismo metal que el 5 (sobre fondos cobre, donde la C cobre no se vería)
+const mark50 = (id, extra = '', cMetal = false) => `<path d="${SHAPE5.d}" fill="url(#${id})"/><path transform="translate(${C50_DX} ${SHAPEC.dy})" d="${SHAPEC.d}" fill="${cMetal ? `url(#${id})` : '#d86b33'}" opacity=".95"/>${extra}`;
+const deco = (cls='d', a0=200, cMetal = cls === 'bg') => `<svg class="${cls}" viewBox="-40 -40 1680 1330" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>${METAL('dm'+a0).replace('x1="0" y1="0" x2="1" y2="1"', 'gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="900" y2="1250"')}</defs>${mark50('dm'+a0, '', cMetal)}</svg>`;
 
 /* ---------- empresas ---------- */
 const ALL = RAW.empresas.filter(e => e.anio_alta && !e.anio_baja);
