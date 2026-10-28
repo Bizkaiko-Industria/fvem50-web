@@ -694,3 +694,13 @@ body.home-mode .hd{border-bottom:0;background-repeat:no-repeat}
 .rel.swap a:nth-child(2){animation-delay:.03s}.rel.swap a:nth-child(3){animation-delay:.06s}.rel.swap a:nth-child(4){animation-delay:.09s}.rel.swap a:nth-child(5){animation-delay:.12s}.rel.swap a:nth-child(6){animation-delay:.15s}.rel.swap a:nth-child(7){animation-delay:.18s}.rel.swap a:nth-child(8){animation-delay:.21s}
 @keyframes relin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.rel.swap a{animation:none}}
+/* Busca una empresa: dejar claro que cada empresa lleva a su ficha */
+.selead{max-width:62ch;margin:-8px 0 22px;color:var(--mut);font-size:16px;line-height:1.5}
+.marq a{border-radius:999px;padding:6px 14px 6px 6px;transition:background .2s,box-shadow .2s,color .2s}
+.marq a:hover,.marq a:focus-visible{background:var(--card);box-shadow:inset 0 0 0 1px var(--line),0 6px 18px rgba(0,0,0,.08)}
+.marq a:hover .mqn{color:var(--cobre)}
+.marq .mqgo{display:inline-flex;align-items:center;gap:4px;max-width:0;overflow:hidden;opacity:0;font-size:12.5px;font-weight:600;color:var(--cobre);transition:max-width .25s,opacity .2s}
+.marq .mqgo .ic{width:14px;height:14px}
+.marq a:hover .mqgo,.marq a:focus-visible .mqgo{max-width:110px;opacity:1}
+.marq a{cursor:pointer}
+@media (hover:none){.marq .mqgo{max-width:none;opacity:1;width:16px}.marq .mqgo{font-size:0}.marq .mqgo .ic{width:14px;height:14px}}
