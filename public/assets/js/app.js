@@ -449,7 +449,9 @@ function renderHome(){
   const root = $('#v-home');
   if ($('#playfull')) $('#playfull').onclick = () => videoModal(v.completo);
   if ($('#vplay')) $('#vplay').onclick = () => { playVideo(); gaEv('video_play', { video: 'principal' }); };
-  $('#scrolldn').onclick = () => { const s = $('#hseq'), tot = s.offsetHeight - innerHeight; scrollTo({top: s.offsetTop + (tot > 0 ? tot * .8 : innerHeight), behavior: 'smooth'}); };
+  // «Desliza»: desde la portada lleva al vídeo; desde el vídeo, a la sección siguiente
+  $('#scrolldn').onclick = () => { const s = $('#hseq'), tot = s.offsetHeight - innerHeight, p = tot > 0 ? (scrollY - s.offsetTop) / tot : 1;
+    scrollTo({top: p < .6 ? s.offsetTop + (tot > 0 ? tot * .8 : innerHeight) : s.offsetTop + s.offsetHeight - (($('#hd') || {}).offsetHeight || 0), behavior: 'smooth'}); };
   if ($('#caics')) $('#caics').onclick = () => icsFor({ slug: 'apertura-sobre', d0: new Date(CA.fecha), d1: new Date(new Date(CA.fecha).getTime() + 36e5), titulo: CA.titulo, lugar: CA.lugar || { es: 'Online', eu: 'Online' }, desc: CA.texto });
   if ($('#cago')) $('#cago').onclick = () => { $('#scrolldn').click(); };
   const hv = $('#hv'), snd = $('#snd');
