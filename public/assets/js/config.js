@@ -83,6 +83,7 @@ window.FVEM50 = {
     personas: false,         // «Detrás de cada empresa, personas»
     participa: false,        // caja «¿Tu empresa es asociada?»
     newsletter: true,        // caja de suscripción a la agenda
+    fotoPendiente: false,    // ficha: hueco de foto «Foto pendiente» cuando la empresa aún no tiene foto (las fotos reales se ven siempre)
     patrocinadores: false    // pie: patrocinadores y colaboradores
   },
   // Páginas en el menú de cabecera, menú móvil y pie. Vacío = sin menú.

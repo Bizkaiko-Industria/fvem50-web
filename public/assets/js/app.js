@@ -358,7 +358,7 @@ function cmpHTML(seed){ return `<div class="cmp reveal" style="--p:50%"><div cla
 function bindCmp(root){ $$('.cmp', root).forEach(c => { const i = $('input', c); i.oninput = () => c.style.setProperty('--p', i.value + '%'); }); }
 
 /* ---------- secciones visibles (config.secciones) ---------- */
-const SEC = Object.assign({ lema: true, botonesPortada: true, agenda: true, cifras: true, buscador: true, historia: true, personas: true, participa: true, newsletter: true, patrocinadores: true }, C.secciones || {});
+const SEC = Object.assign({ fotoPendiente: true, lema: true, botonesPortada: true, agenda: true, cifras: true, buscador: true, historia: true, personas: true, participa: true, newsletter: true, patrocinadores: true }, C.secciones || {});
 const CA = C.cuentaAtras || null;
 const ytId = s => { const m = String(s || '').match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/); return m ? m[1] : (/^[\w-]{11}$/.test(s || '') ? s : ''); };
 function videoBlock(){
@@ -719,7 +719,7 @@ function renderFicha(num){
         <div class="k k-pl" style="--i:3"><span class="l">${t('pl')}</span><span class="v num">${plOk(e) ? nf(e.plantilla) : '—'}</span></div>
         <div class="k k-sec" style="--i:4"><span class="l">${e.sector ? t('sector') : t('zone')}</span><span class="v s">${esc(grp(e))}</span></div>
         <div class="k k-mun" style="--i:5"><span class="l">${t('mun')}</span><span class="v s">${esc(e.municipio)}</span></div>
-        <div class="k k-ph" style="--i:6">${e.foto ? `<img alt="${esc(shortName(e.nombre))}" src="${esc(e.foto)}">` : factory(e.nombre, false)}${e.foto ? '' : `<span class="tg">${t('ph_pend')}</span>`}</div>
+        ${e.foto || SEC.fotoPendiente ? `<div class="k k-ph" style="--i:6">${e.foto ? `<img alt="${esc(shortName(e.nombre))}" src="${esc(e.foto)}">` : factory(e.nombre, false)}${e.foto ? '' : `<span class="tg">${t('ph_pend')}</span>`}</div>` : ''}
       </div>
       ${e.web ? `<a class="fweb" href="${esc(e.web)}" target="_blank" rel="noopener">${t('web')} ${I('arrow')}<span>${esc(e.web.replace(/^https?:\/\/(www\.)?/,''))}</span></a>`
               : `<a class="fweb" href="${maps(eAddr(e))}" target="_blank" rel="noopener">${t('route')} ${I('arrow')}</a>`}
