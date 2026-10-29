@@ -706,3 +706,21 @@ body.home-mode .hd{border-bottom:0;background-repeat:no-repeat}
 @media (hover:none){.marq .mqgo{max-width:none;opacity:1;width:16px}.marq .mqgo{font-size:0}.marq .mqgo .ic{width:14px;height:14px}}
 .hero.dzok .scroll{opacity:max(calc(1 - var(--p,0) * 5), clamp(0, calc((var(--p,0) - .55) * 5), 1));transition:opacity .8s}
 .hero.vis:not(.dzok) .scroll{pointer-events:none}
+/* ---------- V2: contexto y empresas históricas ---------- */
+.ctx{margin-top:40px;padding-top:26px;border-top:1px solid var(--line)}
+.ctx .eyebrow{margin-bottom:14px}
+.ctxg{display:grid;grid-template-columns:1fr 1fr;gap:20px 48px}
+.ctxi h4{font-size:19px;font-weight:600;letter-spacing:-.01em;margin:0 0 6px}
+.ctxi p{margin:0;color:var(--mut);font-size:15.5px;line-height:1.5;max-width:52ch}
+.ctxi small{display:block;margin-top:8px;color:var(--mut);font-size:12px;opacity:.85}
+.ctxi .more-link{margin-top:12px;display:inline-flex}
+@media(max-width:760px){.ctxg{grid-template-columns:1fr}}
+.card.hist{opacity:.9}
+.card.hist .mono,.list tr .mono{filter:none}
+.card.hist .mono{filter:grayscale(1) sepia(.35)}
+.card.hist .nm{color:var(--mut)}
+.hex{display:inline-block;margin-left:8px;font-size:12px;color:var(--mut);font-style:italic}
+.pillbtn.hi[aria-pressed=true]{background:#6b6259;color:#fff}
+.fhist .fg .k{filter:grayscale(1) sepia(.3)}
+.fhist .fg .k-logo{filter:grayscale(1)}
+.fhist h1{color:#4a443d}

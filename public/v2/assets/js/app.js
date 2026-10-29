@@ -46,7 +46,7 @@ const T = {
   map_h:'Por municipio',map_p:'Pulsa un municipio para filtrar.',bars_p:'Pulsa para filtrar el directorio.',by_z:'Por zona',by_s:'Por sector',sea:'Mar Cantábrico',
   num:'Nº de asociada',since:'Alta',date:'Fecha de alta',pl:'Plantilla',pl_bi:'Plantilla en Bizkaia',mun:'Municipio',zone:'Zona',sector:'Sector',addr:'Dirección',web:'Web',noweb:'Sin web',route:'Cómo llegar',
   founder:'Fundadora',founders:'Fundadoras',founder_l:'Empresa fundadora · 1977',with:'años con FVEM',share:'Compartir',card:'Tarjeta',oldnew:'Ayer · Hoy',
-  since_k:'Socia de FVEM desde hace',since_l:'Asociada desde',since_s:'Y el contador sigue subiendo.',card_dl:'Descargar tarjeta para redes',
+  since_k:'Socia de FVEM desde hace',h_inc:'Incluir empresas históricas',h_badge:'Empresa histórica',h_years:'Años en FVEM',h_range:'Asociada',h_desc:'Formó parte de FVEM entre {a} y {b}.',h_desc_m:'Con sede en {m}, formó parte de FVEM entre {a} y {b}.',h_hist:'Durante sus {n} años en FVEM fue parte de la historia de la industria de Bizkaia.',h_cnt:'{c} actuales · {h} históricas',h_ex:'Empresas de ejemplo: el listado real de históricas está pendiente.',h_back:'Volver al directorio',ctx_k:'En contexto',ctx_s_h:'Más de la mitad del empleo del metal de Bizkaia',ctx_s_p:'El convenio del metal de Bizkaia abarca a más de {se} empresas y unas {sp} personas trabajadoras. Las {e} empresas asociadas a FVEM emplean a {p} de ellas.',ctx_s_f:'Fuente: Convenio Colectivo Provincial de la Industria Siderometalúrgica de Bizkaia.',ctx_h_h:'Más de {t} empresas en 50 años',ctx_h_p:'Desde 1977, otras {h} empresas que hoy ya no son socias han formado parte de FVEM, junto a las {e} actuales.',ctx_h_l:'Ver las empresas históricas',since_l:'Asociada desde',since_s:'Y el contador sigue subiendo.',card_dl:'Descargar tarjeta para redes',
   hist_k:'Su lugar en la historia',hist_t:'En su año de alta ({y}) entraron también otras {n} empresas.',hist_t1:'En su año de alta ({y}) entró también otra empresa.',hist_t0:'Fue la única empresa que entró en {y}.',
   rel_s:'Más empresas del sector',rel_more:'Ver otras empresas',rel_z:'Más empresas de su zona',desc:'Empresa asociada a FVEM desde {y}, con sede en {m}.',qr:'Escanea el QR para visitar su web',prev:'Anterior',next:'Siguiente',back:'Volver al directorio',
   hs_p:'Altas de las actuales asociadas, año a año, desde la fundación de FVEM.',born_h:'¿Quién entró el año que naciste?',born_l:'Mueve el selector o pulsa una barra',joined:'entraron ese año',joined1:'entró ese año',
@@ -96,7 +96,7 @@ const T = {
   map_h:'Udalerrika',map_p:'Sakatu udalerri bat iragazteko.',bars_p:'Sakatu direktorioa iragazteko.',by_z:'Eremuka',by_s:'Sektoreka',sea:'Kantauri itsasoa',
   num:'Bazkide-zk.',since:'Alta',date:'Alta-data',pl:'Langileak',pl_bi:'Langileak Bizkaian',mun:'Udalerria',zone:'Eremua',sector:'Sektorea',addr:'Helbidea',web:'Webgunea',noweb:'Webgunerik ez',route:'Nola iritsi',
   founder:'Sortzailea',founders:'Sortzaileak',founder_l:'Enpresa sortzailea · 1977',with:'urte FVEMekin',share:'Partekatu',card:'Txartela',oldnew:'Atzo · Gaur',
-  since_k:'FVEMeko bazkide duela',since_l:'Bazkide noiztik',since_s:'Eta kontagailuak gora jarraitzen du.',card_dl:'Deskargatu sare sozialetarako txartela',
+  since_k:'FVEMeko bazkide duela',h_inc:'Sartu enpresa historikoak',h_badge:'Enpresa historikoa',h_years:'Urteak FVEMen',h_range:'Bazkide',h_desc:'{a} eta {b} artean izan zen FVEMeko kide.',h_desc_m:'{m}n egoitza zuela, {a} eta {b} artean izan zen FVEMeko kide.',h_hist:'FVEMen igaro zituen {n} urteetan Bizkaiko industriaren historiaren parte izan zen.',h_cnt:'{c} gaur egungo · {h} historiko',h_ex:'Adibide-enpresak: historikoen benetako zerrenda zain dago.',h_back:'Itzuli direktoriora',ctx_k:'Testuinguruan',ctx_s_h:'Bizkaiko metalgintzako enpleguaren erdia baino gehiago',ctx_s_p:'Bizkaiko metalaren hitzarmenak {se} enpresa baino gehiago eta {sp} langile inguru hartzen ditu. FVEMeko {e} enpresa bazkideek horietako {p} enplegatzen dituzte.',ctx_s_f:'Iturria: Bizkaiko Siderometalurgia Industriako Probintzia Hitzarmen Kolektiboa.',ctx_h_h:'{t} enpresa baino gehiago 50 urtean',ctx_h_p:'1977az geroztik, gaur egun bazkide ez diren beste {h} enpresa izan dira FVEMeko kide, gaur egungo {e}ekin batera.',ctx_h_l:'Ikusi enpresa historikoak',since_l:'Bazkide noiztik',since_s:'Eta kontagailuak gora jarraitzen du.',card_dl:'Deskargatu sare sozialetarako txartela',
   hist_k:'Bere lekua historian',hist_t:'Alta-urte berean ({y}) beste {n} enpresa ere sartu ziren.',hist_t1:'Alta-urte berean ({y}) beste enpresa bat ere sartu zen.',hist_t0:'Urte hartan ({y}) sartu zen enpresa bakarra izan zen.',
   rel_s:'Sektore bereko enpresa gehiago',rel_more:'Ikusi beste enpresa batzuk',rel_z:'Bere eremuko enpresa gehiago',desc:'FVEMeko enpresa bazkidea {y}az geroztik. Egoitza: {m}.',qr:'Eskaneatu QRa webgunera joateko',prev:'Aurrekoa',next:'Hurrengoa',back:'Itzuli direktoriora',
   hs_p:'Egungo bazkideen altak, urtez urte, FVEM sortu zenetik.',born_h:'Nor sartu zen jaio zinen urtean?',born_l:'Mugitu hautatzailea edo sakatu barra bat',joined:'sartu ziren urte hartan',joined1:'sartu zen urte hartan',
@@ -199,7 +199,10 @@ const ALL = RAW.empresas.filter(e => e.anio_alta && !e.anio_baja);
 ALL.forEach(e => { e.zona = e.zona || ''; e.sector = e.sector || ''; e.web = e.web || ''; });
 const HAS_SEC = ALL.some(e => e.sector);
 const SEC_EU = RAW.sectores_eu || {};
-const BYNUM = Object.fromEntries(ALL.map(e => [e.num_asociada, e]));
+// Empresas históricas (ya no asociadas): solo en el directorio si se activa el filtro, y en su ficha
+const HRAW = window.FVEM50_HISTORICAS || {};
+const HIST = (HRAW.empresas || []).map(e => Object.assign({ zona: '', sector: '', web: '', logo: '', historica: true }, e));
+const BYNUM = Object.fromEntries(ALL.concat(HIST).map(e => [e.num_asociada, e]));
 const zn = z => L === 'eu' ? String(z).replace(/^zona\s*(\d+)$/i, '$1. eremua') : z;
 const secn = s => L === 'eu' ? (SEC_EU[s] || s) : s;
 const SECL_EU = RAW.sectores_largo_eu || {};
@@ -223,6 +226,8 @@ const S = { emp: CIF.empresas || ALL.length, pl: CIF.plantilla || ALL.reduce((a,
 const PERY = {}; ALL.forEach(e => (PERY[e.anio_alta] = PERY[e.anio_alta] || []).push(e));
 const IDX = ALL.map(e => ({e, s: norm([e.nombre, e.municipio, e.zona, e.cp, e.direccion, e.sector, e.num_asociada, +e.num_asociada].join(' '))}));
 function search(q){ const w = norm(q).trim().split(/\s+/).filter(Boolean); if (!w.length) return ALL.slice(); return IDX.filter(x => w.every(p => x.s.includes(p))).map(x => x.e); }
+const IDXH = HIST.map(e => ({e, s: norm([e.nombre, e.municipio, e.sector, e.num_asociada].join(' '))}));
+function searchH(q){ const w = norm(q).trim().split(/\s+/).filter(Boolean); return w.length ? IDXH.filter(x => w.every(p => x.s.includes(p))).map(x => x.e) : HIST.slice(); }
 
 /* ---------- eventos ---------- */
 const EV = C.eventos.map(e => ({...e, d0: new Date(e.ini), d1: new Date(e.fin || e.ini)})).sort((a,b)=>a.d0-b.d0);
@@ -386,6 +391,14 @@ function caStrip(){
   return `<section class="cds" id="cds">${deco('bg',120)}<div class="wrap"><div><div class="lb">${esc(tx(CA.etiqueta))}</div><div class="tt">${esc(tx(CA.despues))}</div></div><div></div>
     <div class="ac"><button class="btn sm" id="cago">${I('play')} ${t('cd_open')}</button></div></div></section>`;
 }
+function ctxHTML(){
+  const sec = CIF.sector, his = CIF.historicas; if (!sec && !his) return '';
+  const tot = his ? Math.floor((S.emp + his.empresas) / 100) * 100 : 0;
+  return `<div class="ctx reveal"><div class="eyebrow">${t('ctx_k')}</div><div class="ctxg">
+    ${sec ? `<div class="ctxi"><h4>${t('ctx_s_h')}</h4><p>${t('ctx_s_p', { se: nf(sec.empresas), sp: nf(sec.plantilla), e: nf(S.emp), p: nf(S.pl) })}</p><small>${t('ctx_s_f')}</small></div>` : ''}
+    ${his ? `<div class="ctxi"><h4>${t('ctx_h_h', { t: nf(tot) })}</h4><p>${t('ctx_h_p', { h: nf(his.empresas), e: nf(S.emp) })}</p>${HIST.length ? `<a class="more-link" href="#/empresas" data-gohist>${t('ctx_h_l')} ${I('arrow')}</a>` : ''}</div>` : ''}
+  </div></div>`;
+}
 function renderHome(){
   const v = currentVideo(), mob = matchMedia('(max-width:700px)').matches, src = (mob && v.mp4Movil) || v.mp4;
   const up = upcoming().slice(0, 3);
@@ -426,7 +439,7 @@ function renderHome(){
       <div class="stat"><b class="num" data-count="${S.pl}">0</b><span>${t('st_pl')}</span></div>
       <div class="stat"><b class="num" data-count="${S.mun}">0</b><span>${t('st_mun')}</span></div>
       <div class="stat"><b class="num c" data-count="50">0</b><span>${t('st_y')}</span></div>
-    </div></div>
+    </div>${ctxHTML()}</div>
 ` : ''}
     ${SEC.buscador ? `<div id="buscador" style="margin-top:${SEC.cifras?80:0}px"><div class="shead" style="margin-bottom:22px"><h3 style="font-size:clamp(26px,3vw,38px)">${t('se_h')}</h3><a class="more-link" href="#/empresas">${t('em_all')} ${I('arrow')}</a></div>
       <p class="selead">${t('se_lead')}</p>
@@ -490,6 +503,7 @@ function bindSearch(q, d){
   if (!searchDocBound) { searchDocBound = true; document.addEventListener('click', ev => { if (!ev.target.closest('.sbox')) $$('.sbox .drop').forEach(x => x.hidden = true); }); }
 }
 function bindCommon(root){
+  $$('[data-gohist]', root).forEach(a => a.onclick = () => { Object.assign(F, {q:'', s:'', z:'', m:'', t:'', d:'', y:'', fu:false, h:true}); LAST = []; });
   $$('[data-ics]', root).forEach(b => b.onclick = () => icsFor(EVS[b.dataset.ics]));
   $$('[data-live]', root).forEach(b => b.onclick = () => videoModal(GALA.directo));
   $$('[data-person]', root).forEach(a => a.onclick = ev => { if ($('#v-personas').classList.contains('on') || true) { ev.preventDefault(); const p = C.personas[+a.dataset.person]; videoModal(p.video); } });
@@ -587,11 +601,11 @@ function renderPrograma(){
 /* =====================================================================
    EMPRESAS
    ===================================================================== */
-const F = {q:'', s:'', z:'', m:'', t:'', d:'', y:'', fu:false, so:'az', view:'grid', n:60};
+const F = {q:'', s:'', z:'', m:'', t:'', d:'', y:'', fu:false, h:false, so:'az', view:'grid', n:60};
 const SIZES = [[1,9],[10,49],[50,249],[250,1e9]], DECS = [1970,1980,1990,2000,2010,2020];
 const uniq = k => [...new Set(ALL.map(e=>e[k]).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
 function filtered(){
-  let r = search(F.q);
+  let r = search(F.q); if (F.h) r = r.concat(searchH(F.q));
   if (F.s) r = r.filter(e=>e.sector===F.s); if (F.z) r = r.filter(e=>e.zona===F.z); if (F.m) r = r.filter(e=>e.municipio===F.m);
   if (F.t) { const [a,b] = SIZES[F.t-1]; r = r.filter(e=>plOk(e)&&e.plantilla>=a&&e.plantilla<=b); }
   if (F.d) r = r.filter(e=>e.anio_alta>=+F.d && e.anio_alta<+F.d+10);
@@ -614,6 +628,7 @@ function renderEmpresas(){
       <div class="sel"><select data-f="d">${opt('',t('all_d'))}${DECS.map(d=>opt(d,t('dec')+(d===1970?'70':String(d).slice(2)),F.d==d)).join('')}</select></div>
       ${F.y ? `<button class="pillbtn fu" id="fyr" aria-pressed="true">${t('since')} ${esc(F.y)} <span aria-hidden="true">✕</span></button>` : ''}
       ${S.fun ? `<button class="pillbtn fu" id="ffu" aria-pressed="${F.fu}">★ ${t('founders')} <span class="num">${nf(S.fun)}</span></button>` : ''}
+      ${HIST.length ? `<button class="pillbtn fu hi" id="fhi" aria-pressed="${F.h}">${t('h_inc')} <span class="num">${nf(HIST.length)}</span></button>` : ''}
     </div>
     <div class="meta"><div class="cnt" id="cnt"></div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="clear" id="clr">${t('clear')}</button>
@@ -632,6 +647,7 @@ function renderEmpresas(){
   $('#clr').onclick = () => { Object.assign(F,{q:'',s:'',z:'',m:'',t:'',d:'',y:'',fu:false}); renderEmpresas(); };
   if ($('#fyr')) $('#fyr').onclick = () => { F.y = ''; renderEmpresas(); };
   if ($('#ffu')) $('#ffu').onclick = () => { F.fu = !F.fu; $('#ffu').setAttribute('aria-pressed', F.fu); drawDir(true); };
+  if ($('#fhi')) $('#fhi').onclick = () => { F.h = !F.h; $('#fhi').setAttribute('aria-pressed', F.h); drawDir(true); gaEv('filtro_historicas', { activo: F.h }); };
   $$('[data-view]', r).forEach(b => b.onclick = () => { F.view = b.dataset.view; $$('[data-view]', r).forEach(x=>x.setAttribute('aria-pressed', x===b)); drawDir(true); });
   $('#more').onclick = () => { F.n += 60; drawDir(); };
   drawDir(true); drawMap(); drawBars();
@@ -642,13 +658,16 @@ function drawDir(reset){
   $$('#v-empresas select[data-f]').forEach(s => { if (s.dataset.f !== 'so') s.classList.toggle('on', !!s.value); });
   $('#clr').hidden = !(F.q||F.s||F.z||F.m||F.t||F.d||F.y||F.fu);
   const todas = !(F.q||F.s||F.z||F.m||F.t||F.d||F.y||F.fu);  // sin filtros: totales oficiales de FVEM (config.cifras), aunque algunas empresas no aparezcan
-  $('#cnt').innerHTML = `<b class="num">${nf(todas ? S.emp : r.length)}</b> ${t('companies')} · <span class="num">${nf(todas ? S.pl : r.reduce((a,e)=>a+(e.plantilla||0),0))}</span> ${t('people')}`;
+  const nh = F.h ? r.filter(e => e.historica).length : 0, rc = r.length - nh;
+  $('#cnt').innerHTML = F.h ? `<b class="num">${nf((todas ? S.emp : rc) + nh)}</b> ${t('companies')} · ${t('h_cnt', { c: nf(todas ? S.emp : rc), h: nf(nh) })}${HRAW.ejemplo ? ` <span class="hex">${t('h_ex')}</span>` : ''}`
+    : `<b class="num">${nf(todas ? S.emp : r.length)}</b> ${t('companies')} · <span class="num">${nf(todas ? S.pl : r.reduce((a,e)=>a+(e.plantilla||0),0))}</span> ${t('people')}`;
   if (!r.length) { res.innerHTML = `<p class="mut" style="text-align:center;padding:40px 0;color:var(--mut)">${t('se_none')}</p>`; $('#more').hidden = true; return; }
   res.innerHTML = F.view === 'grid'
-    ? `<div class="cards">${shown.map((e,i)=>`<a class="card" href="#/empresas/${e.num_asociada}" style="animation-delay:${Math.min(i,30)*15}ms">${mono(e,true)}<span class="nm">${esc(shortName(e.nombre))}</span><span class="sub">${esc(e.municipio)} · ${esc(grp(e))}</span>
+    ? `<div class="cards">${shown.map((e,i)=>e.historica ? `<a class="card hist" href="#/empresas/${e.num_asociada}" style="animation-delay:${Math.min(i,30)*15}ms">${mono(e)}<span class="nm">${esc(shortName(e.nombre))}</span><span class="sub">${esc(e.municipio)} · ${esc(grp(e))}</span>
+        <span class="tags"><span class="chip o">${t('h_badge')}</span><span class="chip num">${e.anio_alta}–${e.anio_baja}</span></span></a>` : `<a class="card" href="#/empresas/${e.num_asociada}" style="animation-delay:${Math.min(i,30)*15}ms">${mono(e,true)}<span class="nm">${esc(shortName(e.nombre))}</span><span class="sub">${esc(e.municipio)} · ${esc(grp(e))}</span>
         <span class="tags"><span class="chip ${isF(e)?'c':'o'} num">${t('since')} ${e.anio_alta}</span>${plOk(e)?`<span class="chip num">${nf(e.plantilla)} ${L==='es'?'pers.':'pert.'}</span>`:''}</span></a>`).join('')}</div>`
     : `<table class="list"><thead><tr><th>${t('num')}</th><th>${L==='es'?'Empresa':'Enpresa'}</th><th class="hm">${t('zone')}</th><th class="hm">${t('mun')}</th><th class="r">${t('since')}</th><th class="r">${t('pl')}</th></tr></thead><tbody>
-      ${shown.map(e=>`<tr data-n="${e.num_asociada}"><td class="num">${e.num_asociada}</td><td><span class="n">${mono(e)}<a href="#/empresas/${e.num_asociada}" style="text-decoration:none">${esc(shortName(e.nombre))}</a></span></td><td class="hm">${esc(zn(e.zona))}</td><td class="hm">${esc(e.municipio)}</td><td class="r num">${e.anio_alta}</td><td class="r num">${plOk(e)?nf(e.plantilla):'—'}</td></tr>`).join('')}</tbody></table>`;
+      ${shown.map(e=>`<tr data-n="${e.num_asociada}"><td class="num">${e.num_asociada}</td><td><span class="n">${mono(e)}<a href="#/empresas/${e.num_asociada}" style="text-decoration:none">${esc(shortName(e.nombre))}</a></span></td><td class="hm">${esc(zn(e.zona))}</td><td class="hm">${esc(e.municipio)}</td><td class="r num">${e.historica ? `${e.anio_alta}–${e.anio_baja}` : e.anio_alta}</td><td class="r num">${plOk(e)?nf(e.plantilla):'—'}</td></tr>`).join('')}</tbody></table>`;
   $$('tr[data-n]', res).forEach(tr => tr.onclick = () => location.hash = '#/empresas/' + tr.dataset.n);
   $('#more').hidden = shown.length >= r.length;
 }
@@ -702,8 +721,36 @@ function descCtx(e){
   if (L === 'eu') return `Egoitza: ${e.municipio}. ${e.anio_alta}az geroztik da FVEMeko bazkidea${ok ? `, eta gaur egun ${nf(e.plantilla)} langile ditu Bizkaian` : ''}.`;
   return `Con sede en ${e.municipio}, forma parte de FVEM desde ${e.anio_alta}${ok ? `, con una plantilla actual en Bizkaia de ${nf(e.plantilla)} ${e.plantilla === 1 ? 'persona' : 'personas'}` : ''}.`;
 }
+function renderFichaHist(e){
+  const yrs = (e.anio_baja || ANIV) - e.anio_alta, px = y => ((y-FUND)/(ANIV-FUND)*100).toFixed(2);
+  const desc = (L === 'eu' ? e.descripcion_eu : e.descripcion_es) || t(e.municipio ? 'h_desc_m' : 'h_desc', { a: e.anio_alta, b: e.anio_baja, m: e.municipio });
+  $('#v-ficha').innerHTML = `<section class="lt fhist" style="padding:clamp(28px,4vw,48px) 0 90px"><div class="wrap">
+    <div class="ftop"><div class="crumb"><a href="#/">${t('home')}</a><span>/</span><a href="#/empresas" data-hback>${t('nav_em')}</a><span>/</span><span>${esc(e.num_asociada)}</span></div></div>
+    <div class="fx">
+      <div class="fxl"><div class="bw"><div class="fg">
+        <div class="k k-logo" style="--i:0">${mono(e)}</div>
+        <div class="k k-desde" style="--i:1"><span class="l">${t('h_range')}</span><span class="v num" style="font-size:calc(var(--c)*.16)">${e.anio_alta}<br>${e.anio_baja}</span></div>
+        <div class="k k-num" style="--i:2"><span class="l">${t('h_years')}</span><span class="v num">${yrs}</span></div>
+        <div class="k k-pl" style="--i:3"><span class="l">${t('num')}</span><span class="v num" style="font-size:calc(var(--c)*.2)">${esc(e.num_asociada)}</span></div>
+        <div class="k k-sec" style="--i:4"><span class="l">${e.sector ? t('sector') : t('zone')}</span><span class="v s">${esc(grp(e) || '—')}</span></div>
+        <div class="k k-mun" style="--i:5"><span class="l">${t('mun')}</span><span class="v s">${esc(e.municipio || '—')}</span></div>
+        ${e.foto_historica ? `<div class="k k-ph" style="--i:6"><img alt="${esc(shortName(e.nombre))}" src="${esc(e.foto_historica)}"></div>` : ''}
+      </div></div></div>
+      <div class="fxr">
+        <div class="badges"><span class="chip o">${t('h_badge')}</span></div>${HRAW.ejemplo ? `<p class="hex" style="margin:8px 0 0">${t('h_ex')}</p>` : ''}
+        <h1>${esc(shortName(e.nombre))}</h1>
+        <p class="lead">${esc(desc)}</p>
+        <div class="box"><div class="k">${t('hist_k')}</div><p>${t('h_hist', { n: yrs })}</p>
+          <div class="hist"><span class="ln"></span><span class="fl" style="left:${px(e.anio_alta)}%;right:${(100 - px(e.anio_baja)).toFixed(2)}%"></span><span class="pt" style="left:${px(e.anio_alta)}%"></span><span class="pt" style="left:${px(e.anio_baja)}%"></span>
+            <span class="ax num" style="left:${px(e.anio_alta)}%;transform:translateX(-50%)">${e.anio_alta}</span><span class="ax num" style="left:${px(e.anio_baja)}%;transform:translateX(-50%)">${e.anio_baja}</span></div></div>
+        <p style="margin-top:28px"><a class="more-link" href="#/empresas" data-hback>${t('h_back')} ${I('arrow')}</a></p>
+      </div>
+    </div></div></section>`;
+  $$('#v-ficha [data-hback]').forEach(a => a.onclick = () => { F.h = true; });
+}
 function renderFicha(num){
   const e = BYNUM[num]; if (!e) { location.hash = '#/empresas'; return; }
+  if (e.historica) return renderFichaHist(e);
   const list = LAST.length && LAST.includes(e) ? LAST : ALL.slice().sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')); const i = list.indexOf(e);
   const prev = list[(i-1+list.length)%list.length], next = list[(i+1)%list.length];
   const yrs = yrsWith(e), C2 = 2*Math.PI*48, frac = Math.min(1, yrs/50), same = (PERY[e.anio_alta]||[]).length - 1;
