@@ -1,0 +1,3 @@
+# Versión 2 (en preparación, /v2/): comparte imágenes con la web publicada
+/v2/assets/img/* /assets/img/:splat 301
+/v2 /v2/ 301
