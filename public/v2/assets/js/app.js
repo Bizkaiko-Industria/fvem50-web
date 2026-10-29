@@ -35,7 +35,7 @@ const T = {
   nl_h:'Recibe la agenda en tu correo',nl_p:'Conoce las citas más destacadas de este aniversario.',nl_ph:'Tu correo electrónico',nl_btn:'Suscribirme',nl_ok:'¡Gracias! Te has suscrito correctamente.',nl_fail:'No hemos podido completar la suscripción. Inténtalo de nuevo en unos minutos.',nl_sending:'Enviando…',nl_dup:'Este correo ya está suscrito a la newsletter. ¡Gracias por seguirnos!',
   ft_lema:'50 años con la industria. Pasado que impulsa, futuro que construimos.',ft_an:'Aniversario',ft_em:'Empresas',ft_fv:'FVEM',ft_sp:'Patrocinadores y colaboradores',ft_spx:'Logo',ft_legal:'Aviso legal',ft_priv:'Política de privacidad',ft_cook:'Política de cookies',ft_terms:'Términos y condiciones de uso',ft_data:'Condiciones generales sobre protección de datos',ft_acc:'Accesibilidad',ck_title:'Cookies de analítica',ck_text:'Usamos Google Analytics para saber cuántas personas visitan esta web y mejorarla. Solo se activa si lo aceptas; puedes cambiar de opinión en cualquier momento desde «Configurar cookies», al pie de la página.',ck_more:'Política de cookies',ck_yes:'Aceptar',ck_no:'Rechazar',ck_cfg:'Configurar cookies',ft_web:'Web de FVEM',ft_contact:'Contacto',
   ag_p:'Todos los actos del 50 aniversario en un solo lugar. Las fechas y lugares son de ejemplo hasta que se confirmen.',all:'Todos',v_list:'Lista',v_cal:'Calendario',
-  s_open:'Inscripción abierta',s_soon:'Próximamente',s_full:'Completo',s_past:'Celebrado',s_live:'En directo',s_free:'Entrada libre',
+  s_open:'Inscripción abierta',s_inv:'Con invitación',s_members:'Solo empresas asociadas',s_students:'Para centros educativos',ev_tbc:'Hora por confirmar',s_soon:'Próximamente',s_full:'Completo',s_past:'Celebrado',s_live:'En directo',s_free:'Entrada libre',
   ev_when:'Fecha',ev_time:'Hora',ev_where:'Lugar',ev_type:'Tipo',ev_reg:'Inscribirme',ev_reg_soon:'Inscripción próximamente',ev_route:'Cómo llegar',ev_share:'Compartir',ev_left:'Faltan',
   ev_prog:'Programa del acto',ev_prog_all:'Ver el programa completo',ev_more:'Más citas del aniversario',ev_after:'Galería y vídeo disponibles después del acto.',
   pr_p:'Hora a hora, el acto central del 50 aniversario. Durante el evento, la sesión en curso se marca sola.',pr_pdf:'Descargar PDF',pr_speakers:'Intervienen',now:'Ahora',
@@ -85,7 +85,7 @@ const T = {
   nl_h:'Jaso agenda zure postan',nl_p:'Ezagutu urteurren honetako hitzordu nabarmenenak.',nl_ph:'Zure helbide elektronikoa',nl_btn:'Harpidetu',nl_ok:'Eskerrik asko! Harpidetza ondo egin da.',nl_fail:'Ezin izan dugu harpidetza osatu. Saiatu berriro minutu batzuk barru.',nl_sending:'Bidaltzen…',nl_dup:'Helbide hau newsletterrera harpidetuta dago jada. Eskerrik asko!',
   ft_lema:'50 urte industriarekin. Bultzatzen duen iragana, eraikitzen dugun etorkizuna.',ft_an:'Urteurrena',ft_em:'Enpresak',ft_fv:'FVEM',ft_sp:'Babesleak eta laguntzaileak',ft_spx:'Logoa',ft_legal:'Lege-oharra',ft_priv:'Pribatutasun-politika',ft_cook:'Cookie-politika',ft_terms:'Erabilera-baldintzak',ft_data:'Datuen babesari buruzko baldintza orokorrak',ft_acc:'Irisgarritasuna',ck_title:'Analitikako cookieak',ck_text:'Google Analytics erabiltzen dugu webgune hau zenbat pertsonak bisitatzen duten jakiteko eta hobetzeko. Onartzen baduzu bakarrik aktibatzen da; edozein unetan alda dezakezu orriaren oineko «Cookieak konfiguratu» estekan.',ck_more:'Cookie-politika',ck_yes:'Onartu',ck_no:'Baztertu',ck_cfg:'Cookieak konfiguratu',ft_web:'FVEMen webgunea',ft_contact:'Harremanetarako',
   ag_p:'50. urteurreneko ekitaldi guztiak leku bakarrean. Datak eta lekuak adibideak dira, berretsi arte.',all:'Guztiak',v_list:'Zerrenda',v_cal:'Egutegia',
-  s_open:'Izen-ematea zabalik',s_soon:'Laster',s_full:'Beteta',s_past:'Eginda',s_live:'Zuzenean',s_free:'Sarrera librea',
+  s_open:'Izen-ematea zabalik',s_inv:'Gonbidapenarekin',s_members:'Enpresa bazkideentzat soilik',s_students:'Ikastetxeentzat',ev_tbc:'Ordua zehazteke',s_soon:'Laster',s_full:'Beteta',s_past:'Eginda',s_live:'Zuzenean',s_free:'Sarrera librea',
   ev_when:'Data',ev_time:'Ordua',ev_where:'Lekua',ev_type:'Mota',ev_reg:'Eman izena',ev_reg_soon:'Izen-ematea laster',ev_route:'Nola iritsi',ev_share:'Partekatu',ev_left:'Falta da',
   ev_prog:'Ekitaldiaren egitaraua',ev_prog_all:'Ikusi egitarau osoa',ev_more:'Urteurreneko beste hitzordu batzuk',ev_after:'Galeria eta bideoa ekitaldiaren ondoren.',
   pr_p:'Orduz ordu, 50. urteurreneko ekitaldi nagusia. Ekitaldian zehar, unean uneko saioa automatikoki nabarmenduko da.',pr_pdf:'Deskargatu PDFa',pr_speakers:'Hizlariak',now:'Orain',
@@ -230,18 +230,21 @@ const IDXH = HIST.map(e => ({e, s: norm([e.nombre, e.municipio, e.sector, e.num_
 function searchH(q){ const w = norm(q).trim().split(/\s+/).filter(Boolean); return w.length ? IDXH.filter(x => w.every(p => x.s.includes(p))).map(x => x.e) : HIST.slice(); }
 
 /* ---------- eventos ---------- */
-const EV = C.eventos.map(e => ({...e, d0: new Date(e.ini), d1: new Date(e.fin || e.ini)})).sort((a,b)=>a.d0-b.d0);
+const EV = C.eventos.map(e => { const d0 = new Date(e.ini); return {...e, d0, d1: e.fin ? new Date(e.fin) : new Date(d0.getTime() + (e.hora === false || e.soloMes ? 15 : 4) * 3600e3)}; }).sort((a,b)=>a.d0-b.d0);
+// hora y fecha que se muestran (hora por confirmar, solo mes, solo hora de inicio)
+const evTime = e => e.hora === false || e.soloMes ? t('ev_tbc') : e.fin ? `${fTime(e.d0)}–${fTime(e.d1)}` : fTime(e.d0);
+const evDate = e => { if (!e.soloMes) return fLong(e.d0); const p = parts(e.d0); return L === 'eu' ? `${p.y}ko ${MES.eu[p.m].toLowerCase()}` : `${MES.es[p.m]} de ${p.y}`; };
 const EVS = Object.fromEntries(EV.map(e => [e.slug, e]));
 const GALA = EVS[C.gala] || EV[EV.length-1];
-const evState = e => { const n = NOW(); return n > e.d1 ? 'past' : n >= e.d0 ? 'live' : e.inscripcion === 'abierta' ? 'open' : e.inscripcion === 'completo' ? 'full' : e.inscripcion === 'proximamente' ? 'soon' : 'free'; };
-const stChip = e => { const s = evState(e); return `<span class="chip ${s==='open'||s==='live'?'c':'o'}${s==='live'?' live':''}">${t({open:'s_open',soon:'s_soon',full:'s_full',past:'s_past',live:'s_live',free:'s_free'}[s])}</span>`; };
+const evState = e => { const n = NOW(); return n > e.d1 ? 'past' : n >= e.d0 && !e.soloMes && e.hora !== false ? 'live' : e.acceso === 'invitacion' ? 'inv' : e.acceso === 'socias' ? 'members' : e.acceso === 'estudiantes' ? 'students' : e.inscripcion === 'abierta' ? 'open' : e.inscripcion === 'completo' ? 'full' : e.inscripcion === 'proximamente' ? 'soon' : 'free'; };
+const stChip = e => { const s = evState(e); return `<span class="chip ${s==='open'||s==='live'?'c':'o'}${s==='live'?' live':''}">${t({open:'s_open',soon:'s_soon',full:'s_full',past:'s_past',live:'s_live',free:'s_free',inv:'s_inv',members:'s_members',students:'s_students'}[s])}</span>`; };
 const upcoming = () => EV.filter(e => e.d1 >= NOW());
 const phase = () => { const n = NOW(); return n < GALA.d0 ? 'before' : n <= GALA.d1 ? 'live' : 'after'; };
 function icsFor(e){
   const z = d => d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
   const txt = s => String(s).replace(/[,;\\]/g, m => '\\' + m).replace(/\n/g,'\\n');
   const body = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//FVEM//50 aniversario//ES','CALSCALE:GREGORIAN','BEGIN:VEVENT',`UID:${e.slug}@fvem50`,`DTSTAMP:${z(new Date())}`,
-    `DTSTART:${z(e.d0)}`,`DTEND:${z(e.d1)}`,`SUMMARY:${txt(tx(e.titulo))} · FVEM 50`,`LOCATION:${txt(tx(e.lugar))}`,`DESCRIPTION:${txt(tx(e.desc))}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+    ...(e.hora === false ? (() => { const p = parts(e.d0), dd = `${p.y}${pad(p.m+1)}${pad(p.d)}`, nx = new Date(Date.UTC(p.y, p.m, p.d + 1)); return [`DTSTART;VALUE=DATE:${dd}`, `DTEND;VALUE=DATE:${nx.toISOString().slice(0,10).replace(/-/g,'')}`]; })() : [`DTSTART:${z(e.d0)}`,`DTEND:${z(e.d1)}`]),`SUMMARY:${txt(tx(e.titulo))} · FVEM 50`,`LOCATION:${txt(tx(e.lugar))}`,`DESCRIPTION:${txt(tx(e.desc))}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([body], {type:'text/calendar'})); a.download = `fvem50-${e.slug}.ics`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
 }
 // programa
@@ -355,7 +358,7 @@ function cdStrip(){
     <div class="ac"><a class="btn sm" href="#/agenda/${GALA.slug}">${t('cta_after')}</a></div></div></section>`;
 }
 const evCard = e => `<a class="ev reveal" href="#/agenda/${e.slug}"><div class="art">${artEvent(e.slug)}<span class="chip">${esc(tx(C.tipos[e.tipo]))}</span></div>
-  <div class="bd"><div class="dt"><b class="num">${parts(e.d0).d}</b><span>${MESC[L][parts(e.d0).m]}</span></div><div><h3>${esc(tx(e.titulo))}</h3><div class="mt">${fTime(e.d0)} · ${esc(tx(e.lugar))}</div><div class="st">${stChip(e)}</div></div></div></a>`;
+  <div class="bd"><div class="dt">${e.soloMes ? `<b class="num" style="font-size:.62em;letter-spacing:.02em">${MESC[L][parts(e.d0).m]}</b><span>${parts(e.d0).y}</span>` : `<b class="num">${parts(e.d0).d}</b><span>${MESC[L][parts(e.d0).m]}</span>`}</div><div><h3>${esc(tx(e.titulo))}</h3><div class="mt">${e.hora === false || e.soloMes ? '' : evTime(e) + ' · '}${esc(tx(e.lugar))}</div><div class="st">${stChip(e)}</div></div></div></a>`;
 const personCard = (p, i) => `<a class="pc reveal" href="#/personas" data-person="${i}" style="transition-delay:${i*70}ms"><div class="ph">${p.foto?`<img alt="" src="${esc(p.foto)}">`:artPerson('persona'+i)}${p.foto?'':`<span class="ph-pend">${t('portrait_pend')}</span>`}<span class="play"></span></div>
   <div class="ax">${esc(tx(p.eje))}</div><b>${esc(p.nombre)}</b><small>${esc(tx(p.cargo))}${p.empresa?' · '+esc(p.empresa):''}</small><q>${esc(tx(p.frase))}</q></a>`;
 function cmpHTML(seed){ return `<div class="cmp reveal" style="--p:50%"><div class="new">${factory(seed,false)}</div><div class="old" style="position:absolute;inset:0">${factory(seed,true)}</div>
@@ -522,14 +525,14 @@ function renderAgenda(){
     const byM = {}; list.forEach(e => { const p = parts(e.d0); (byM[p.y*12+p.m] = byM[p.y*12+p.m] || []).push(e); });
     body = Object.keys(byM).map(k => { const y = Math.floor(k/12), m = k%12;
       return `<div class="month"><h3>${MES[L][m]} ${y}</h3>${byM[k].map(e => { const p = parts(e.d0), st = evState(e);
-        return `<a class="row${st==='past'?' past':''}" href="#/agenda/${e.slug}"><div class="dt"><b class="num">${p.d}</b><span>${DOW[L][p.wd]}</span></div>
-          <div><h4>${esc(tx(e.titulo))}</h4><div class="mt"><span>${I('clock')} ${fTime(e.d0)}–${fTime(e.d1)}</span><span>${I('pin')} ${esc(tx(e.lugar))}</span></div></div>
+        return `<a class="row${st==='past'?' past':''}" href="#/agenda/${e.slug}"><div class="dt">${e.soloMes ? `<b class="num" style="font-size:.7em">—</b><span>${MESC[L][p.m]}</span>` : `<b class="num">${p.d}</b><span>${DOW[L][p.wd]}</span>`}</div>
+          <div><h4>${esc(tx(e.titulo))}</h4><div class="mt"><span>${I('clock')} ${evTime(e)}</span><span>${I('pin')} ${esc(tx(e.lugar))}</span></div></div>
           <div class="rt"><span class="chip o">${esc(tx(C.tipos[e.tipo]))}</span>${stChip(e)}</div></a>`; }).join('')}</div>`; }).join('') || `<p class="mut">—</p>`;
   } else {
     const y = Math.floor(AG.month/12), m = AG.month%12, first = new Date(Date.UTC(y,m,1,12)), startDow = (first.getUTCDay()+6)%7, dim = new Date(Date.UTC(y,m+1,0)).getUTCDate();
     const tp = parts(NOW()); let cells = '';
     for (let i=0;i<startDow;i++) cells += `<div class="d out"></div>`;
-    for (let d=1; d<=dim; d++) { const evs = list.filter(e => { const p = parts(e.d0); return p.y===y && p.m===m && p.d===d; });
+    for (let d=1; d<=dim; d++) { const evs = list.filter(e => { const p = parts(e.d0); return !e.soloMes && p.y===y && p.m===m && p.d===d; });
       cells += `<div class="d${tp.y===y&&tp.m===m&&tp.d===d?' today':''}"><b>${d}</b>${evs.map(e=>`<a href="#/agenda/${e.slug}" title="${esc(tx(e.titulo))}">${esc(tx(e.titulo))}</a>`).join('')}</div>`; }
     for (let i = startDow + dim; i < Math.ceil((startDow+dim)/7)*7; i++) cells += `<div class="d out"></div>`;
     body = `<div class="cal"><div class="ch"><button data-mv="-1" ${AG.month<=months[0]?'disabled':''} aria-label="${t('prev')}">${I('left')}</button><b>${MES[L][m]} ${y}</b><button data-mv="1" ${AG.month>=months[months.length-1]?'disabled':''} aria-label="${t('next')}">${I('right')}</button></div>
@@ -555,7 +558,7 @@ function renderEvento(slug){
     <div class="crumb" style="color:#bbb"><a href="#/">${t('home')}</a><span>/</span><a href="#/agenda">${t('nav_ag')}</a></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"><span class="chip">${esc(tx(C.tipos[e.tipo]))}</span>${stChip(e)}</div>
     <h1>${esc(tx(e.titulo))}</h1>
-    <div class="mt"><span>${I('cal')} ${fLong(e.d0)}</span><span>${I('clock')} ${fTime(e.d0)}–${fTime(e.d1)}</span><span>${I('pin')} ${esc(tx(e.lugar))}</span></div>
+    <div class="mt"><span>${I('cal')} ${evDate(e)}</span><span>${I('clock')} ${evTime(e)}</span><span>${I('pin')} ${esc(tx(e.lugar))}</span></div>
   </div></section>
   <section class="lt pad"><div class="wrap evg">
     <div class="body">
@@ -565,14 +568,14 @@ function renderEvento(slug){
         <a class="more-link" style="margin-top:20px" href="#/programa">${t('ev_prog_all')} ${I('arrow')}</a>`:''}
     </div>
     <aside class="side">
-      ${st==='past'?`<div class="eyebrow">${t('s_past')}</div>`:st==='live'?`<span class="chip c live">${t('s_live')}</span>`:`<div class="eyebrow">${t('ev_left')}</div>${cdHTML(e.ini)}`}
+      ${st==='past'?`<div class="eyebrow">${t('s_past')}</div>`:st==='live'?`<span class="chip c live">${t('s_live')}</span>`:e.soloMes?`<div class="eyebrow">${evDate(e)}</div>`:`<div class="eyebrow">${t('ev_left')}</div>${cdHTML(e.ini)}`}
       <div class="acts">
-        ${st==='past'||st==='live'?'':(e.url?`<a class="btn" href="${esc(e.url)}" target="_blank" rel="noopener">${t('ev_reg')}</a>`:e.inscripcion?`<span class="btn" aria-disabled="true">${t(e.inscripcion==='abierta'?'ev_reg':'ev_reg_soon')}</span>`:'')}
-        ${st==='past'?'':`<button class="btn ghost" data-ics="${e.slug}">${I('cal')} ${t('add_cal')}</button>`}
-        <a class="btn ghost" href="${maps(tx(e.lugar))}" target="_blank" rel="noopener">${I('pin')} ${t('ev_route')}</a>
+        ${st==='past'||st==='live'||e.acceso?'':(e.url?`<a class="btn" href="${esc(e.url)}" target="_blank" rel="noopener">${t('ev_reg')}</a>`:e.inscripcion?`<span class="btn" aria-disabled="true">${t(e.inscripcion==='abierta'?'ev_reg':'ev_reg_soon')}</span>`:'')}
+        ${st==='past'||e.soloMes?'':`<button class="btn ghost" data-ics="${e.slug}">${I('cal')} ${t('add_cal')}</button>`}
+        ${/confirmar|zehazteke/i.test(tx(e.lugar)) ? '' : `<a class="btn ghost" href="${maps(tx(e.lugar))}" target="_blank" rel="noopener">${I('pin')} ${t('ev_route')}</a>`}
         <button class="btn ghost" id="evsh">${I('share')} ${t('ev_share')}</button>
       </div>
-      <dl><div><dt>${t('ev_when')}</dt><dd>${fLong(e.d0)}</dd></div><div><dt>${t('ev_time')}</dt><dd>${fTime(e.d0)}–${fTime(e.d1)}</dd></div><div><dt>${t('ev_where')}</dt><dd>${esc(tx(e.lugar))}</dd></div><div><dt>${t('ev_type')}</dt><dd>${esc(tx(C.tipos[e.tipo]))}</dd></div></dl>
+      <dl><div><dt>${t('ev_when')}</dt><dd>${evDate(e)}</dd></div><div><dt>${t('ev_time')}</dt><dd>${evTime(e)}</dd></div><div><dt>${t('ev_where')}</dt><dd>${esc(tx(e.lugar))}</dd></div><div><dt>${t('ev_type')}</dt><dd>${esc(tx(C.tipos[e.tipo]))}</dd></div></dl>
     </aside>
   </div></section>
   ${more.length?`<section class="dk pad"><div class="wrap"><div class="shead"><h2 class="h2" style="font-size:clamp(28px,3.4vw,42px)">${t('ev_more')}</h2><a class="more-link" href="#/agenda">${t('up_all')} ${I('arrow')}</a></div><div class="evs">${more.map(evCard).join('')}</div></div></section>`:''}`;

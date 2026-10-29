@@ -125,73 +125,53 @@ window.FVEM50 = {
 
   tipos: {
     institucional: { es: 'Institucional', eu: 'Instituzionala' },
-    jornada: { es: 'Jornada técnica', eu: 'Jardunaldi teknikoa' },
-    visita: { es: 'Visita a empresas', eu: 'Enpresa-bisitak' },
-    encuentro: { es: 'Encuentro', eu: 'Topaketa' },
-    cultura: { es: 'Cultura', eu: 'Kultura' }
+    jornada: { es: 'Jornada', eu: 'Jardunaldia' },
+    educacion: { es: 'Educación', eu: 'Hezkuntza' }
   },
 
+  // Campos de cada evento:
+  //   hora: false        → «Hora por confirmar» (ini lleva solo el día)
+  //   soloMes: true      → se muestra solo el mes («Abril de 2027»); ini es un día orientativo
+  //   sin «fin»          → se muestra solo la hora de inicio
+  //   acceso: 'invitacion' | 'socias' | 'estudiantes' → evento no abierto al público (sin botón de inscripción)
+  //   inscripcion: 'abierta' | 'proximamente' | 'completo' | null
   eventos: [
-    { slug: 'acto-de-apertura', tipo: 'institucional', ini: '2027-01-28T11:00:00+01:00', fin: '2027-01-28T13:00:00+01:00',
-      titulo: { es: 'Acto de apertura del 50 aniversario', eu: '50. urteurrenaren irekiera-ekitaldia' },
-      lugar: { es: 'Bilbao · lugar por confirmar', eu: 'Bilbo · lekua zehazteke' },
-      desc: { es: 'Arranca un año de celebración. Presentamos la programación del 50 aniversario, el vídeo «50 años de industria» y las iniciativas en las que pueden participar las empresas asociadas.',
-              eu: 'Ospakizun-urtea hasten da. 50. urteurreneko egitaraua, «Industriaren 50 urte» bideoa eta enpresa bazkideek parte har dezaketen ekimenak aurkeztuko ditugu.' },
-      inscripcion: 'abierta', url: '' },
-    { slug: 'talento-y-relevo', tipo: 'jornada', ini: '2027-02-25T09:30:00+01:00', fin: '2027-02-25T13:30:00+01:00',
-      titulo: { es: 'Talento y relevo generacional en la industria', eu: 'Talentua eta belaunaldi-txandakatzea industrian' },
-      lugar: { es: 'Bilbao', eu: 'Bilbo' },
-      desc: { es: 'Jornada sobre cómo atraer, formar y retener a las personas que harán la industria de los próximos 50 años.',
-              eu: 'Hurrengo 50 urteetako industria egingo duten pertsonak erakarri, prestatu eta atxikitzeari buruzko jardunaldia.' },
-      inscripcion: 'proximamente', url: '' },
-    { slug: 'puertas-abiertas', tipo: 'visita', ini: '2027-03-18T10:00:00+01:00', fin: '2027-03-18T14:00:00+01:00',
-      titulo: { es: 'Puertas abiertas en empresas asociadas', eu: 'Ate irekiak enpresa bazkideetan' },
-      lugar: { es: 'Varios municipios de Bizkaia', eu: 'Bizkaiko hainbat udalerri' },
-      desc: { es: 'Las asociadas abren sus instalaciones a estudiantes, familias y vecindario para enseñar cómo es la industria por dentro.',
-              eu: 'Bazkideek beren instalazioak irekiko dizkiete ikasleei, familiei eta auzokideei, industria barrutik nolakoa den erakusteko.' },
-      inscripcion: 'proximamente', url: '' },
-    { slug: 'exposicion-50-anos', tipo: 'cultura', ini: '2027-04-22T19:00:00+02:00', fin: '2027-04-22T21:00:00+02:00',
-      titulo: { es: 'Exposición «50 años de industria»', eu: '«Industriaren 50 urte» erakusketa' },
-      lugar: { es: 'Bilbao', eu: 'Bilbo' },
-      desc: { es: 'Inauguración de la exposición con fotografías de archivo y de hoy: el mismo oficio, cinco décadas después.',
-              eu: 'Artxiboko eta gaur egungo argazkiekin osatutako erakusketaren inaugurazioa: ofizio bera, bost hamarkada geroago.' },
-      inscripcion: 'proximamente', url: '' },
-    { slug: 'mujeres-que-hacen-industria', tipo: 'jornada', ini: '2027-05-27T09:30:00+02:00', fin: '2027-05-27T13:00:00+02:00',
-      titulo: { es: 'Mujeres que hacen industria', eu: 'Industria egiten duten emakumeak' },
-      lugar: { es: 'Bilbao', eu: 'Bilbo' },
-      desc: { es: 'Experiencias de profesionales del metal vizcaíno y propuestas para seguir sumando talento femenino.',
-              eu: 'Bizkaiko metalgintzako profesionalen esperientziak eta emakumeen talentua gehitzen jarraitzeko proposamenak.' },
-      inscripcion: 'proximamente', url: '' },
-    { slug: 'encuentro-socias-fundadoras', tipo: 'encuentro', ini: '2027-06-17T13:00:00+02:00', fin: '2027-06-17T16:00:00+02:00',
-      titulo: { es: 'Encuentro de socias fundadoras', eu: 'Bazkide sortzaileen topaketa' },
-      lugar: { es: 'Bizkaia', eu: 'Bizkaia' },
-      desc: { es: 'Reunimos a las empresas que están con FVEM desde 1977 para recordar de dónde venimos.',
-              eu: '1977tik FVEMekin dauden enpresak elkartuko ditugu, nondik gatozen gogoratzeko.' },
+    { slug: 'dia-de-la-industria-2027', tipo: 'educacion', ini: '2027-02-03T09:00:00+01:00', hora: false, acceso: 'estudiantes',
+      titulo: { es: 'Día de la Industria 2027', eu: 'Industriaren Eguna 2027' },
+      lugar: { es: 'BEC! · Barakaldo', eu: 'BEC! · Barakaldo' },
+      desc: { es: 'Jornada dirigida a estudiantes de Bachillerato dentro del programa Industria Erronka, para acercarles la industria de Bizkaia y las oportunidades profesionales que ofrece.',
+              eu: 'Industria Erronka programaren barruan Batxilergoko ikasleei zuzendutako jardunaldia, Bizkaiko industria eta eskaintzen dituen aukera profesionalak hurbiltzeko.' },
       inscripcion: null, url: '' },
-    { slug: 'industria-2050', tipo: 'jornada', ini: '2027-09-23T09:30:00+02:00', fin: '2027-09-23T14:00:00+02:00',
-      titulo: { es: 'Industria 2050: innovación y futuro', eu: 'Industria 2050: berrikuntza eta etorkizuna' },
-      lugar: { es: 'Bilbao', eu: 'Bilbo' },
-      desc: { es: 'Tecnología, energía y nuevos modelos productivos: cómo será el metal de Bizkaia dentro de 25 años.',
-              eu: 'Teknologia, energia eta ekoizpen-eredu berriak: nolakoa izango da Bizkaiko metalgintza 25 urte barru.' },
+    { slug: 'futuro-industria-bizkaia', tipo: 'jornada', ini: '2027-02-25T09:00:00+01:00', hora: false, destacado: true,
+      titulo: { es: 'El futuro de la industria de Bizkaia', eu: 'Bizkaiko industriaren etorkizuna' },
+      lugar: { es: 'BEC! · Barakaldo', eu: 'BEC! · Barakaldo' },
+      desc: { es: 'Primera gran cita del 50 aniversario: una jornada para hablar del futuro de la industria de Bizkaia y de los retos y oportunidades de los próximos años.',
+              eu: '50. urteurreneko lehen hitzordu handia: Bizkaiko industriaren etorkizunaz eta datozen urteetako erronka eta aukerez hitz egiteko jardunaldia.' },
       inscripcion: 'proximamente', url: '' },
-    { slug: 'gala-50-aniversario', tipo: 'institucional', ini: '2027-10-28T18:30:00+02:00', fin: '2027-10-28T22:30:00+02:00', destacado: true, programa: true,
-      titulo: { es: 'Gala 50 aniversario', eu: '50. urteurreneko gala' },
-      lugar: { es: 'Bilbao · lugar por confirmar', eu: 'Bilbo · lekua zehazteke' },
-      desc: { es: 'El gran acto del aniversario, 50 años exactos después de las primeras altas. Una noche para reconocer a las empresas y a las personas que han hecho la industria de Bizkaia.',
-              eu: 'Urteurreneko ekitaldi nagusia, lehen altetatik 50 urte zehatz igaro direnean. Bizkaiko industria egin duten enpresak eta pertsonak aitortzeko gaua.' },
-      inscripcion: 'proximamente', url: '', directo: '' },
-    { slug: 'libro-conmemorativo', tipo: 'cultura', ini: '2027-11-25T19:00:00+01:00', fin: '2027-11-25T20:30:00+01:00',
-      titulo: { es: 'Presentación del libro conmemorativo', eu: 'Liburu oroigarriaren aurkezpena' },
-      lugar: { es: 'Bilbao', eu: 'Bilbo' },
-      desc: { es: 'Cierre del aniversario con la publicación que recoge estos 50 años de historia compartida.',
-              eu: 'Urteurrenaren itxiera, partekatutako 50 urteko historia jasotzen duen argitalpenarekin.' },
-      inscripcion: null, url: '' }
+    { slug: 'mujeres-e-industria-2027', tipo: 'jornada', ini: '2027-03-08T09:00:00+01:00', hora: false,
+      titulo: { es: 'Mujeres e Industria 2027', eu: 'Emakumeak eta Industria 2027' },
+      lugar: { es: 'Lugar por confirmar', eu: 'Lekua zehazteke' },
+      desc: { es: 'En el Día Internacional de la Mujer, una cita para dar visibilidad a las mujeres que hacen la industria de Bizkaia y seguir sumando talento femenino al sector.',
+              eu: 'Emakumeen Nazioarteko Egunean, Bizkaiko industria egiten duten emakumeak ikusarazteko eta sektoreari emakumeen talentua gehitzen jarraitzeko hitzordua.' },
+      inscripcion: 'proximamente', url: '' },
+    { slug: 'asamblea-general-2027', tipo: 'institucional', ini: '2027-04-15T09:00:00+02:00', soloMes: true, acceso: 'socias',
+      titulo: { es: 'Asamblea General de FVEM 2027', eu: 'FVEMen Batzar Nagusia 2027' },
+      lugar: { es: 'Lugar por confirmar', eu: 'Lekua zehazteke' },
+      desc: { es: 'Asamblea anual de FVEM, reservada a las personas representantes de las empresas asociadas.',
+              eu: 'FVEMen urteko batzarra, enpresa bazkideen ordezkarientzat soilik.' },
+      inscripcion: null, url: '' },
+    { slug: 'gala-50-aniversario', tipo: 'institucional', ini: '2027-10-21T18:30:00+02:00', destacado: true, programa: true, acceso: 'invitacion',
+      titulo: { es: 'Gala del 50 aniversario', eu: '50. urteurreneko gala' },
+      lugar: { es: 'Palacio Euskalduna · Bilbao', eu: 'Euskalduna Jauregia · Bilbo' },
+      desc: { es: 'La gran celebración de los 50 años de FVEM: una tarde para reconocer a las empresas y a las personas que han hecho la industria de Bizkaia. Asistencia con invitación.',
+              eu: 'FVEMen 50 urteen ospakizun handia: Bizkaiko industria egin duten enpresak eta pertsonak aitortzeko arratsaldea. Gonbidapenarekin bertaratu daiteke.' },
+      inscripcion: null, url: '', directo: '' }
   ],
 
   programa: {
     evento: 'gala-50-aniversario',
     dias: [
-      { fecha: '2027-10-28', titulo: { es: 'Gala', eu: 'Gala' }, sesiones: [
+      { fecha: '2027-10-21', titulo: { es: 'Gala', eu: 'Gala' }, sesiones: [   // ⚠ horario de ejemplo, por confirmar
         { ini: '18:30', fin: '19:00', t: { es: 'Recepción y acreditaciones', eu: 'Harrera eta akreditazioak' }, sala: { es: 'Vestíbulo', eu: 'Atondoa' } },
         { ini: '19:00', fin: '19:15', t: { es: 'Bienvenida', eu: 'Ongietorria' }, sala: { es: 'Auditorio', eu: 'Auditorioa' }, ponentes: ['Presidencia de FVEM'] },
         { ini: '19:15', fin: '19:35', t: { es: 'Estreno del documental «50 años de industria»', eu: '«Industriaren 50 urte» dokumentalaren estreinaldia' }, sala: { es: 'Auditorio', eu: 'Auditorioa' } },
@@ -199,10 +179,6 @@ window.FVEM50 = {
         { ini: '20:15', fin: '20:45', t: { es: 'Reconocimiento a las socias fundadoras', eu: 'Bazkide sortzaileei aitortza' }, sala: { es: 'Auditorio', eu: 'Auditorioa' } },
         { ini: '20:45', fin: '21:00', t: { es: 'Clausura institucional', eu: 'Itxiera instituzionala' }, sala: { es: 'Auditorio', eu: 'Auditorioa' }, ponentes: ['Por confirmar'] },
         { ini: '21:00', fin: '22:30', t: { es: 'Cóctel y música en directo', eu: 'Koktela eta zuzeneko musika' }, sala: { es: 'Foyer', eu: 'Foierra' } }
-      ]},
-      { fecha: '2027-10-29', titulo: { es: 'Puertas abiertas', eu: 'Ate irekiak' }, sesiones: [
-        { ini: '10:00', fin: '14:00', t: { es: 'Visitas a empresas asociadas', eu: 'Enpresa bazkideetarako bisitak' }, sala: { es: 'Varias sedes', eu: 'Hainbat egoitza' } },
-        { ini: '12:00', fin: '13:00', t: { es: 'Encuentro con estudiantes de FP', eu: 'Topaketa LHko ikasleekin' }, sala: { es: 'Por confirmar', eu: 'Zehazteke' } }
       ]}
     ]
   },
