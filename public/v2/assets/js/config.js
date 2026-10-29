@@ -26,7 +26,10 @@ window.FVEM50 = {
   cifras: {
     empresas: 842,
     plantilla: 34684,
-    nota: { es: 'Datos a octubre de 2026.', eu: '2026ko urriko datuak.' }
+    nota: { es: 'Datos a octubre de 2026.', eu: '2026ko urriko datuak.' },
+    // Contexto (franja discreta bajo las cifras). Fuente del sector: Convenio Colectivo Provincial de la Industria Siderometalúrgica de Bizkaia (dato publicado por FVEM)
+    sector: { empresas: 2000, plantilla: 60000 },
+    historicas: { empresas: 4088 }
   },
 
   // Cláusula informativa de la newsletter (RGPD). Va en el pie de todas las páginas.
