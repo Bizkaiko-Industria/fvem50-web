@@ -8,7 +8,7 @@ window.FVEM50 = {
   sitio: 'https://www.fvem.es',
 
   // true = muestra la etiqueta «Vista previa». Ponlo en false al publicar con contenido real.
-  vistaPrevia: false,
+  vistaPrevia: true,   // V2 (borrador): etiqueta «Vista previa». Poner false al lanzar.
 
   // Formularios seguros (proveedor externo con datos en la UE, p. ej. Tally).
   // Pega aquí la URL de inserción («embed») de cada formulario. Vacío = formulario de maqueta que no envía nada.
@@ -42,7 +42,7 @@ window.FVEM50 = {
 
   // Google Analytics 4. Pega aquí el ID de medición (G-XXXXXXXXXX). Vacío = sin analítica y sin aviso de cookies.
   // Con ID, aparece un aviso de cookies y Analytics solo se carga si la persona pulsa «Aceptar».
-  analitica: { ga4: 'G-60494DK2KF' },   // Google Analytics 4 · solo se carga si la visita acepta las cookies
+  analitica: { ga4: '' },   // V2 (borrador): sin Analytics para no mezclar datos. Al lanzar: 'G-60494DK2KF'.   // Google Analytics 4 · solo se carga si la visita acepta las cookies
 
   // Páginas legales obligatorias (LSSI y RGPD). Pueden ser páginas de fvem.es.
   // Solo se muestran en el pie los enlaces que tengan dirección.
