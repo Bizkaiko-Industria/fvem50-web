@@ -29,3 +29,11 @@ Solo la carpeta `public/` sale a internet: no pongas ahí nada que no deba ser p
 - La cuenta atrás principal apunta al evento `gala` de `public/assets/js/config.js`.
 - `?ahora=2027-10-28T20:20` en la URL simula la fecha para probar el modo «En directo».
 - `vistaPrevia: false` en `config.js` quita la etiqueta de vista previa.
+
+## Versión 2 (en preparación) · https://50.fvem.es/v2/
+- Vive dentro de la misma web, en `public/v2/`: su propio `index.html`, `assets/js/app.js`, `assets/js/config.js` y `assets/css/web.css`.
+- Comparte con la web publicada los datos (`../assets/js/empresas.js`), las imágenes (`/v2/assets/img/*` redirige a `/assets/img/*` en `public/_redirects`) y las fuentes.
+- Oculta: no enlazada, `noindex` (meta y cabecera `X-Robots-Tag` en `_headers`), etiqueta «Vista previa» y sin Analytics.
+- Los cambios de la nueva fase van solo a `public/v2/`. Los arreglos de la web actual van a `public/assets/` y, si aplican, también a `public/v2/`.
+- Comprobar sintaxis también de `public/v2/assets/js/app.js` y `config.js`.
+- Lanzar la V2: copiar `public/v2/` sobre la web principal (rutas `../` → raíz, fuentes `../../../assets/` → `../`), quitar `noindex`, `vistaPrevia: false` y volver a poner el ID de Analytics.
