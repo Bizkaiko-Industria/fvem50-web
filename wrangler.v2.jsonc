@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Versión 2 de la web (en preparación). Worker aparte para no tocar la web publicada.
+  // Se publica desde la rama «v2» con: npx wrangler deploy --config wrangler.v2.jsonc
+  "name": "50-v2",
+  "compatibility_date": "2026-10-19",
+  // Solo se publica la carpeta public/. No cambiar: publicar la raíz expondría la carpeta .git
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": true }
+}
