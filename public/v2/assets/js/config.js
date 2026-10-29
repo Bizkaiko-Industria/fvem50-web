@@ -74,23 +74,23 @@ window.FVEM50 = {
 
   // ---- Qué se ve (false = oculto; no se borra nada, se puede volver a activar) ----
   secciones: {
-    lema: false,             // «Pasado que impulsa · Futuro que construimos» (portada y pie)
-    botonesPortada: false,   // botones «Ver el vídeo» y «Agenda 2027» sobre el titular
-    agenda: false,           // «Próximas citas» en portada
+    lema: true,             // «Pasado que impulsa · Futuro que construimos» (portada y pie)
+    botonesPortada: true,   // botones «Ver el vídeo» y «Agenda 2027» sobre el titular
+    agenda: true,           // «Próximas citas» en portada
     cifras: true,            // cifras de empresas
     buscador: true,          // «Busca una empresa» + banda de logos
-    historia: false,         // «Medio siglo en una línea»
-    personas: false,         // «Detrás de cada empresa, personas»
-    participa: false,        // caja «¿Tu empresa es asociada?»
+    historia: true,         // «Medio siglo en una línea»
+    personas: true,         // «Detrás de cada empresa, personas»
+    participa: true,        // caja «¿Tu empresa es asociada?»
     newsletter: true,        // caja de suscripción a la agenda
-    fotoPendiente: false,    // ficha: hueco de foto «Foto pendiente» cuando la empresa aún no tiene foto (las fotos reales se ven siempre)
-    patrocinadores: false    // pie: patrocinadores y colaboradores
+    fotoPendiente: true,    // ficha: hueco de foto «Foto pendiente» cuando la empresa aún no tiene foto (las fotos reales se ven siempre)
+    patrocinadores: true    // pie: patrocinadores y colaboradores
   },
   // Páginas en el menú de cabecera, menú móvil y pie. Vacío = sin menú.
   // Páginas: 'agenda', 'programa', 'empresas', 'historia', 'personas', 'participa', 'prensa'
   // Secciones de la portada (anclas): 'inicio', 'video', 'cuenta-atras', 'cifras', 'buscador', 'newsletter' (y 'proximas-citas' si se muestra la agenda)
   // Ejemplo: menu: ['video', 'cifras', 'buscador', 'empresas', 'newsletter'],
-  menu: [],
+  menu: ['agenda', 'programa', 'empresas', 'historia', 'personas', 'participa', 'prensa'],   // V2: menú completo
   // Botón de la cabecera: 'newsletter' (Suscríbete) o 'gala' (Inscríbete / En directo / Galería)
   cabecera: { boton: 'newsletter' },
 
@@ -109,8 +109,8 @@ window.FVEM50 = {
   // Cuenta atrás de la portada. Si se borra este bloque, vuelve la cuenta atrás a la gala.
   cuentaAtras: {
     fecha: '2027-01-13T00:00:00+01:00',
-    mostrarFecha: false,      // true = muestra «13 de enero de 2027» junto al texto
-    botonCalendario: false,   // true = muestra el botón «Añadir a mi calendario»
+    mostrarFecha: true,      // true = muestra «13 de enero de 2027» junto al texto
+    botonCalendario: true,   // true = muestra el botón «Añadir a mi calendario»
     etiqueta: { es: 'Cuenta atrás', eu: 'Atzerako kontaketa' },
     titulo: { es: 'Apertura del sobre', eu: 'Gutun-azalaren irekiera' },
     texto: { es: 'Pronto conoceremos el secreto mejor guardado de FVEM.', eu: 'Laster ezagutuko dugu FVEMeko sekreturik onena.' },
