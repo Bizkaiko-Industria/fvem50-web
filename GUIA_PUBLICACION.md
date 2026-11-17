@@ -157,6 +157,20 @@ Cada versión queda guardada y se puede **volver a la anterior con un clic** (De
 
 **Mejora recomendable:** guardar la carpeta en un repositorio privado de GitHub conectado a Pages. Así queda un historial de quién cambió qué.
 
+### Buscadores y redes sociales (páginas generadas)
+
+La web se dibuja con JavaScript y sus rutas llevan `#` (`/#/empresas/04859`), que Google y las redes no distinguen: todo enlace compartido mostraba la portada. Por eso `herramientas/generar_seo.py` crea una página real para la portada, el directorio y **cada empresa** (`50.fvem.es/empresas/04859/`), con título, descripción, imagen para redes (1200 × 630, con el logo y el año de alta), datos estructurados y `sitemap.xml`. Las secciones de la agenda, programa, etc. solo se generan si están en `menu` de `config.js`, para no indexar contenido de ejemplo.
+
+**Vuelve a ejecutarlo siempre que cambie `empresas.js` o el menú/agenda de `config.js`** (y al lanzar la V2):
+
+```
+pip install --break-system-packages pillow fonttools brotli numpy
+python3 herramientas/generar_seo.py
+```
+
+- No edites a mano el bloque `<!-- SEO:ini --> … <!-- SEO:fin -->` de `public/index.html`: lo reescribe el script.
+- Tras publicar: dar de alta `https://50.fvem.es/sitemap.xml` en Google Search Console y Bing Webmaster Tools, y probar un enlace de empresa en el inspector de LinkedIn (linkedin.com/post-inspector), que además refresca su caché.
+
 ---
 
 ## 10. Lista de comprobación de lanzamiento

@@ -25,6 +25,12 @@ Solo la carpeta `public/` sale a internet: no pongas ahí nada que no deba ser p
 - No relajes las cabeceras de `public/_headers` (`script-src 'self'`, `frame-ancestors 'none'`…). Excepción aprobada: Google Analytics 4 (googletagmanager.com / google-analytics.com), que solo se carga tras aceptar el aviso de cookies.
 - Nunca cargues Analytics u otros servicios que usen cookies antes del consentimiento (`cookieBanner` en app.js).
 
+## Buscadores y redes (obligatorio tras cambiar datos)
+- `public/empresas/<nº>/index.html`, `public/assets/img/og/empresas/*.jpg`, `public/sitemap.xml` y el bloque `<!-- SEO:ini --> … <!-- SEO:fin -->` de `public/index.html` los genera `herramientas/generar_seo.py`. No los edites a mano.
+- Ejecuta `python3 herramientas/generar_seo.py` cada vez que cambie `empresas.js` o el `menu`/`eventos` de `config.js`, y al lanzar la V2.
+- Las páginas generadas llevan `<base href="/">`; las rutas relativas de la web deben seguir siendo relativas a la raíz.
+- `parse()` de app.js usa la dirección real si no hay `#`; `share()` comparte la dirección limpia solo cuando existe página generada.
+
 ## Datos útiles
 - La cuenta atrás principal apunta al evento `gala` de `public/assets/js/config.js`.
 - `?ahora=2027-10-28T20:20` en la URL simula la fecha para probar el modo «En directo».

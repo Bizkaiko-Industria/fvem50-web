@@ -260,7 +260,13 @@ setInterval(tick, 1000);
 /* ---------- utilidades UI ---------- */
 function toast(m){ const el = $('#toast'); el.textContent = m; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(()=>el.classList.remove('on'), 4200); }
 async function share(title, path){
-  const url = (/^https?:/.test(location.href) ? location.href.split('#')[0] : C.sitio) + path;
+  // Enlace limpio (50.fvem.es/empresas/04859/): cada ruta tiene su página con título, descripción e imagen para redes
+  // (herramientas/generar_seo.py). En la V2 en preparación (/v2/) se mantiene el enlace con #.
+  const http = /^https?:/.test(location.href), v2 = /^\/v2(\/|$)/.test(location.pathname);
+  // Solo hay página propia para empresas y para las secciones del menú (misma regla que generar_seo.py)
+  const seg = path.replace(/^#\/?/, '').split('/')[0], limpio = !v2 && (!seg || seg === 'empresas' || (Array.isArray(C.menu) && C.menu.includes(seg)));
+  const url = !limpio ? (http ? location.origin + (v2 ? '/v2/' : '/') : 'https://50.fvem.es/') + path
+    : (http ? location.origin : 'https://50.fvem.es') + '/' + path.replace(/^#\/?/, '').replace(/([^/])$/, '$1/');
   try { if (navigator.share) { await navigator.share({title, url}); return; } } catch (_) { return; }
   try { await navigator.clipboard.writeText(url); toast(t('copied')); } catch (_) { toast(url); }
 }
@@ -737,7 +743,7 @@ function renderFicha(num){
         <h1>${esc(shortName(e.nombre))}</h1>
         <p class="lead">${esc(desc)}</p>
         <div class="since">${deco('d',30)}<div class="eyebrow">${t('since_k')}</div>${cdHTML(since, true)}<p style="margin:0;color:#b2aca2;font-size:14.5px">${t('since_s')}</p>
-          <button class="btn sm" id="card" style="margin-top:18px">${I('dl')} ${t('card_dl')}</button></div>
+          <button class="btn sm" id="card" style="margin-top:18px">${I('dl')} ${t('card_dl')}</button> <button class="btn ghost sm" id="fsh" type="button" style="margin-top:18px;--fg:#f5f2eb;--bg:#0b0b0b">${I('share')} ${t('share')}</button></div>
         <div class="box"><div class="k">${t('hist_k')}</div><p>${same>1?t('hist_t',{y:e.anio_alta,n:same}):same===1?t('hist_t1',{y:e.anio_alta}):t('hist_t0',{y:e.anio_alta})}</p>
           <div class="hist"><span class="ln"></span><span class="fl" style="left:${px(e.anio_alta)}%"></span><span class="pt" style="left:${px(e.anio_alta)}%"></span><span class="pt" style="left:100%;background:var(--fg)"></span>
             ${px(e.anio_alta)>14?'<span class="ax num" style="left:0">1977</span>':''}<a class="ax num yrlink" href="#/empresas" data-flt="y" data-v="${e.anio_alta}" title="${esc(t('yr_see',{y:e.anio_alta}))}" style="left:${Math.min(90,Math.max(0,px(e.anio_alta)))}%;transform:translateX(${px(e.anio_alta)<8?'0':'-50%'});color:var(--fg);font-weight:600">${e.anio_alta}</a>${px(e.anio_alta)<84?'<span class="ax num" style="right:0">2027</span>':''}</div></div>
@@ -764,7 +770,7 @@ function renderFicha(num){
       const pick = left.slice(0, REL_N); pick.forEach(x => seen.add(x));
       const box = $('#rel'); box.classList.remove('swap'); void box.offsetWidth; box.innerHTML = pick.map(relItem).join(''); box.classList.add('swap');
       gaEv('mas_empresas_sector', { num_asociada: e.num_asociada }); }; }
-  $('#card').onclick = () => { cardPNG(e); gaEv('descarga_tarjeta', { num_asociada: e.num_asociada }); }; bindSearch($('#fq'), $('#fdrop'));
+  $('#card').onclick = () => { cardPNG(e); gaEv('descarga_tarjeta', { num_asociada: e.num_asociada }); }; $('#fsh').onclick = () => { share(shortName(e.nombre) + ' · FVEM 50', '#/empresas/' + e.num_asociada); gaEv('share', { method: 'enlace', content_type: 'empresa', item_id: e.num_asociada }); }; bindSearch($('#fq'), $('#fdrop'));
   tick();
 }
 async function cardPNG(e){
@@ -986,7 +992,9 @@ function goAncla(k, smooth){
 }
 const VIEWS = { home: renderHome, agenda: renderAgenda, evento: renderEvento, programa: renderPrograma, empresas: renderEmpresas, ficha: renderFicha, historia: renderHistoria, personas: renderPersonas, participa: renderParticipa, prensa: renderPrensa };
 let CUR = null;
-function parse(){ const h = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+function parse(){ let h = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  // Sin # se usa la dirección real (/empresas/04859/, /agenda/…): páginas generadas para buscadores y redes
+  if (!h.length && !/^\/v2(\/|$)/.test(location.pathname)) h = location.pathname.split('/').filter(x => x && !/\.html?$/.test(x));
   if (!h.length) return ['home'];
   if (ANCLAS[h[0]]) return ['home', h[0]];
   if (h[0] === 'agenda' && h[1]) return ['evento', h[1]];
@@ -1051,7 +1059,7 @@ document.addEventListener('click', ev => {
 }, true);
 function gaPage(){
   if (!gaOn) return;
-  const path = '/' + location.hash.replace(/^#\/?/, '');
+  const path = location.hash ? '/' + location.hash.replace(/^#\/?/, '') : location.pathname;
   gtag('event', 'page_view', { page_title: document.title, page_location: location.origin + path, page_path: path, language: L });
 }
 function gaClear(){
