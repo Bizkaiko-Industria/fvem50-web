@@ -7,3 +7,4 @@ respuestas/
 .DS_Store
 .wrangler/
 node_modules/
+__pycache__/
