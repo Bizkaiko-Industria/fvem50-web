@@ -13,7 +13,8 @@ Genera (todo dentro de public/):
   empresas/index.html             y el resto de secciones solo si están en el menú de config.js
   agenda/<cita>/index.html        una por cita, solo si «agenda» está en el menú
   empresas/<nº asociada>/index.html   una por empresa de empresas.js
-  assets/img/og/empresas/<nº>.jpg     imagen 1200×630 para redes de cada empresa
+  assets/img/og/empresas/<nº>.jpg     imagen 2400×1260 para redes de cada empresa
+  assets/img/og-fvem50.jpg        imagen para redes de la portada (2400×1260)
   sitemap.xml
 
 Cuándo ejecutarlo: siempre que cambie empresas.js (alta/baja de socias, logos, descripciones)
@@ -88,8 +89,8 @@ def pagina(ruta, titulo, desc, vista, cuerpo, imagen=None, imagen_alt=None, tipo
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:image" content="{img}">
 <meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="{OG_W}">
+<meta property="og:image:height" content="{OG_H}">
 <meta property="og:image:alt" content="{esc(alt)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{esc(tr)}">
@@ -167,6 +168,14 @@ def preparar_imagenes():
 def fuente(w, s):
     return ImageFont.truetype(io.BytesIO(FUENTES[w]), s)
 
+# Las imágenes se dibujan al doble del tamaño recomendado (2400 × 1260): LinkedIn y el resto las reducen y,
+# partiendo de más resolución, se ven nítidas en pantallas de alta densidad. JPEG calidad 90 y color completo
+# (sin submuestreo de color), para que el cobre y el texto no se emborronen.
+S = 2
+OG_W, OG_H = 1200 * S, 630 * S
+def guardar(im, destino):
+    im.save(destino, 'JPEG', quality=90, subsampling=0, optimize=True, progressive=True)
+
 FONDO = None
 def fondo(W, H):
     global FONDO
@@ -179,7 +188,8 @@ def fondo(W, H):
             m = (d >= a) & (d <= b); t = ((d - a) / (b - a))[m][:, None]
             out[m] = np.array(ca) * (1 - t) + np.array(cb) * t
         out[d > 1] = stops[-1][1]
-        FONDO = Image.fromarray(out.astype(np.uint8), 'RGB')
+
+        FONDO = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8), 'RGB')
     return FONDO.copy()
 
 def espaciado(d, xy, txt, f, fill, track):
@@ -188,11 +198,26 @@ def espaciado(d, xy, txt, f, fill, track):
         d.text((x, y), ch, font=f, fill=fill); x += d.textlength(ch, font=f) + track
     return x
 
+def imagen_portada(destino):
+    """Imagen para redes de la portada: foto industrial oscurecida, logo 50 FVEM y raya cobre."""
+    foto = Image.open(os.path.join(PUB, 'assets/img/portada-2400.jpg')).convert('L')
+    foto = foto.resize((OG_W, round(foto.height * OG_W / foto.width)), Image.LANCZOS)
+    y0 = round(204 * S); foto = foto.crop((0, y0, OG_W, y0 + OG_H))
+    f = np.asarray(foto).astype(np.float32)
+    k = np.linspace(.18, .68, OG_W, dtype=np.float32)[None, :]   # más oscuro a la izquierda, bajo el logo
+    out = np.clip(f * k + 6, 0, 255).astype(np.uint8)
+    im = Image.fromarray(out, 'L').convert('RGB')
+    lw = 600 * S; lf = LOGO_FV.resize((lw, round(LOGO_FV.height * lw / LOGO_FV.width)), Image.LANCZOS)
+    im.paste(lf, (70 * S, 190 * S), lf)
+    ImageDraw.Draw(im).rectangle([0, 557 * S, OG_W, 561 * S], fill='#d86b33')
+    guardar(im, destino)
+
 def imagen_empresa(e, destino):
-    W, H, M = 1200, 630, 72
+    W, H, M = OG_W, OG_H, 72 * S
+    px = lambda v: round(v * S)
     im = fondo(W, H); d = ImageDraw.Draw(im)
     # logo FVEM 50
-    h = 64; lf = LOGO_FV.resize((round(LOGO_FV.width * h / LOGO_FV.height), h), Image.LANCZOS); im.paste(lf, (M, 56), lf)
+    h = px(64); lf = LOGO_FV.resize((round(LOGO_FV.width * h / LOGO_FV.height), h), Image.LANCZOS); im.paste(lf, (M, px(56)), lf)
     # logo de la empresa (mancheta blanca, u oscura si el logo es claro)
     lg = None
     if e.get('logo'):
@@ -200,51 +225,53 @@ def imagen_empresa(e, destino):
         if os.path.exists(p):
             try: lg = Image.open(p).convert('RGBA')
             except Exception: lg = None
-    bw, bh = 330, 210
-    maxw = W - 2 * M - (bw + 48 if lg else 0)
+    bw, bh = px(330), px(210)
+    maxw = W - 2 * M - (bw + px(48) if lg else 0)
     # nombre (Geist 600), hasta 3 líneas
     nombre = short_name(e['nombre'])
-    for fs in range(78, 38, -4):
-        f = fuente(600, fs); lineas, l = [], ''
+    for fs1 in range(78, 38, -4):
+        fs = px(fs1); f = fuente(600, fs); lineas, l = [], ''
         for w in nombre.split():
             t = (l + ' ' + w).strip()
             if d.textlength(t, font=f) > maxw and l: lineas.append(l); l = w
             else: l = t
         lineas.append(l)
-        alto = len(lineas) * fs * 1.04 + 84   # nombre + raya + municipio: debe caber antes del bloque «Socia desde»
+        alto = len(lineas) * fs1 * 1.04 + 84   # nombre + raya + municipio: debe caber antes del bloque «Socia desde»
         if len(lineas) <= 3 and alto <= 222 and all(d.textlength(x, font=f) <= maxw for x in lineas): break
-    y = 166
+    y = px(166)
     for i, x in enumerate(lineas):
-        d.text((M - 3, y + i * fs * 1.04), x, font=f, fill='#f5f2eb')
-    y += len(lineas) * fs * 1.04 + 22
-    d.rectangle([M, y, M + 64, y + 5], fill='#d86b33')
-    y += 26
+        d.text((M - px(3), y + i * fs * 1.04), x, font=f, fill='#f5f2eb')
+    y += len(lineas) * fs * 1.04 + px(22)
+    d.rectangle([M, y, M + px(64), y + px(5)], fill='#d86b33')
+    y += px(26)
     sub = e['municipio'] + (' · ' + e['sector_largo'] if e.get('sector_largo') else '')
-    f = fuente(400, 26)
+    f = fuente(400, px(26))
     while d.textlength(sub, font=f) > maxw and ' · ' in sub: sub = sub.rsplit(' · ', 1)[0]
     d.text((M, y), sub, font=f, fill='#b2aca2')
     # bloque inferior: socia desde + año en cobre
-    yb = 408
-    espaciado(d, (M, yb), 'SOCIA DE FVEM DESDE', fuente(500, 19), '#b2aca2', 3.2)
-    d.text((M - 6, yb + 18), str(e['anio_alta']), font=fuente(300, 112), fill='#d86b33')
-    anios = 2027 - e['anio_alta']
-    xr = M + d.textlength(str(e['anio_alta']), font=fuente(300, 112)) + 30
-    d.text((xr, yb + 62), f'{anios} años con FVEM', font=fuente(400, 26), fill='#f5f2eb')
+    yb = px(408)
+    espaciado(d, (M, yb), 'SOCIA DE FVEM DESDE', fuente(500, px(19)), '#b2aca2', 3.2 * S)
+    fa = fuente(300, px(112))
+    d.text((M - px(6), yb + px(18)), str(e['anio_alta']), font=fa, fill='#d86b33')
+    xr = M + d.textlength(str(e['anio_alta']), font=fa) + px(30)
+    d.text((xr, yb + px(62)), f'{2027 - e["anio_alta"]} años con FVEM', font=fuente(400, px(26)), fill='#f5f2eb')
     if es_fundadora(e):
-        d.ellipse([xr + 1, yb + 107, xr + 11, yb + 117], fill='#d86b33')
-        d.text((xr + 22, yb + 98), 'Empresa fundadora · 1977', font=fuente(600, 22), fill='#d86b33')
+        d.ellipse([xr + px(1), yb + px(107), xr + px(11), yb + px(117)], fill='#d86b33')
+        d.text((xr + px(22), yb + px(98)), 'Empresa fundadora · 1977', font=fuente(600, px(22)), fill='#d86b33')
     # pie
-    d.rectangle([M, H - 64, W - M, H - 64], fill='#3a3633')
-    d.text((M, H - 50), '1977 – 2027 · 50 años con la industria · 50 urte industriarekin', font=fuente(500, 20), fill='#b2aca2')
-    d.text((W - M, H - 50), '50.fvem.es', font=fuente(500, 20), fill='#b2aca2', anchor='ra')
+    d.rectangle([M, H - px(64), W - M, H - px(64) + S - 1], fill='#3a3633')
+    d.text((M, H - px(50)), '1977 – 2027 · 50 años con la industria · 50 urte industriarekin', font=fuente(500, px(20)), fill='#b2aca2')
+    d.text((W - M, H - px(50)), '50.fvem.es', font=fuente(500, px(20)), fill='#b2aca2', anchor='ra')
     if lg:
         oscuro = e.get('logo_fondo') == 'oscuro'
-        bx, by = W - M - bw, 172
-        d.rounded_rectangle([bx, by, bx + bw, by + bh], 22, fill='#141414' if oscuro else '#ffffff', outline='#3a3a3a' if oscuro else None, width=2)
-        pad = 32; sc = min((bw - 2 * pad) / lg.width, (bh - 2 * pad) / lg.height)
+        bx, by = W - M - bw, px(172)
+        d.rounded_rectangle([bx, by, bx + bw, by + bh], px(22), fill='#141414' if oscuro else '#ffffff', outline='#3a3a3a' if oscuro else None, width=S * 2)
+        pad = px(32)
+        # los logos de origen miden ~300 px: se amplían hasta llenar la mancheta (nunca peor que a 1200 px)
+        sc = min((bw - 2 * pad) / lg.width, (bh - 2 * pad) / lg.height)
         l2 = lg.resize((max(1, round(lg.width * sc)), max(1, round(lg.height * sc))), Image.LANCZOS)
         im.paste(l2, (bx + (bw - l2.width) // 2, by + (bh - l2.height) // 2), l2)
-    im.save(destino, 'JPEG', quality=82, optimize=True, progressive=True)
+    guardar(im, destino)
 
 # ---------- generar ----------
 def main():
@@ -258,6 +285,7 @@ def main():
         preparar_imagenes()
         if os.path.isdir(og_dir): shutil.rmtree(og_dir)
         os.makedirs(og_dir)
+        imagen_portada(os.path.join(PUB, 'assets/img/og-fvem50.jpg'))
 
     # portada
     enl = [(SECCIONES[k][1], f'/{k}/') for k in VISIBLES]
