@@ -560,6 +560,7 @@ function renderEvento(slug){
     <div class="body">
       <p>${esc(tx(e.desc))}</p>
       ${st==='past'?`<div class="note" style="margin-top:20px">${t('ev_after')}</div>`:''}
+      ${e.agenda && e.agenda.length ? `<h2 style="font-size:30px;margin:44px 0 10px">${t('ev_prog')}</h2>${e.agenda.map((s,i)=>`<div class="ses" style="grid-template-columns:110px 1fr;padding:16px 0"><div class="hr" style="font-size:22px">${s.ini || String(i+1).padStart(2,'0')}</div><div><h3 style="font-size:19px">${esc(tx(s.t))}</h3></div></div>`).join('')}` : ''}
       ${ses?`<h2 style="font-size:30px;margin:44px 0 10px">${t('ev_prog')}</h2>${ses.map(s=>`<div class="ses" style="grid-template-columns:110px 1fr;padding:16px 0"><div class="hr" style="font-size:22px">${s.ini}</div><div><h3 style="font-size:19px">${esc(tx(s.t))}</h3><div class="pl">${esc(tx(s.sala))}</div></div></div>`).join('')}
         <a class="more-link" style="margin-top:20px" href="#/programa">${t('ev_prog_all')} ${I('arrow')}</a>`:''}
     </div>
