@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//FVEM//FVEM 50//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:futuro-industria-bizkaia-2027@50.fvem.es
+DTSTAMP:20261125T120000Z
+DTSTART:20270225T083000Z
+DTEND:20270225T110000Z
+SUMMARY:Dos generaciones. Un futuro industrial. · FVEM 50
+LOCATION:BEC! · Barakaldo
+DESCRIPTION:Jornada del 50 aniversario de FVEM. Programa: apertura institucional\, mesa redonda con empresas de nueva creación\, mesa redonda con empresas consolidadas y clausura institucional. Más información: https://50.fvem.es/agenda/futuro-industria-bizkaia/
+URL:https://50.fvem.es/agenda/futuro-industria-bizkaia/
+END:VEVENT
+END:VCALENDAR
